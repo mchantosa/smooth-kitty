@@ -1,17 +1,18 @@
 import type { Handlers, PageProps } from "$fresh/server.ts";
 import { Head } from "$fresh/runtime.ts";
-import Counter from "../islands/Counter.tsx";
-import { getCount } from "../utils/db.ts";
+import { SITE_DESCRIPTION, SITE_NAME } from "../utils/constants.ts";
 
 interface HomeProps {
-  start: number;
+  siteName: string;
+  siteDescription: string;
 }
 
 export const handler: Handlers<HomeProps> = {
   async GET(_req, ctx) {
-    let start = await getCount();
-    if (start === null) start = 3;
-    return ctx.render({ start });
+    return ctx.render({
+      siteName: SITE_NAME,
+      siteDescription: SITE_DESCRIPTION,
+    });
   },
 };
 
@@ -19,7 +20,7 @@ export default function Home(props: PageProps<HomeProps>) {
   return (
     <>
       <Head>
-        <title>Fresh App with Deno KV</title>
+        <title>{props.data.siteName}</title>
       </Head>
       <div class="p-4 mx-auto max-w-screen-md">
         <img
@@ -28,10 +29,8 @@ export default function Home(props: PageProps<HomeProps>) {
           alt="the fresh logo: a sliced lemon dripping with juice"
         />
         <p class="my-6">
-          Welcome to `fresh`. Try updating this message in the
-          ./routes/index.tsx file, and refresh.
+          {props.data.siteDescription || "Welcome to your fresh site!"}
         </p>
-        <Counter start={props.data.start} />
       </div>
     </>
   );
