@@ -2,7 +2,7 @@
 export const SITE_NAME = "Smooth Kitty";
 export const SITE_DESCRIPTION =
   "A simple, modern, and fast web app starter made by a smooth kitty.";
-export const REDIRECT_PATH_AFTER_LOGIN = "/";
+export const REDIRECT_PATH_AFTER_LOGIN = "/home";
 
 /**
  * These are base styles for some elements. This approach is chosen as it avoids more complex alternatives:

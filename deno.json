@@ -1,7 +1,10 @@
 {
   "lock": false,
   "tasks": {
-    "start": "deno run -A --unstable --watch=static/,routes/ dev.ts"
+    "build": "deno task minify:css",
+    "minify:css": "tailwindcss -i ./styles/input.css -o ./static/styles/tailwind.css --minify",
+    "watch:css": "tailwindcss -i ./styles/input.css -o ./static/styles/tailwind.css --watch",
+    "start": "deno task watch:css & deno run -A --unstable --watch=static/,routes/ dev.ts"
   },
   "importMap": "./import_map.json",
   "compilerOptions": {

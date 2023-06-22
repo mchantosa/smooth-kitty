@@ -1,7 +1,6 @@
 // Copyright 2023 the Deno authors. All rights reserved. MIT license.
 import type { Handlers, PageProps } from "$fresh/server.ts";
 import Logo from "@/components/Logo.tsx";
-import Head from "@/components/Head.tsx";
 import type { State } from "@/routes/_middleware.ts";
 import {
   BUTTON_STYLES,
@@ -10,6 +9,7 @@ import {
   NOTICE_STYLES,
 } from "@/utils/constants.ts";
 import { redirect } from "@/utils/http.ts";
+import { Page } from "@/components/Page.tsx";
 
 // deno-lint-ignore no-explicit-any
 export const handler: Handlers<any, State> = {
@@ -61,45 +61,44 @@ export default function LoginPage(props: PageProps) {
 
   return (
     <>
-      <Head title="Login" href={props.url.href} />
-      <div class="max-w-xs flex h-screen m-auto">
-        <div class="m-auto w-72">
-          <a href="/">
-            <Logo class="mb-8" />
-          </a>
-          {errorMessage && POSSIBLE_ERROR_MESSAGES.has(errorMessage) && (
-            <div class={`${NOTICE_STYLES} mb-4`}>{errorMessage}</div>
-          )}
-          <form method="POST" class="space-y-4">
-            <input
-              placeholder="Email"
-              name="email"
-              type="email"
-              required
-              class={INPUT_STYLES}
-            />
-            <input
-              placeholder="Password"
-              name="password"
-              type="password"
-              required
-              class={INPUT_STYLES}
-            />
-            <button type="submit" class={`${BUTTON_STYLES} w-full`}>
-              Login
-            </button>
-          </form>
-          <hr class="my-4" />
-          <div class="text-center text-gray-500 space-y-2 mt-8">
-            <p class="hover:text-black">
-              <a href="/signup">Don't have an account? Sign up</a>
-            </p>
-            <p class="hover:text-black">
-              <a href="/forgot-password">Forgot your password?</a>
-            </p>
+      <Page title="Login">
+        <div class="max-w-xs flex h-screen m-auto">
+          <div class="m-auto w-72">
+            <a href="/">
+              <Logo class="mb-8" />
+            </a>
+            {errorMessage && POSSIBLE_ERROR_MESSAGES.has(errorMessage) && (
+              <div class={`${NOTICE_STYLES} mb-4`}>{errorMessage}</div>
+            )}
+            <form method="POST" class="space-y-4">
+              <input
+                placeholder="Email"
+                name="email"
+                type="email"
+                required
+                class={INPUT_STYLES}
+              />
+              <input
+                placeholder="Password"
+                name="password"
+                type="password"
+                required
+                class={INPUT_STYLES}
+              />
+              <button class="btn btn-primary w-full">Login</button>
+            </form>
+            <hr class="my-4" />
+            <div class="text-center text-gray-500 space-y-2 mt-8">
+              <p class="hover:text-black">
+                <a href="/signup">Don't have an account? Sign up</a>
+              </p>
+              <p class="hover:text-black">
+                <a href="/forgot-password">Forgot your password?</a>
+              </p>
+            </div>
           </div>
         </div>
-      </div>
+      </Page>
     </>
   );
 }

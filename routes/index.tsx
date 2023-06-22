@@ -1,37 +1,28 @@
 import type { Handlers, PageProps } from "$fresh/server.ts";
-import { Head } from "$fresh/runtime.ts";
-import { SITE_DESCRIPTION, SITE_NAME } from "../utils/constants.ts";
+import { Page } from "@/components/Page.tsx";
 
-interface HomeProps {
-  siteName: string;
-  siteDescription: string;
-}
+interface IndexPageProps {}
 
-export const handler: Handlers<HomeProps> = {
+export const handler: Handlers<IndexPageProps> = {
   async GET(_req, ctx) {
-    return ctx.render({
-      siteName: SITE_NAME,
-      siteDescription: SITE_DESCRIPTION,
-    });
+    return ctx.render();
   },
 };
 
-export default function Home(props: PageProps<HomeProps>) {
+export default function IndexPage(props: PageProps<IndexPageProps>) {
   return (
     <>
-      <Head>
-        <title>{props.data.siteName}</title>
-      </Head>
-      <div class="p-4 mx-auto max-w-screen-md">
-        <img
-          src="/logo.svg"
-          class="w-32 h-32"
-          alt="the fresh logo: a sliced lemon dripping with juice"
-        />
-        <p class="my-6">
-          {props.data.siteDescription || "Welcome to your fresh site!"}
-        </p>
-      </div>
+      <Page title={"Connections"}>
+        <article class="prose">
+          <h3>Our Mission</h3>
+          <p>
+            To help you stay connected to those you truly care about. This is
+            designed to be a medium agnostic, non-calendered, warm and user
+            friendly, communication asset, intended to support a small to medium
+            set of contacts.
+          </p>
+        </article>
+      </Page>
     </>
   );
 }
