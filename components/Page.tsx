@@ -1,13 +1,18 @@
-import { JSX } from "preact";
-import { Head } from "$fresh/runtime.ts";
+import Head from "@/components/Head.tsx";
 import SiteHeader from "@/components/SiteHeader.tsx";
 import SiteFooter from "@/components/SiteFooter.tsx";
+import { ComponentChildren } from "preact";
 
-export function Page(props: JSX.HTMLAttributes<HTMLDivElement>) {
+interface PageProps {
+  title?: string;
+  children?: ComponentChildren;
+  loggedIn?: boolean;
+}
+
+export function Page(props: PageProps) {
   return (
     <div class="container mx-auto px-4">
-      <Head>
-        <title>{props.title}</title>
+      <Head title={props.title}>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -19,14 +24,14 @@ export function Page(props: JSX.HTMLAttributes<HTMLDivElement>) {
           rel="stylesheet"
         />
         <link rel="stylesheet" href="styles/tailwind.css" />
+        <script
+          src="https://kit.fontawesome.com/c0ddffff3b.js"
+          crossOrigin="anonymous"
+        ></script>
       </Head>
-      <SiteHeader active="/" />
-      <div class="py-6 px-8" style={{ minHeight: 600 }}>
-        {props.children}
-      </div>
-      <SiteFooter>
-        <div class="text-gray-500 space-y-2"></div>
-      </SiteFooter>
+      <SiteHeader loggedIn={props.loggedIn} />
+      <div class="px-6">{props.children}</div>
+      <SiteFooter />
     </div>
   );
 }

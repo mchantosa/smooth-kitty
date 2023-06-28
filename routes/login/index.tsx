@@ -2,12 +2,7 @@
 import type { Handlers, PageProps } from "$fresh/server.ts";
 import Logo from "@/components/Logo.tsx";
 import type { State } from "@/routes/_middleware.ts";
-import {
-  BUTTON_STYLES,
-  INPUT_STYLES,
-  REDIRECT_PATH_AFTER_LOGIN,
-  NOTICE_STYLES,
-} from "@/utils/constants.ts";
+import { REDIRECT_PATH_AFTER_LOGIN, NOTICE_STYLES } from "@/utils/constants.ts";
 import { redirect } from "@/utils/http.ts";
 import { Page } from "@/components/Page.tsx";
 
@@ -76,14 +71,14 @@ export default function LoginPage(props: PageProps) {
                 name="email"
                 type="email"
                 required
-                class={INPUT_STYLES}
+                class="input input-bordered w-full max-w-xs"
               />
               <input
                 placeholder="Password"
                 name="password"
                 type="password"
                 required
-                class={INPUT_STYLES}
+                class="input input-bordered w-full max-w-xs"
               />
               <button class="btn btn-primary w-full">Login</button>
             </form>

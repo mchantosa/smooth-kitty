@@ -6,8 +6,8 @@ import { NOTICE_STYLES } from "@/utils/constants.ts";
 import type { Handlers } from "$fresh/server.ts";
 import { REDIRECT_PATH_AFTER_LOGIN } from "@/utils/constants.ts";
 import type { State } from "./_middleware.ts";
-import { BUTTON_STYLES, INPUT_STYLES } from "@/utils/constants.ts";
 import { redirect } from "@/utils/http.ts";
+import { Page } from "@/components/Page.tsx";
 
 // deno-lint-ignore no-explicit-any
 export const handler: Handlers<any, State> = {
@@ -52,46 +52,48 @@ export default function SignupPage(props: PageProps) {
   return (
     <>
       <Head title="Signup" href={props.url.href} />
-      <div class="max-w-xs flex h-screen m-auto">
-        <div class="m-auto w-72">
-          <a href="/">
-            <Logo class="mb-8" />
-          </a>
-          {errorMessage && POSSIBLE_ERROR_MESSAGES.has(errorMessage) && (
-            <div class={`${NOTICE_STYLES} mb-4`}>{errorMessage}</div>
-          )}
-          <form method="POST" class="space-y-4">
-            <input
-              placeholder="Display name"
-              name="display_name"
-              type="text"
-              required
-              class={INPUT_STYLES}
-            />
-            <input
-              placeholder="Email"
-              name="email"
-              type="email"
-              required
-              class={INPUT_STYLES}
-            />
-            <input
-              placeholder="Password"
-              name="password"
-              type="password"
-              required
-              class={INPUT_STYLES}
-            />
-            <button type="submit" class={`${BUTTON_STYLES} w-full`}>
-              Signup
-            </button>
-          </form>
-          <hr class="my-4" />
-          <div class="text-center text-gray-500 hover:text-black mt-8">
-            <a href="/login">Already have an account? Log in</a>
+      <Page title="Signup">
+        <div class="max-w-xs flex h-screen m-auto">
+          <div class="m-auto w-72">
+            <a href="/">
+              <Logo class="mb-8" />
+            </a>
+            {errorMessage && POSSIBLE_ERROR_MESSAGES.has(errorMessage) && (
+              <div class={`${NOTICE_STYLES} mb-4`}>{errorMessage}</div>
+            )}
+            <form method="POST" class="space-y-4">
+              <input
+                placeholder="Display name"
+                name="display_name"
+                type="text"
+                required
+                class="input input-bordered w-full max-w-xs"
+              />
+              <input
+                placeholder="Email"
+                name="email"
+                type="email"
+                required
+                class="input input-bordered w-full max-w-xs"
+              />
+              <input
+                placeholder="Password"
+                name="password"
+                type="password"
+                required
+                class="input input-bordered w-full max-w-xs"
+              />
+              <button type="submit" class="btn btn-primary w-full">
+                Signup
+              </button>
+            </form>
+            <hr class="my-4" />
+            <div class="text-center text-gray-500 hover:text-black mt-8">
+              <a href="/login">Already have an account? Log in</a>
+            </div>
           </div>
         </div>
-      </div>
+      </Page>
     </>
   );
 }

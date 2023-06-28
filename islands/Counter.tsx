@@ -1,5 +1,5 @@
 import { type StateUpdater, useState } from "preact/hooks";
-import { Button } from "../components/Button.tsx";
+// import { Button } from "../components/Button.tsx";
 
 interface CounterProps {
   start: number;
@@ -14,7 +14,7 @@ export default function Counter(props: CounterProps) {
   return (
     <div class="flex gap-2 w-full">
       <p class="flex-grow-1 font-bold text-xl">{count}</p>
-      <Button
+      <button
         onClick={async () => {
           const newCount = count - 1;
           const resp = await fetchSetCount(newCount);
@@ -24,8 +24,8 @@ export default function Counter(props: CounterProps) {
         }}
       >
         -1
-      </Button>
-      <Button
+      </button>
+      <button
         onClick={async () => {
           const newCount = count + 1;
           const resp = await fetchSetCount(newCount);
@@ -35,7 +35,7 @@ export default function Counter(props: CounterProps) {
         }}
       >
         +1
-      </Button>
+      </button>
     </div>
   );
 }
