@@ -1,16 +1,30 @@
-# Deno KV Template
+# Smooth-Kitty
 
-This application is a starter template that uses [Fresh](https://fresh.deno.dev/) and [Deno KV](https://deno.com/kv) for persistence. [Check out a live demo here!](https://fresh-kv-example.deno.dev/) Learn more about [building web applications with Fresh](https://fresh.deno.dev/docs/introduction), and about interacting with [Deno KV to store data](https://deno.com/manual/runtime/kv).
+This application uses [Fresh](https://fresh.deno.dev/) and [Supabase](https://supabase.com/docs/guides/cli) for persistence. Supabase uses [Docker](https://www.docker.com/) for local development.
 
 ## Running locally
 
-To run this application locally, ensure the [Deno runtime is installed first](https://deno.com/manual/getting_started/installation). In the folder where you cloned this app, run this command:
+1. Start docker application
 
-```
-deno task start
-```
+1. Start supabase
 
-This will start the Fresh server, as configured in `deno.json` at the root of this project. Your project will be monitored for changes, and restart if necessary.
+    ```bash
+    #From root directory
+    supabase start
+    ```
+
+    If this is your first time running supabase, copy off the supabase instance data into your `.env`. Within the `.env` file, update `SUPABASE_ANON_KEY` and `SUPABASE_API_URL`.
+
+1. Start Deno<br>
+
+    Ensure the [Deno runtime is installed](https://deno.com/manual/getting_started/installation). 
+
+    ```bash
+    #From root directory
+    deno task start
+    ```
+
+    This will start the Fresh server, as configured in `deno.json` at the root of this project. Your project will be monitored for changes, and restart if necessary.
 
 ## Running on Deno Deploy
 
