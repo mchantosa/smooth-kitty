@@ -53,6 +53,15 @@ This template is a lightly modified version of the default Deno Fresh applicatio
 
 To learn more about how your Fresh project works, check out the [Fresh manual](https://fresh.deno.dev/docs/introduction).
 
+## Resources
+
+* https://deno.land/manual@v1.35.0/introduction
+* https://fresh.deno.dev/docs/introduction
+* https://supabase.com/docs/reference/javascript/introduction
+* https://deno.com/saaskit
+* https://tailwindcss.com/
+* https://daisyui.com/
+
 ## License
 
 MIT
