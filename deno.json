@@ -4,7 +4,8 @@
     "build": "deno task minify:css",
     "minify:css": "tailwindcss -i ./styles/input.css -o ./static/styles/tailwind.css --minify",
     "watch:css": "tailwindcss -i ./styles/input.css -o ./static/styles/tailwind.css --watch",
-    "start": "deno task watch:css & deno run -A --unstable --watch=static/,routes/ dev.ts"
+    "start": "deno task watch:css & deno run -A --unstable --watch=static/,routes/ dev.ts",
+    "gen-types:local": "supabase gen types typescript --local > types/supabase.ts"
   },
   "compilerOptions": {
     "jsx": "react-jsx",

@@ -1,6 +1,6 @@
 // Copyright 2023 the Deno authors. All rights reserved. MIT license.
 import { MiddlewareHandlerContext } from "$fresh/server.ts";
-import { createSupabaseClient } from "@/utils/auth.ts";
+import { createSupabaseClient } from "@/utils/supabase-client.ts";
 import type { Session } from "@supabase/supabase-js";
 import { walk } from "$std/fs/walk.ts";
 
@@ -31,6 +31,10 @@ export async function handler(
   const {
     data: { session },
   } = await supabaseClient.auth.getSession();
+
+  // await supabaseClient.from("things").insert([{ name: "thing" }]);
+  // const result = await supabaseClient.from("things").select("*");
+  // console.log("name", result);
 
   ctx.state.session = session;
   ctx.state.supabaseClient = supabaseClient;
