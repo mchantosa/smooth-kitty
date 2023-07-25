@@ -2,6 +2,7 @@ import type { Handlers, PageProps } from "$fresh/server.ts"; //Handlers: request
 import { redirect } from "@/utils/http.ts";
 import { Page } from "@/components/Page.tsx";
 import ContactForm from "@/components/ContactForm.tsx";
+import { SupabaseClient } from "@/utils/supabase-client.ts";
 
 /*
     Fresh framework: 
@@ -9,7 +10,6 @@ import ContactForm from "@/components/ContactForm.tsx";
     - The default export needs to be a functional component, it is not requires, but this page won't work without it
         - The default export is what provides the content for the page
 */
-
 
 export const handler: Handlers = {
   async GET(_req, ctx) {
@@ -27,20 +27,25 @@ export const handler: Handlers = {
     }
 
     //handle form submission
-    const form = await _req.formData()
+    const form = await _req.formData();
 
     //update database
-    const firstname = form.get("firstname")?.toString();
-    const lastname = form.get("lastname")?.toString();
-    console.log(firstname, ' ', lastname)
+    const first_name = form.get("first_name")?.toString();
+    const last_name = form.get("last_name")?.toString();
+    const owner_email = ctx.state.session.user?.email;
+    const client: any = ctx.state.supabaseClient;
+    const newContact = { first_name, last_name, owner_email };
+    console.log(newContact);
+    const { error } = await client.from("contacts").insert(newContact);
+    console.log(error);
     const added = true;
 
     //if successful, redirect to /contacts
-    if(added){
+    if (added) {
       const headers = new Headers();
       headers.set("location", "/home");
       return new Response(null, {
-        status: 303, 
+        status: 303,
         headers,
       });
     } else {
@@ -48,20 +53,18 @@ export const handler: Handlers = {
       const headers = new Headers();
       headers.set("location", "/add_contact");
       return new Response(null, {
-        status: 303, 
+        status: 303,
         headers,
       });
     }
-
   },
 };
-
 
 export default function AddContactPage(props: PageProps<any>) {
   return (
     <>
       <Page title={"Connections"} loggedIn={Boolean(props.data.session)}>
-       <ContactForm></ContactForm>
+        <ContactForm></ContactForm>
       </Page>
     </>
   );
