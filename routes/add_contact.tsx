@@ -2,17 +2,11 @@ import type { Handlers, PageProps } from "$fresh/server.ts"; //Handlers: request
 import { redirect } from "@/utils/http.ts";
 import { Page } from "@/components/Page.tsx";
 import ContactForm from "@/components/ContactForm.tsx";
-import { SupabaseClient } from "@/utils/supabase-client.ts";
-
-/*
-    Fresh framework: 
-    - For this file to function as a route, it must export atleast one handler object
-    - The default export needs to be a functional component, it is not requires, but this page won't work without it
-        - The default export is what provides the content for the page
-*/
+import ErrorBanner from "@/components/ErrorBanner.tsx";
 
 export const handler: Handlers = {
   async GET(_req, ctx) {
+    ctx.state.session.error = null;
     if (!ctx.state.session) {
       /** @todo Figure out `redirect_to` query */
       return redirect("/login");
@@ -20,50 +14,46 @@ export const handler: Handlers = {
     return ctx.render({ session: ctx.state.session });
   },
   async POST(_req, ctx) {
-    //handle session check
+    ctx.state.session.error = null;
     if (!ctx.state.session) {
       /** @todo Figure out `redirect_to` query */
       return redirect("/login");
     }
 
-    //handle form submission
     const form = await _req.formData();
 
     //update database
     const first_name = form.get("first_name")?.toString();
     const last_name = form.get("last_name")?.toString();
+    //const owner_email = "o.chantosa@boobah.com";
     const owner_email = ctx.state.session.user?.email;
-    const client: any = ctx.state.supabaseClient;
     const newContact = { first_name, last_name, owner_email };
-    console.log(newContact);
+
+    const client: any = ctx.state.supabaseClient;
     const { error } = await client.from("contacts").insert(newContact);
-    console.log(error);
-    const added = true;
 
     //if successful, redirect to /contacts
-    if (added) {
+    if (!error) {
       const headers = new Headers();
-      headers.set("location", "/home");
+      headers.set("location", "/contacts");
       return new Response(null, {
         status: 303,
         headers,
       });
     } else {
-      //set error message
-      const headers = new Headers();
-      headers.set("location", "/add_contact");
-      return new Response(null, {
-        status: 303,
-        headers,
-      });
+      console.error(`error: ${JSON.stringify(error)}`);
+      ctx.state.session.error = "Failed to create a new contact";
+      return ctx.render({ session: ctx.state.session });
     }
   },
 };
 
 export default function AddContactPage(props: PageProps<any>) {
+  const { error } = props.data.session;
   return (
     <>
       <Page title={"Connections"} loggedIn={Boolean(props.data.session)}>
+        {error && <ErrorBanner error={error}></ErrorBanner>}
         <ContactForm></ContactForm>
       </Page>
     </>

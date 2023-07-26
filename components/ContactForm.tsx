@@ -5,9 +5,6 @@ import { JSX } from "preact";
 export default function ContactForm(
   props: JSX.HTMLAttributes<HTMLImageElement>
 ) {
-  //const height = props.height ?? 96;
-  //const width = height;
-
   return (
     <>
       <form action="add_contact" method="post">
