@@ -62,6 +62,7 @@ To learn more about how your Fresh project works, check out the [Fresh manual](h
 * https://tailwindcss.com/
 * https://daisyui.com/
 * https://youtu.be/bwv2qu7M30s
+* Other resources
 
 ## License
 
