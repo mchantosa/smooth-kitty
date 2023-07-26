@@ -2,27 +2,25 @@
 import { JSX } from "preact";
 //import { SITE_NAME } from "@/utils/constants.ts";
 
-export default function ContactForm(props: JSX.HTMLAttributes<HTMLImageElement>) {
-  //const height = props.height ?? 96;
-  //const width = height;
-  
-
+export default function ContactForm(
+  props: JSX.HTMLAttributes<HTMLImageElement>
+) {
   return (
     <>
       <form action="add_contact" method="post">
         <input
           placeholder="First Name"
-          name="firstname"
+          name="first_name"
           type="text"
           class="input input-bordered w-full max-w-xs"
         />
         <input
           placeholder="Last Name"
-          name="lastname"
+          name="last_name"
           type="text"
           class="input input-bordered w-full max-w-xs"
         />
-        <input  
+        <input
           value="Save Contact"
           type="submit"
           class="btn btn-primary w-full"

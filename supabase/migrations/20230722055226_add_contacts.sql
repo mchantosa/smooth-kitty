@@ -23,9 +23,5 @@ on "public"."contacts"
 as permissive
 for all
 to authenticated
-using (((auth.jwt() ->> 'owner_email'::text) = email))
-with check (((auth.jwt() ->> 'owner_email'::text) = email));
-
-
-
-
+using (((auth.jwt() ->> 'email'::text) = owner_email))
+with check (((auth.jwt() ->> 'email'::text) = owner_email));
