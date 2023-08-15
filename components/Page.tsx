@@ -10,10 +10,11 @@ interface PageProps {
 }
 
 export function Page(props: PageProps) {
+  const { loggedIn, title, children } = props;
   return (
     <>
       <div class="container mx-auto px-4">
-        <Head title={props.title}>
+        <Head title={title}>
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link
             rel="preconnect"
@@ -30,8 +31,8 @@ export function Page(props: PageProps) {
             crossOrigin="anonymous"
           ></script>
         </Head>
-        <SiteHeader loggedIn={props.loggedIn} />
-        <div class="px-6">{props.children}</div>
+        <SiteHeader loggedIn={loggedIn} />
+        <div class="px-6">{children}</div>
         <SiteFooter />
       </div>
     </>

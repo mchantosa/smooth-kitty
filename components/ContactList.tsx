@@ -6,9 +6,9 @@ import { Pagination } from "../islands/Pagination.tsx";
 export default function ContactList(
   props: JSX.HTMLAttributes<HTMLImageElement>
 ) {
-  const avatar =
+  const avatarURL =
     "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Avatar_icon_green.svg/2048px-Avatar_icon_green.svg.png";
-
+  const { contacts, pagination } = props;
   return (
     <>
       <div className="overflow-x-auto">
@@ -23,8 +23,8 @@ export default function ContactList(
             </tr>
           </thead>
           <tbody>
-            {props.contacts &&
-              props.contacts.map((contact) => {
+            {contacts &&
+              contacts.map((contact) => {
                 return (
                   <tr>
                     <td>
@@ -32,7 +32,7 @@ export default function ContactList(
                         <div className="avatar">
                           <div className="mask mask-squircle w-12 h-12">
                             <img
-                              src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Avatar_icon_green.svg/2048px-Avatar_icon_green.svg.png"
+                              src={avatarURL}
                               alt="Avatar Tailwind CSS Component"
                             />
                           </div>
@@ -73,7 +73,7 @@ export default function ContactList(
             </tr>
           </tfoot>
         </table>
-        <Pagination pagination={props.pagination}></Pagination>
+        <Pagination pagination={pagination}></Pagination>
       </div>
     </>
   );

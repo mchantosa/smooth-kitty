@@ -13,7 +13,6 @@ export const handler: Handlers = {
   async GET(_req, ctx) {
     const url = new URL(_req.url);
     const page = url.searchParams.get("page") || 0;
-    console.log(page);
     ctx.state.session.page = page;
 
     if (!ctx.state.session) {
