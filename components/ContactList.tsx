@@ -1,6 +1,7 @@
 // Copyright 2023 the Deno authors. All rights reserved. MIT license.
 import { JSX } from "preact";
 import DeleteContactButton from "../islands/DeleteContactButton.tsx";
+import { Pagination } from "../islands/Pagination.tsx";
 //import { SITE_NAME } from "@/utils/constants.ts";
 
 export default function ContactList(
@@ -68,14 +69,15 @@ export default function ContactList(
           {/* foot */}
           <tfoot>
             <tr>
-              <th></th>
               <th>Name</th>
-              <th>Placeholder</th>
-              <th>Placeholder2</th>
+              <th>Next Connection</th>
+              <th>Period</th>
+              <th>Contact Information</th>
               <th></th>
             </tr>
           </tfoot>
         </table>
+        <Pagination></Pagination>
       </div>
     </>
   );
