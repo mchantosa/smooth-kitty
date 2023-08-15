@@ -2,15 +2,32 @@ import axiod from "https://deno.land/x/axiod/mod.ts";
 export const PAGE_SIZE = 2;
 
 export function Pagination(props: any) {
-  //active page
-  //min page = 1
-  //max page = total pages
+  const { activePage, totalPages } = props.pagination;
+
+  const PageButton = ({ pageNumber, active }) => {
+    return (
+      <a
+        className={`join-item btn ${active ? "btn-active" : ""}`}
+        role="button"
+        href={active ? "#" : `/contacts?page=${pageNumber}`}
+      >
+        {pageNumber}
+      </a>
+    );
+  };
+
+  const pages = Array.from(Array(totalPages).keys());
   return (
     <div className="join flex justify-center">
-      <button className="join-item btn">1</button>
-      <button className="join-item btn btn-active">2</button>
-      <button className="join-item btn">3</button>
-      <button className="join-item btn">4</button>
+      {pages.map((p: number) => {
+        const pageNumber = p + 1;
+        return (
+          <PageButton
+            pageNumber={pageNumber}
+            active={activePage == pageNumber}
+          ></PageButton>
+        );
+      })}
     </div>
   );
 }

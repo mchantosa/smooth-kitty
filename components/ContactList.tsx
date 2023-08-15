@@ -2,7 +2,6 @@
 import { JSX } from "preact";
 import DeleteContactButton from "../islands/DeleteContactButton.tsx";
 import { Pagination } from "../islands/Pagination.tsx";
-//import { SITE_NAME } from "@/utils/constants.ts";
 
 export default function ContactList(
   props: JSX.HTMLAttributes<HTMLImageElement>
@@ -14,7 +13,6 @@ export default function ContactList(
     <>
       <div className="overflow-x-auto">
         <table className="table">
-          {/* head */}
           <thead>
             <tr>
               <th>Name</th>
@@ -24,7 +22,6 @@ export default function ContactList(
               <th></th>
             </tr>
           </thead>
-          {/* body */}
           <tbody>
             {props.contacts &&
               props.contacts.map((contact) => {
@@ -66,7 +63,6 @@ export default function ContactList(
                 );
               })}
           </tbody>
-          {/* foot */}
           <tfoot>
             <tr>
               <th>Name</th>
@@ -77,7 +73,7 @@ export default function ContactList(
             </tr>
           </tfoot>
         </table>
-        <Pagination></Pagination>
+        <Pagination pagination={props.pagination}></Pagination>
       </div>
     </>
   );
