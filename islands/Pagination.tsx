@@ -1,5 +1,5 @@
 import axiod from "https://deno.land/x/axiod/mod.ts";
-export const PAGE_SIZE = 2;
+export const PAGE_SIZE = 10;
 
 export function Pagination(props: any) {
   const { activePage, totalPages } = props.pagination;
