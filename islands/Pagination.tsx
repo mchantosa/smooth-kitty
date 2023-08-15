@@ -19,6 +19,15 @@ export function Pagination(props: any) {
   const pages = Array.from(Array(totalPages).keys());
   return (
     <div className="join flex justify-center">
+      <a
+        className={`join-item btn`}
+        role="button"
+        href={
+          activePage > 1 ? `/contacts?page=${parseInt(activePage) - 1}` : "#"
+        }
+      >
+        {"<<"}
+      </a>
       {pages.map((p: number) => {
         const pageNumber = p + 1;
         return (
@@ -28,6 +37,17 @@ export function Pagination(props: any) {
           ></PageButton>
         );
       })}
+      <a
+        className={`join-item btn`}
+        role="button"
+        href={
+          activePage < totalPages
+            ? `/contacts?page=${parseInt(activePage) + 1}`
+            : "#"
+        }
+      >
+        {">>"}
+      </a>
     </div>
   );
 }
