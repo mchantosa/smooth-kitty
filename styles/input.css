@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.bdg-btn-remove{
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    &:hover{
+        /* @apply btn-error; */
+        background-color: #fff;
+        color: #1d1d1d;
+    }
+}

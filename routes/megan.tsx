@@ -9,9 +9,12 @@ import { Page } from "@/components/Page.tsx";
         - The default export is what provides the content for the page
 */
 
-
 export const handler: Handlers = {
   async GET(_req, ctx) {
+    const url = new URL(_req.url);
+    const page = url.searchParams.get("page") || 0;
+    ctx.state.session.page = page;
+
     if (!ctx.state.session) {
       /** @todo Figure out `redirect_to` query */
       return redirect("/login");
@@ -24,7 +27,9 @@ export default function MeganPage(props: PageProps<any>) {
   return (
     <>
       <Page title={"Connections"} loggedIn={Boolean(props.data.session)}>
-        <p class="my-6">Megan's Hello World!</p>
+        <p class="my-6">
+          Megan's Hello World! {`page: ${props.state.session.page}`}
+        </p>
       </Page>
     </>
   );
