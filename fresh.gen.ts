@@ -12,11 +12,13 @@ import * as $6 from "./routes/index.tsx";
 import * as $7 from "./routes/login/index.tsx";
 import * as $8 from "./routes/logout.tsx";
 import * as $9 from "./routes/megan.tsx";
-import * as $10 from "./routes/signup.tsx";
+import * as $10 from "./routes/oak.tsx";
+import * as $11 from "./routes/signup.tsx";
 import * as $$0 from "./islands/Contact.tsx";
 import * as $$1 from "./islands/ContactListModal.tsx";
 import * as $$2 from "./islands/Counter.tsx";
-import * as $$3 from "./islands/Pagination.tsx";
+import * as $$3 from "./islands/ItemsContainer.tsx";
+import * as $$4 from "./islands/Pagination.tsx";
 
 const manifest = {
   routes: {
@@ -30,13 +32,15 @@ const manifest = {
     "./routes/login/index.tsx": $7,
     "./routes/logout.tsx": $8,
     "./routes/megan.tsx": $9,
-    "./routes/signup.tsx": $10,
+    "./routes/oak.tsx": $10,
+    "./routes/signup.tsx": $11,
   },
   islands: {
     "./islands/Contact.tsx": $$0,
     "./islands/ContactListModal.tsx": $$1,
     "./islands/Counter.tsx": $$2,
-    "./islands/Pagination.tsx": $$3,
+    "./islands/ItemsContainer.tsx": $$3,
+    "./islands/Pagination.tsx": $$4,
   },
   baseUrl: import.meta.url,
 };
