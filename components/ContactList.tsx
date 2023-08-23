@@ -1,14 +1,14 @@
 // Copyright 2023 the Deno authors. All rights reserved. MIT license.
 import { JSX } from "preact";
-import DeleteContactButton from "../islands/DeleteContactButton.tsx";
 import { Pagination } from "../islands/Pagination.tsx";
+import Contact from "@/islands/Contact.tsx";
+import { ContactListModal } from "@/islands/ContactListModal.tsx";
 
 export default function ContactList(
   props: JSX.HTMLAttributes<HTMLImageElement>
 ) {
-  const avatarURL =
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Avatar_icon_green.svg/2048px-Avatar_icon_green.svg.png";
   const { contacts, pagination } = props;
+
   return (
     <>
       <div className="overflow-x-auto">
@@ -25,42 +25,7 @@ export default function ContactList(
           <tbody>
             {contacts &&
               contacts.map((contact) => {
-                return (
-                  <tr>
-                    <td>
-                      <div className="flex items-center space-x-3">
-                        <div className="avatar">
-                          <div className="mask mask-squircle w-12 h-12">
-                            <img
-                              src={avatarURL}
-                              alt="Avatar Tailwind CSS Component"
-                            />
-                          </div>
-                        </div>
-                        <div>
-                          <div className="font-bold">{`${contact.first_name} ${contact.last_name}`}</div>
-                          <div className="text-sm opacity-50">Placeholder</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      Next Connection
-                      <br />
-                      <span className="badge badge-ghost badge-sm">Date</span>
-                    </td>
-                    <td>Period</td>
-                    <td>
-                      Phone number: <br />
-                      Email: <br />
-                      Preffered Method: Handle
-                    </td>
-                    <th>
-                      <DeleteContactButton
-                        contactId={contact.id}
-                      ></DeleteContactButton>
-                    </th>
-                  </tr>
-                );
+                return <Contact contact={contact}></Contact>;
               })}
           </tbody>
           <tfoot>
@@ -74,6 +39,7 @@ export default function ContactList(
           </tfoot>
         </table>
         <Pagination pagination={pagination}></Pagination>
+        <ContactListModal></ContactListModal>
       </div>
     </>
   );
