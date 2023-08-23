@@ -3,9 +3,13 @@ import axiod from "https://deno.land/x/axiod/mod.ts";
 const avatarURL =
   "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Avatar_icon_green.svg/2048px-Avatar_icon_green.svg.png";
 
-function contactHandler() {
-  console.log("contact clicked");
-  window.contact_modal.showModal();
+function contactHandler(contact) {
+  console.log(contact);
+  const modal = window.contact_modal;
+  //update element
+
+  //show element
+  modal.showModal();
 }
 
 function DeleteContactButton(props: any) {
@@ -40,7 +44,11 @@ export default function Contact(props: any) {
 
   return (
     <>
-      <tr onClick={contactHandler}>
+      <tr
+        onClick={(e) => {
+          contactHandler(contact);
+        }}
+      >
         <td>
           <div className="flex items-center space-x-3">
             <div className="avatar">

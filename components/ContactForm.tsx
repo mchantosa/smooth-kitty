@@ -1,10 +1,13 @@
 // Copyright 2023 the Deno authors. All rights reserved. MIT license.
+import { useState } from "preact/hooks";
 import { JSX } from "preact";
+
 //import { SITE_NAME } from "@/utils/constants.ts";
 
-export default function ContactForm(
-  props: JSX.HTMLAttributes<HTMLImageElement>
-) {
+export default function ContactForm(props: any) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   return (
     <>
       <form action="add_contact" method="post">
