@@ -54,7 +54,7 @@ export default function AddContactPage(props: PageProps<any>) {
     <>
       <Page title={"Connections"} loggedIn={Boolean(props.data.session)}>
         {error && <ErrorBanner error={error}></ErrorBanner>}
-        <ContactForm></ContactForm>
+        <ContactForm action="add_contact" method="post"></ContactForm>
       </Page>
     </>
   );

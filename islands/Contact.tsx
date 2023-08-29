@@ -3,15 +3,6 @@ import axiod from "https://deno.land/x/axiod/mod.ts";
 const avatarURL =
   "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Avatar_icon_green.svg/2048px-Avatar_icon_green.svg.png";
 
-function contactHandler(contact) {
-  console.log(contact);
-  const modal = window.contact_modal;
-  //update element
-
-  //show element
-  modal.showModal();
-}
-
 function DeleteContactButton(props: any) {
   const { contactId } = props;
   return (
@@ -40,13 +31,15 @@ function DeleteContactButton(props: any) {
 }
 
 export default function Contact(props: any) {
-  const { contact } = props;
+  const { contact, setActiveContact } = props;
 
   return (
     <>
       <tr
-        onClick={(e) => {
-          contactHandler(contact);
+        onClick={() => {
+          setActiveContact(contact);
+          const modal = window.contact_modal;
+          modal.showModal();
         }}
       >
         <td>

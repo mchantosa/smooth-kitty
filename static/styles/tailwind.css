@@ -3351,6 +3351,10 @@ html {
   border-top-right-radius: var(--rounded-box, 1rem);
 }
 
+.invisible {
+  visibility: hidden;
+}
+
 .static {
   position: static;
 }
@@ -3407,6 +3411,10 @@ html {
   display: table;
 }
 
+.hidden {
+  display: none;
+}
+
 .h-12 {
   height: 3rem;
 }
@@ -3421,6 +3429,10 @@ html {
 
 .min-h-screen {
   min-height: 100vh;
+}
+
+.w-11\/12 {
+  width: 91.666667%;
 }
 
 .w-12 {
@@ -3439,8 +3451,8 @@ html {
   width: 100%;
 }
 
-.w-11\/12 {
-  width: 91.666667%;
+.max-w-5xl {
+  max-width: 64rem;
 }
 
 .max-w-sm {
@@ -3449,10 +3461,6 @@ html {
 
 .max-w-xs {
   max-width: 20rem;
-}
-
-.max-w-5xl {
-  max-width: 64rem;
 }
 
 .flex-1 {
@@ -3550,14 +3558,14 @@ html {
   padding-right: 1.5rem;
 }
 
-.py-6 {
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
-}
-
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
+}
+
+.py-6 {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
 }
 
 .text-center {
@@ -3574,6 +3582,11 @@ html {
   line-height: 2.5rem;
 }
 
+.text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
 .text-sm {
   font-size: 0.875rem;
   line-height: 1.25rem;
@@ -3581,11 +3594,6 @@ html {
 
 .text-xl {
   font-size: 1.25rem;
-  line-height: 1.75rem;
-}
-
-.text-lg {
-  font-size: 1.125rem;
   line-height: 1.75rem;
 }
 
