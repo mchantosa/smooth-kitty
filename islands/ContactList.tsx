@@ -3,11 +3,14 @@ import { JSX } from "preact";
 import { Pagination } from "../islands/Pagination.tsx";
 import Contact from "@/islands/Contact.tsx";
 import { ContactListModal } from "@/islands/ContactListModal.tsx";
+import { useState } from "preact/hooks";
 
 export default function ContactList(
   props: JSX.HTMLAttributes<HTMLImageElement>
 ) {
-  const { contacts, pagination } = props;
+  const { pagination, contacts } = props;
+  //const [contacts, setContacts] = useState(props.contacts);
+  const [activeContact, setActiveContact] = useState();
 
   return (
     <>
@@ -25,7 +28,12 @@ export default function ContactList(
           <tbody>
             {contacts &&
               contacts.map((contact) => {
-                return <Contact contact={contact}></Contact>;
+                return (
+                  <Contact
+                    contact={contact}
+                    setActiveContact={setActiveContact}
+                  ></Contact>
+                );
               })}
           </tbody>
           <tfoot>
@@ -39,7 +47,7 @@ export default function ContactList(
           </tfoot>
         </table>
         <Pagination pagination={pagination}></Pagination>
-        <ContactListModal></ContactListModal>
+        <ContactListModal contact={activeContact}></ContactListModal>
       </div>
     </>
   );

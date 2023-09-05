@@ -1,7 +1,7 @@
 import type { Handlers, PageProps } from "$fresh/server.ts"; //Handlers: request context, PageProps render context
 import { redirect } from "@/utils/http.ts";
 import { Page } from "@/components/Page.tsx";
-import ContactList from "@/components/ContactList.tsx";
+import ContactList from "@/islands/ContactList.tsx";
 import ErrorBanner from "@/components/ErrorBanner.tsx";
 import { PAGE_SIZE } from "../islands/Pagination.tsx";
 import { getCount } from "@/utils/db.ts";
@@ -25,7 +25,7 @@ const getContacts = async (supabase, start, end) => {
 
 export const handler: Handlers = {
   async GET(_req, ctx) {
-    //ctx.state.session.error = null;
+    ctx.state.session.error = null;
     if (!ctx.state.session) {
       /** @todo Figure out `redirect_to` query */
       return redirect("/login");
@@ -51,9 +51,8 @@ export const handler: Handlers = {
       );
       const end = start + PAGE_SIZE - 1;
 
-      //const { error, data } = await client.from("test").select("*");
-
       const contacts = await getContacts(client, start, end);
+      //const contacts = await getContacts(client, -1, -5);
 
       if (contacts.error) {
         ctx.state.session.error = "Failed to retrieve contacts";
@@ -63,6 +62,42 @@ export const handler: Handlers = {
     }
 
     return ctx.render({ session: ctx.state.session });
+  },
+  async POST(_req, ctx) {
+    ctx.state.session.error = null;
+    if (!ctx.state.session) {
+      /** @todo Figure out `redirect_to` query */
+      return redirect("/login");
+    }
+
+    const form = await _req.formData();
+
+    //update database
+    const first_name = form.get("first_name")?.toString();
+    const last_name = form.get("last_name")?.toString();
+    const id = form.get("id")?.toString();
+    const updatedContact = { first_name, last_name };
+    console.log(`updating ${id} ${first_name} ${last_name}...`);
+
+    const client: any = ctx.state.supabaseClient;
+    const { error } = await client
+      .from("contacts")
+      .update(updatedContact)
+      .eq("id", id);
+
+    //if successful, redirect to /contacts
+    if (!error) {
+      const headers = new Headers();
+      headers.set("location", "/contacts");
+      return new Response(null, {
+        status: 303,
+        headers,
+      });
+    } else {
+      console.error(`error: ${JSON.stringify(error)}`);
+      ctx.state.session.error = "Failed to update contact";
+      return ctx.render({ session: ctx.state.session });
+    }
   },
 };
 
