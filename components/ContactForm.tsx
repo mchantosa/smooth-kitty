@@ -31,6 +31,20 @@ export default function ContactForm(props: any) {
           value={contact ? contact.last_name : ""}
         />
         <input
+          placeholder="Email"
+          name="email"
+          type="email"
+          class="input input-bordered w-full max-w-xs"
+          value={contact ? contact.email : ""}
+        />
+        <input
+          placeholder="Period"
+          name="period"
+          type="period"
+          class="input input-bordered w-full max-w-xs"
+          value={contact ? contact.email : ""}
+        />
+        <input
           value="Save Contact"
           type="submit"
           class="btn btn-primary w-full"

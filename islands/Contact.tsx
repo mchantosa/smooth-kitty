@@ -36,6 +36,7 @@ export default function Contact(props: any) {
   return (
     <>
       <tr
+        className="group cursor-pointer hover:backdrop-brightness-125 hover:shadow-lg"
         onClick={() => {
           setActiveContact(contact);
           const modal = window.contact_modal;

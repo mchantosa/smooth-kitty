@@ -12,3 +12,13 @@
         color: #1d1d1d;
     }
 }
+
+.bdg-btn-add{
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    &:hover{
+        /* @apply btn-success; */
+        background-color: #fff;
+        color: #1d1d1d;
+    }
+}
