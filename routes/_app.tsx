@@ -6,7 +6,7 @@ import type { State } from "@/middleware/session.ts";
 
 export default function App(props: AppProps<undefined, State>) {
   return (
-    <div class="dark:bg-gray-900">
+    <div data-theme="light" class="dark:bg-gray-900">
       <div class="flex flex-col min-h-screen mx-auto max-w-7xl w-full dark:text-white">
         <Header
           url={props.url}
