@@ -1,6 +1,9 @@
+import { load } from "https://deno.land/std/dotenv/mod.ts";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-shared";
 import { getCookies, setCookie } from "$std/http/cookie.ts";
 import { Database } from "@/types/supabase.ts";
+
+const env = await load();
 
 export type SupabaseClient = ReturnType<typeof createSupabaseClient>;
 
@@ -9,8 +12,8 @@ export function createSupabaseClient(
   responseHeaders: Headers
 ) {
   return createServerSupabaseClient<Database>({
-    supabaseUrl: Deno.env.get("SUPABASE_API_URL")!,
-    supabaseKey: Deno.env.get("SUPABASE_ANON_KEY")!,
+    supabaseUrl: env["SUPABASE_API_URL"]!,
+    supabaseKey: env["SUPABASE_ANON_KEY"]!,
     getRequestHeader: (key) => requestHeaders.get(key) ?? undefined,
     getCookie: (name) => {
       const cookie = getCookies(requestHeaders)[name];

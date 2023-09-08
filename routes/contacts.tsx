@@ -4,7 +4,7 @@ import { Page } from "@/components/Page.tsx";
 import ContactList from "@/islands/ContactList.tsx";
 import ErrorBanner from "@/components/ErrorBanner.tsx";
 import { PAGE_SIZE } from "../islands/Pagination.tsx";
-import { getCount } from "@/utils/db.ts";
+import { getFormContact } from "@/components/ContactForm.tsx";
 
 const getCount = async (supabase) => {
   const { error, count } = await supabase
@@ -15,17 +15,15 @@ const getCount = async (supabase) => {
 
 const getContacts = async (supabase, start, end) => {
   const { error, data } = await supabase
-    .from("contacts")
+    .from("contacts_by_full_name")
     .select("*")
-    .order("first_name", { ascending: true })
-    .order("last_name", { ascending: true })
     .range(start, end);
   return { error, data };
 };
 
 export const handler: Handlers = {
   async GET(_req, ctx) {
-    ctx.state.session.error = null;
+    //ctx.state.session.error = null;
     if (!ctx.state.session) {
       /** @todo Figure out `redirect_to` query */
       return redirect("/login");
@@ -70,20 +68,16 @@ export const handler: Handlers = {
       return redirect("/login");
     }
 
-    const form = await _req.formData();
-
     //update database
-    const first_name = form.get("first_name")?.toString();
-    const last_name = form.get("last_name")?.toString();
-    const id = form.get("id")?.toString();
-    const updatedContact = { first_name, last_name };
-    console.log(`updating ${id} ${first_name} ${last_name}...`);
-
+    const form = await _req.formData();
+    const owner_email = ctx.state.session.user?.email;
+    const formContact = getFormContact(form, owner_email);
+    //console.log(`updating contact: ${JSON.stringify(formContact)}`);
     const client: any = ctx.state.supabaseClient;
     const { error } = await client
       .from("contacts")
-      .update(updatedContact)
-      .eq("id", id);
+      .update(formContact)
+      .eq("id", formContact.id);
 
     //if successful, redirect to /contacts
     if (!error) {

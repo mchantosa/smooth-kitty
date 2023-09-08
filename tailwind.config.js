@@ -16,13 +16,13 @@ module.exports = {
   // daisy UI config
   daisyui: {
     styled: true,
-    themes: true,
+    themes: ["light"],
     base: true,
     utils: true,
     logs: true,
     rtl: false,
     prefix: "",
-    darkTheme: "dark",
+    darkTheme: "light",
   },
   plugins: [require("@tailwindcss/typography"), require("daisyui")],
 };

@@ -2,6 +2,7 @@ import type { Handlers, PageProps } from "$fresh/server.ts"; //Handlers: request
 import { redirect } from "@/utils/http.ts";
 import { Page } from "@/components/Page.tsx";
 import ContactForm from "@/components/ContactForm.tsx";
+import { getFormContact } from "@/components/ContactForm.tsx";
 import ErrorBanner from "@/components/ErrorBanner.tsx";
 
 export const handler: Handlers = {
@@ -13,6 +14,7 @@ export const handler: Handlers = {
     }
     return ctx.render({ session: ctx.state.session });
   },
+
   async POST(_req, ctx) {
     ctx.state.session.error = null;
     if (!ctx.state.session) {
@@ -20,17 +22,16 @@ export const handler: Handlers = {
       return redirect("/login");
     }
 
-    const form = await _req.formData();
+    //Error Testing, update later to remove comments
+    //const owner_email = "o.chantosa@boobah.com";
 
     //update database
-    const first_name = form.get("first_name")?.toString();
-    const last_name = form.get("last_name")?.toString();
-    //const owner_email = "o.chantosa@boobah.com";
+    const form = await _req.formData();
     const owner_email = ctx.state.session.user?.email;
-    const newContact = { first_name, last_name, owner_email };
-
+    const contact = getFormContact(form, owner_email);
+    console.log("new contact: ", contact);
     const client: any = ctx.state.supabaseClient;
-    const { error } = await client.from("contacts").insert(newContact);
+    const { error } = await client.from("contacts").insert(contact);
 
     //if successful, redirect to /contacts
     if (!error) {
@@ -54,7 +55,7 @@ export default function AddContactPage(props: PageProps<any>) {
     <>
       <Page title={"Connections"} loggedIn={Boolean(props.data.session)}>
         {error && <ErrorBanner error={error}></ErrorBanner>}
-        <ContactForm action="add_contact" method="post"></ContactForm>
+        <ContactForm action="add_contact"></ContactForm>
       </Page>
     </>
   );
