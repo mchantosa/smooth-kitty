@@ -11,7 +11,7 @@ async function fetchVotedItems() {
   const url = "/api/me/votes";
   const resp = await fetch(url);
   if (!resp.ok) throw new Error(`Request failed: GET ${url}`);
-  return await resp.json() as Item[];
+  return (await resp.json()) as Item[];
 }
 
 function EmptyItemsList() {
@@ -34,9 +34,10 @@ function EmptyItemsList() {
   );
 }
 
-export default function ItemsList(
-  props: { endpoint: string; isSignedIn: boolean },
-) {
+export default function ItemsList(props: {
+  endpoint: string;
+  isSignedIn: boolean;
+}) {
   const itemsSig = useSignal<Item[]>([]);
   const votedItemsIdsSig = useSignal<string[]>([]);
   const cursorSig = useSignal("");
@@ -51,7 +52,7 @@ export default function ItemsList(
     try {
       const { values, cursor } = await fetchValues<Item>(
         props.endpoint,
-        cursorSig.value,
+        cursorSig.value
       );
       itemsSig.value = [...itemsSig.value, ...values];
       cursorSig.value = cursor;
@@ -69,16 +70,17 @@ export default function ItemsList(
     }
 
     fetchVotedItems()
-      .then((votedItems) =>
-        votedItemsIdsSig.value = votedItems.map(({ id }) => id)
+      .then(
+        (votedItems) =>
+          (votedItemsIdsSig.value = votedItems.map(({ id }) => id))
       )
       .finally(() => loadMoreItems());
   }, []);
 
   return (
     <div>
-      {itemsSig.value.length
-        ? itemsSig.value.map((item, id) => {
+      {itemsSig.value.length ? (
+        itemsSig.value.map((item, id) => {
           return (
             <ItemSummary
               key={item.id}
@@ -88,7 +90,9 @@ export default function ItemsList(
             />
           );
         })
-        : <EmptyItemsList />}
+      ) : (
+        <EmptyItemsList />
+      )}
       {cursorSig.value !== "" && (
         <button onClick={loadMoreItems} class={LINK_STYLES}>
           {isLoadingSig.value ? "Loading..." : "Load more"}

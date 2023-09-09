@@ -11,9 +11,7 @@ export default function SubmitPage(props: PageProps) {
       <Head title="Submit" href={props.url.href} />
       <main class="flex-1 flex flex-col justify-center mx-auto w-full space-y-16 p-4 max-w-6xl">
         <div class="text-center">
-          <h1 class={HEADING_STYLES}>
-            Share your project
-          </h1>
+          <h1 class={HEADING_STYLES}>Share your project</h1>
           <p class="text-gray-500">
             Let the community know about your Deno-related blog post, video or
             module!
@@ -32,13 +30,11 @@ export default function SubmitPage(props: PageProps) {
             <div>
               <IconCheckCircle class="inline-block mr-2" />
               <strong>Do</strong> include a description with your title.
-
               <div class="text-sm text-gray-500">
                 E.g. “Deno Hunt: the best place to share your Deno project”
               </div>
             </div>
-            <p>
-            </p>
+            <p></p>
           </div>
           <form
             class="flex-1 flex flex-col justify-center"
@@ -77,10 +73,8 @@ export default function SubmitPage(props: PageProps) {
                 placeholder="https://my-awesome-project.com"
               />
             </div>
-            <div class="w-full rounded-lg bg-gradient-to-tr from-secondary to-primary p-px mt-8">
-              <button class="w-full text-white text-center rounded-[7px] transition duration-300 px-4 py-2 block hover:(bg-white text-black dark:(bg-gray-900 !text-white))">
-                Submit
-              </button>
+            <div className="mt-8">
+              <button class="w-full btn btn-primary">Submit</button>
             </div>
           </form>
         </div>
