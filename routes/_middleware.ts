@@ -10,7 +10,7 @@ import {
 
 async function redirectToNewOrigin(
   req: Request,
-  ctx: MiddlewareHandlerContext,
+  ctx: MiddlewareHandlerContext
 ) {
   const { hostname } = new URL(req.url);
   return hostname === "saaskit.deno.dev"
@@ -18,13 +18,25 @@ async function redirectToNewOrigin(
     : await ctx.next();
 }
 
-async function recordVisit(
-  _req: Request,
-  ctx: MiddlewareHandlerContext,
-) {
+async function recordVisit(_req: Request, ctx: MiddlewareHandlerContext) {
   if (ctx.destination !== "route") return await ctx.next();
 
   await incrVisitsCountByDay(new Date());
+  return await ctx.next();
+}
+
+async function redirectToErrorOnNeedSetup(
+  _req: Request,
+  ctx: MiddlewareHandlerContext
+) {
+  const NEEDS_SETUP =
+    Deno.env.get("GITHUB_CLIENT_ID") === undefined ||
+    Deno.env.get("GITHUB_CLIENT_SECRET") === undefined;
+
+  if (NEEDS_SETUP) {
+    throw new Error("Setup required");
+  }
+
   return await ctx.next();
 }
 
@@ -33,4 +45,5 @@ export const handler = [
   setSessionState,
   handleNotSignedInWebpage,
   recordVisit,
+  redirectToErrorOnNeedSetup,
 ];

@@ -13,20 +13,20 @@ import MadeWithFreshBadge from "@/components/MadeWithFreshBadge.tsx";
 
 export default function Footer(props: { url: URL }) {
   return (
-    <footer
-      class={`${SITE_BAR_STYLES} flex-col md:flex-row mt-8`}
-    >
-      <p>© {SITE_NAME}</p>
+    <footer class={`${SITE_BAR_STYLES} flex-col md:flex-row mt-8`}>
+      <p>
+        © {new Date().getFullYear()} {SITE_NAME}
+      </p>
       <nav class={NAV_STYLES}>
         <a
           href="/blog"
-          class={props.url.pathname === "/blog"
-            ? ACTIVE_LINK_STYLES
-            : LINK_STYLES}
+          class={
+            props.url.pathname === "/blog" ? ACTIVE_LINK_STYLES : LINK_STYLES
+          }
         >
           Blog
         </a>
-        <a href="/feed" aria-label="Deno Hunt RSS Feed" class={LINK_STYLES}>
+        {/* <a href="/feed" aria-label="Deno Hunt RSS Feed" class={LINK_STYLES}>
           <IconRss class="h-6 w-6" />
         </a>
         <a
@@ -36,11 +36,11 @@ export default function Footer(props: { url: URL }) {
           class={LINK_STYLES}
         >
           <IconBrandDiscord class="h-6 w-6" />
-        </a>
+        </a> */}
         <a
-          href="https://github.com/denoland/saaskit"
+          href="https://github.com/digioak/smooth-kitty"
           target="_blank"
-          aria-label="Deno SaaSKit repo on GitHub"
+          aria-label="Connections on GitHub"
           class={LINK_STYLES}
         >
           <IconBrandGithub class="h-6 w-6" />

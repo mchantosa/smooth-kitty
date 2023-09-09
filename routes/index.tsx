@@ -2,68 +2,98 @@
 import type { RouteContext } from "$fresh/server.ts";
 import type { State } from "@/middleware/session.ts";
 import Head from "@/components/Head.tsx";
-import ItemsList from "@/islands/ItemsList.tsx";
 
-const NEEDS_SETUP = Deno.env.get("GITHUB_CLIENT_ID") === undefined ||
-  Deno.env.get("GITHUB_CLIENT_SECRET") === undefined;
+const sections = [
+  {
+    title: "Medium agnostic",
+    content:
+      "Much of how we communicate now is determined by the communication mediums we share. Quitting Facebook is like changing your phone number. Is a friend any less a friend because you grew disenchanted with WhatsApp, or turned off with Twitter? This app organizes your communications around people, not communication mediums.",
+  },
+  {
+    title: "Non-calendered",
+    content:
+      "What does your work-life balance calendar; look like? Meetings, dentist appointments, parent teacher conferences? Adding periodic communication fidelity to your work-life balance calendar risks making connecting with your nearest and dearest a stressful task whose alert will be swiped away and dismissed. This app provides you with a weekly objectives, and rolls uncompleted objectives into the following week.",
+  },
+  {
+    title: "Warm and user friendly",
+    content:
+      "This app has no calender and no alerts, nor will it integrate with amy of your communication mediums. You get what you put into it. Carve out some time in your day, 15 min before bed, a cup of coffee in the morning, a lovely ferry ride on your commute home... Use this time to tender your list, and enjoy it. This is the pattern of behavior this application is intended to support.",
+  },
+  {
+    title: "Small to medium set of contacts",
+    content:
+      'It is possible to have thousands of "friends" across a half-dozen applications and still be completely alone. Communication is not manifested through connectivity, it is manifested through behavior. This application is intended to help you evaluate how much communication you want to maintain and prioritize with whom you wish to maintain it.',
+  },
+];
 
-function SetupInstruction() {
-  return (
-    <div class="bg-green-50 dark:(bg-gray-900 border border-green-800) rounded-xl max-w-screen-sm mx-auto my-8 px-6 py-5 space-y-3">
-      <h1 class="text-2xl font-medium">Welcome to SaaSKit!</h1>
-
-      <p class="text-gray-600 dark:text-gray-400">
-        To enable user login, you need to configure the GitHub OAuth application
-        and set environment variables.
-      </p>
-
-      <p>
-        <a
-          href="https://github.com/denoland/saaskit#auth-oauth"
-          class="inline-flex gap-2 text-green-600 dark:text-green-400 hover:underline cursor-pointer"
-        >
-          See the guide ›
-        </a>
-      </p>
-
-      <p class="text-gray-600 dark:text-gray-400">
-        After setting up{" "}
-        <span class="bg-green-100 dark:bg-gray-800 p-1 rounded">
-          GITHUB_CLIENT_ID
-        </span>{" "}
-        and{" "}
-        <span class="bg-green-100 dark:bg-gray-800 p-1 rounded">
-          GITHUB_CLIENT_SECRET
-        </span>, this message will disappear.
-      </p>
-    </div>
-  );
+interface SectionProp {
+  title: string;
+  content: string;
 }
+
+const Section = (props: SectionProp) => {
+  const { title, content } = props;
+  return (
+    <>
+      <h2 class="text-2xl font-bold">{title}</h2>
+      <p class="my-2 mb-6">{content}</p>
+    </>
+  );
+};
 
 // deno-lint-ignore require-await
 export default async function HomePage(
   _req: Request,
-  ctx: RouteContext<undefined, State>,
+  ctx: RouteContext<undefined, State>
 ) {
-  const isSignedIn = ctx.state.sessionUser !== undefined;
-  const endpoint = "/api/items";
+  // const isSignedIn = ctx.state.sessionUser !== undefined;
+  // const endpoint = "/api/items";
 
   return (
     <>
       <Head href={ctx.url.href}>
-        <link
+        {/* <link
           as="fetch"
           crossOrigin="anonymous"
           href={endpoint}
           rel="preload"
-        />
+        /> */}
       </Head>
       <main class="flex-1 p-4">
-        {NEEDS_SETUP && <SetupInstruction />}
-        <ItemsList
-          endpoint={endpoint}
-          isSignedIn={isSignedIn}
-        />
+        <div class="hero min-h-screen bg-base-200">
+          <div class="hero-content flex-col lg:flex-row">
+            <div class="mr-6">
+              <img
+                src="/images/connections-logo.png"
+                class="max-w-sm rounded-lg shadow-2xl mb-6"
+              />
+              <img
+                src="/images/coffee_toast.jpg"
+                class="max-w-sm rounded-lg shadow-2xl mb-6"
+              />
+              <img
+                src="/images/coffee_desk.jpg"
+                class="max-w-sm rounded-lg shadow-2xl"
+              />
+            </div>
+
+            <div>
+              <h1 class="text-4xl font-bold">Our Mission</h1>
+              <p class="py-6">
+                To help you stay connected to those you truly care about. This
+                is designed to be a medium agnostic, non-calendered, warm and
+                user friendly, communication asset, intended to support a small
+                to medium set of contacts. So why use this manager?
+              </p>
+              {sections.map((section) => (
+                <Section
+                  title={section.title}
+                  content={section.content}
+                ></Section>
+              ))}
+            </div>
+          </div>
+        </div>
       </main>
     </>
   );

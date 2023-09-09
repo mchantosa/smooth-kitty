@@ -3,12 +3,10 @@ import {
   ACTIVE_LINK_STYLES,
   LINK_STYLES,
   SITE_BAR_STYLES,
-  SITE_NAME,
 } from "@/utils/constants.ts";
-import { isStripeEnabled } from "@/utils/stripe.ts";
 import IconX from "tabler_icons_tsx/x.tsx";
+import IconUserCircle from "tabler_icons_tsx/user-circle.tsx";
 import IconMenu from "tabler_icons_tsx/menu-2.tsx";
-import IconBell from "tabler_icons_tsx/bell.tsx";
 import { cx } from "@twind/core";
 import { User } from "@/utils/db.ts";
 
@@ -28,13 +26,7 @@ export default function Header(props: {
 
       <div class="flex justify-between items-center">
         <a href="/" class="shrink-0">
-          <img
-            height="48"
-            width="48"
-            src="/logo.webp"
-            alt={SITE_NAME + " logo"}
-            class="h-12 w-12"
-          />
+          <h1 class="text-3xl font-bold">Connections</h1>
         </a>
         <div class="flex gap-4 items-center">
           <label
@@ -64,69 +56,28 @@ export default function Header(props: {
           "hidden flex-col gap-x-4 divide-y divide-solid sm:(flex items-center flex-row divide-y-0)"
         }
       >
-        <a
-          href="/dashboard"
-          class={cx(
-            props.url.pathname.startsWith("/dashboard")
-              ? ACTIVE_LINK_STYLES
-              : LINK_STYLES,
-            NAV_ITEM
-          )}
-        >
-          Dashboard
-        </a>
-        {isStripeEnabled() && (
-          <a
-            href="/pricing"
-            class={cx(
-              props.url.pathname === "/pricing"
-                ? ACTIVE_LINK_STYLES
-                : LINK_STYLES,
-              NAV_ITEM
-            )}
-          >
-            Pricing
-          </a>
-        )}
         {props.sessionUser ? (
-          <a
-            href="/account"
-            class={cx(
-              props.url.pathname === "/account"
-                ? ACTIVE_LINK_STYLES
-                : LINK_STYLES,
-              NAV_ITEM
-            )}
-          >
-            Account
-          </a>
+          <>
+            <a
+              href="/account"
+              class={cx(
+                props.url.pathname === "/account"
+                  ? ACTIVE_LINK_STYLES
+                  : LINK_STYLES,
+                NAV_ITEM
+              )}
+            >
+              <div class="flex">
+                <IconUserCircle class="mr-2"></IconUserCircle>
+                Account
+              </div>
+            </a>
+          </>
         ) : (
           <a href="/signin" class={cx(LINK_STYLES, NAV_ITEM)}>
             Sign in
           </a>
         )}
-        <a
-          href="/notifications"
-          class={cx(
-            props.url.pathname === "/notifications"
-              ? ACTIVE_LINK_STYLES
-              : LINK_STYLES,
-            NAV_ITEM,
-            "relative flex gap-2 items-center"
-          )}
-          aria-label="Notifications"
-        >
-          <IconBell class="hidden sm:block w-6 h-6" />
-          <div class="sm:hidden">Notifications</div>
-          {props.hasNotifications && (
-            <span class="absolute top-0.5 right-0.5 text-primary w-2 h-2">
-              ●
-            </span>
-          )}
-        </a>
-        <a href="/submit" class="btn btn-primary">
-          Submit
-        </a>
       </nav>
     </header>
   );

@@ -1,5 +1,5 @@
 // Copyright 2023 the Deno authors. All rights reserved. MIT license.
-export const SITE_NAME = "Connections (Beta)";
+export const SITE_NAME = "Connections";
 export const SITE_DESCRIPTION = "A saner social network";
 
 /**
