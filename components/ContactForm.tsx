@@ -8,6 +8,7 @@ export function getFormContact(form, owner_email) {
   const id = form.get("id")?.toString();
   const first_name = form.get("first_name")?.toString();
   const last_name = form.get("last_name")?.toString();
+  const pronouns = form.get("pronouns")?.toString();
   const email = form.get("email")?.toString();
   const phone = form.get("phone")?.toString();
   const preferred_method = form.get("preferred_method")?.toString();
@@ -21,10 +22,12 @@ export function getFormContact(form, owner_email) {
   birthday_month = birthday_month ? parseInt(birthday_month) : null;
   let birthday_year = form.get("birthday_year");
   birthday_year = birthday_year ? parseInt(birthday_year) : null;
+  const contact_on_birthday = form.get("contact_on_birthday") === "on";
 
   const newContact = {
     first_name,
     last_name,
+    pronouns,
     email,
     phone,
     preferred_method,
@@ -33,6 +36,7 @@ export function getFormContact(form, owner_email) {
     birthday_day,
     birthday_month,
     birthday_year,
+    contact_on_birthday,
     owner_email,
   };
   if (id) newContact.id = id;
@@ -52,7 +56,8 @@ export default function ContactForm(props: any) {
           class="hidden"
           value={contact ? contact.id : ""}
         />
-        Name
+        <h1 className="mb-4 text-2xl font-bold">Contact Information</h1>
+        <h2 className="mb-2 text-xl font-semibold">Name</h2>
         <div>
           <label for="first_name">First Name</label>
           <input
@@ -73,7 +78,18 @@ export default function ContactForm(props: any) {
             value={contact ? contact.last_name : ""}
           />
         </div>
-        Contact Information
+        <div className="mb-4">
+          <label for="pronouns">Pronouns and Titles</label>
+          <input
+            placeholder="PhD she/her/hers"
+            name="pronouns"
+            id="pronouns"
+            type="text"
+            class="input input-bordered w-full max-w-xs"
+            value={contact ? contact.pronouns : ""}
+          />
+        </div>
+        <h2 className="mb-2 text-xl font-semibold">Contact Information</h2>
         <div>
           <label for="email">Email</label>
           <input
@@ -97,7 +113,7 @@ export default function ContactForm(props: any) {
             value={contact ? contact.phone : ""}
           />
         </div>
-        <div>
+        <div className="mb-4">
           Preferred Contact Method
           <label for="preferred_method">Method</label>
           <input
@@ -110,7 +126,7 @@ export default function ContactForm(props: any) {
           />
           <label for="preferred_method_handle">Handle</label>
           <input
-            placeholder="chanel name: @handle"
+            placeholder="@handle"
             name="preferred_method_handle"
             id="preferred_method_handle"
             type="text"
@@ -118,7 +134,7 @@ export default function ContactForm(props: any) {
             value={contact ? contact.preferred_method_handle : ""}
           />
         </div>
-        Objectives
+        <h2 className="mb-2 text-xl font-semibold">Objectives</h2>
         <div>
           Period
           <label for="period">Period</label>
@@ -131,13 +147,13 @@ export default function ContactForm(props: any) {
             <option disabled selected value="">
               Choose an option
             </option>
-            <option value="weekly">Weekly</option>
-            <option value="biweekly">Biweekly</option>
-            <option value="monthly">Monthly</option>
-            <option value="quarterly">Quarterly</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Biweekly">Biweekly</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Quarterly">Quarterly</option>
           </select>
         </div>
-        <div>
+        <div className="mb-4">
           Birthday
           <label for="birthday_day">Day</label>
           <input
@@ -186,11 +202,7 @@ export default function ContactForm(props: any) {
             checked={contact && contact.contact_on_birthday}
           />
         </div>
-        <input
-          value="Save Contact"
-          type="submit"
-          class="btn btn-primary w-full"
-        />
+        <input value="Save Contact" type="submit" class="btn btn-info w-full" />
       </form>
     </>
   );

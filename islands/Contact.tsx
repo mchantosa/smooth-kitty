@@ -51,21 +51,35 @@ export default function Contact(props: any) {
               </div>
             </div>
             <div>
-              <div className="font-bold">{`${contact.first_name} ${contact.last_name}`}</div>
-              <div className="text-sm opacity-50">Placeholder</div>
+              <div className="font-bold">
+                <span>{`${contact.full_name}`}</span>
+              </div>
+              {contact.pronouns && (
+                <span className="ml-2 badge badge-ghost badge-sm">
+                  <span>{`${contact.pronouns}`}</span>
+                </span>
+              )}
             </div>
           </div>
         </td>
+        <td>Date Placeholder</td>
+        <td> {contact.period}</td>
         <td>
-          Next Connection
+          <strong>Phone number:</strong>{" "}
+          <span className="pl-4 text-cyan-700">{contact.phone}</span>
           <br />
-          <span className="badge badge-ghost badge-sm">Date</span>
-        </td>
-        <td>Period</td>
-        <td>
-          Phone number: <br />
-          Email: <br />
-          Preferred Method: Handle
+          <strong>Email: </strong>
+          <span className="pl-4 text-cyan-700">{contact.email}</span>
+          <br />
+          <strong>Preferred Method: </strong>
+          <span className="pl-4 text-cyan-700">{contact.preferred_method}</span>
+          <br />
+          <span className="ml-2 badge badge-ghost badge-sm">
+            <strong>Handle: </strong>
+            <span className="pl-4 text-cyan-700">
+              {contact.preferred_method_handle}
+            </span>
+          </span>
         </td>
         <th>
           <DeleteContactButton contactId={contact.id}></DeleteContactButton>

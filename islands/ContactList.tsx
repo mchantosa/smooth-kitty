@@ -47,7 +47,10 @@ export default function ContactList(
           </tfoot>
         </table>
         <Pagination pagination={pagination}></Pagination>
-        <ContactListModal contact={activeContact}></ContactListModal>
+        <ContactListModal
+          contact={activeContact}
+          setActiveContact={setActiveContact}
+        ></ContactListModal>
       </div>
     </>
   );
