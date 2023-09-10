@@ -29,6 +29,10 @@ export default {
       middleware,
     },
     {
+      path: "/contacts",
+      middleware,
+    },
+    {
       path: "/notifications",
       middleware,
     },
