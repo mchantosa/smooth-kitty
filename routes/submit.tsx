@@ -73,7 +73,7 @@ export default function SubmitPage(props: PageProps) {
                 placeholder="https://my-awesome-project.com"
               />
             </div>
-            <div className="mt-8">
+            <div class="mt-8">
               <button class="w-full btn btn-primary">Submit</button>
             </div>
           </form>

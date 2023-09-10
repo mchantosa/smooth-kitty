@@ -8,10 +8,6 @@ import ext from "twind-preset-ext";
 
 /** @todo Remove the need for type-assertions */
 export default {
-  daisyui: {
-    themes: ["light"],
-    darkTheme: "light",
-  },
   selfURL: import.meta.url,
   // <BaseTheme, Preset<any>[]>
   ...defineConfig({

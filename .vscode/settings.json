@@ -5,8 +5,10 @@
   "editor.defaultFormatter": "denoland.vscode-deno",
   "cSpell.words": [
     "daisyui",
+    "signin",
     "signup",
-    "supabase"
+    "supabase",
+    "tabler"
   ],
   "githubPullRequests.ignoredPullRequestBranches": [
     "main"

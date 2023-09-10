@@ -6,7 +6,12 @@ import type { State } from "@/middleware/session.ts";
 
 export default function App(props: AppProps<undefined, State>) {
   return (
-    <div data-theme="light" class="dark:bg-gray-900">
+    <div
+      data-theme="light"
+      class="dark:bg-gray-900"
+      /* TODO: Figure out how to configure via twind.config.ts */
+      style={{ fontFamily: "Montserrat" }}
+    >
       <div class="flex flex-col min-h-screen mx-auto max-w-7xl w-full dark:text-white">
         <Header
           url={props.url}

@@ -26,6 +26,10 @@ export default function Head(
         rel="stylesheet"
         type="text/css"
       />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
+        rel="stylesheet"
+      />
       {props.children}
     </_Head>
   );
