@@ -58,6 +58,9 @@ export default function Header(props: {
       >
         {props.sessionUser ? (
           <>
+            <a href="/contacts" class={cx(LINK_STYLES, NAV_ITEM)}>
+              Contacts
+            </a>
             <a
               href="/account"
               class={cx(
