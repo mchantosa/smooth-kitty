@@ -37,10 +37,13 @@ import * as $31 from "./routes/submit.tsx";
 import * as $32 from "./routes/users/[login].tsx";
 import * as $$0 from "./islands/Chart.tsx";
 import * as $$1 from "./islands/CommentsList.tsx";
-import * as $$2 from "./islands/ItemsList.tsx";
-import * as $$3 from "./islands/NotificationsList.tsx";
-import * as $$4 from "./islands/UsersTable.tsx";
-import * as $$5 from "./islands/VoteButton.tsx";
+import * as $$2 from "./islands/Contact.tsx";
+import * as $$3 from "./islands/ContactList.tsx";
+import * as $$4 from "./islands/ContactListModal.tsx";
+import * as $$5 from "./islands/ItemsList.tsx";
+import * as $$6 from "./islands/NotificationsList.tsx";
+import * as $$7 from "./islands/UsersTable.tsx";
+import * as $$8 from "./islands/VoteButton.tsx";
 
 const manifest = {
   routes: {
@@ -81,10 +84,13 @@ const manifest = {
   islands: {
     "./islands/Chart.tsx": $$0,
     "./islands/CommentsList.tsx": $$1,
-    "./islands/ItemsList.tsx": $$2,
-    "./islands/NotificationsList.tsx": $$3,
-    "./islands/UsersTable.tsx": $$4,
-    "./islands/VoteButton.tsx": $$5,
+    "./islands/Contact.tsx": $$2,
+    "./islands/ContactList.tsx": $$3,
+    "./islands/ContactListModal.tsx": $$4,
+    "./islands/ItemsList.tsx": $$5,
+    "./islands/NotificationsList.tsx": $$6,
+    "./islands/UsersTable.tsx": $$7,
+    "./islands/VoteButton.tsx": $$8,
   },
   baseUrl: import.meta.url,
 };
