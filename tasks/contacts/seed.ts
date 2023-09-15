@@ -2,7 +2,7 @@ import { ulid } from "std/ulid/mod.ts";
 import { faker } from "faker";
 import { writeContacts } from "@/services/db/contact.ts";
 import { LIST_ID } from "@/utils/constants.ts";
-import { fakerEL } from "faker";
+import { faker } from "faker";
 
 // generateMock seems to create a random number of contacts per
 // iteration, so we'll just run it a few times to get a decent sample
