@@ -4,12 +4,11 @@ import Head from "@/components/Head.tsx";
 import ContactsList from "@/islands/ContactsList.tsx";
 
 export default async function ContactsPage(_req: Request, ctx: RouteContext) {
-  const isSignedIn = ctx.state.sessionUser !== undefined;
   return (
     <>
       <Head title="Contacts" href={ctx.url.href} />
       <main class="p-4 flex-1">
-        <ContactsList endpoint="/api/contacts" isSignedIn={isSignedIn} />
+        <ContactsList endpoint="/api/contacts" />
       </main>
     </>
   );
