@@ -7,7 +7,6 @@ import type { State } from "@/middleware/session.ts";
 export default function App(props: AppProps<undefined, State>) {
   return (
     <div
-      data-theme="light"
       class="dark:bg-gray-900"
       /* TODO: Figure out how to configure via twind.config.ts */
       style={{ fontFamily: "Montserrat" }}
