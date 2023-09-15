@@ -12,10 +12,17 @@ export interface Contact {
 
   firstName: string;
   lastName: string;
-  phoneNumber: string;
-  email: string;
+  pronouns: string;
   avatarUrl: string;
-
+  email: string;
+  phoneNumber: string;
+  preferredMethod: string;
+  preferredMethodHandle: string;
+  birthdayDay: number;
+  birthdayMonth: number;
+  birthdayYear: number;
+  connectOnBirthday: boolean;
+  period: string;
   createdAt: number;
   updatedAt: number;
 }

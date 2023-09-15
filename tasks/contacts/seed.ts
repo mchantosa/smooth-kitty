@@ -1,10 +1,8 @@
-import { generateMock } from "zod-mock";
-import { inputSchema } from "@/services/db/contact.ts";
-import { Contact } from "@/shared/data/contact.ts";
 import { ulid } from "std/ulid/mod.ts";
 import { faker } from "faker";
 import { writeContacts } from "@/services/db/contact.ts";
 import { LIST_ID } from "@/utils/constants.ts";
+import { fakerEL } from "faker";
 
 // generateMock seems to create a random number of contacts per
 // iteration, so we'll just run it a few times to get a decent sample
@@ -12,20 +10,33 @@ const SEED_COUNT = 20;
 
 console.log(`Seeding sample contacts with list ID ${LIST_ID}...`);
 
-const getMockData = () =>
-  generateMock(inputSchema, {
-    stringMap: {
-      id: () => ulid(),
-      phoneNumber: () => faker.phone.number("##########"),
-      avatarUrl: () =>
-        `/images/faces/face_${Math.floor(Math.random() * 10) + 1}.jpeg`,
-    },
-  });
+const getMockContact = () => {
+  const birthday = fakerEL.date.birthdate({ min: 1, max: 85, mode: "age" });
 
-const contacts: Contact[] = [];
+  const contact = {
+    id: ulid(),
+    firstName: faker.person.firstName(),
+    lastName: faker.person.lastName(),
+    pronouns: faker.helpers.arrayElement(["he/him", "she/her", "they/them"]),
+    avatarUrl: `/images/faces/face_${Math.floor(Math.random() * 10) + 1}.jpeg`,
+    email: faker.internet.email(),
+    phoneNumber: faker.phone.number("##########"),
+    preferredMethod: faker.helpers.arrayElement(["email", "phone"]),
+    preferredMethodHandle: faker.helpers.arrayElement(["email", "phone"]),
+    birthdayDay: birthday.getDay(),
+    birthdayMonth: birthday.getMonth(),
+    birthdayYear: birthday.getFullYear(),
+    connectOnBirthday: faker.datatype.boolean(),
+    period: faker.helpers.arrayElement(["day", "week", "month", "year"]),
+  };
+
+  return contact;
+};
+
+const contacts: any = [];
 
 Array.from({ length: SEED_COUNT }).forEach(() => {
-  contacts.push(...getMockData());
+  contacts.push(getMockContact());
 });
 
 for (const contact of contacts) {
