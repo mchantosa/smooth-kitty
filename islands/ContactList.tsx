@@ -1,15 +1,15 @@
-import { useState } from "preact/hooks";
-import Contact from "@/islands/Contact.tsx";
-import type { Contact as AContact } from "@/islands/Contact.tsx";
+import { StateUpdater, useState } from "preact/hooks";
+import ContactSummary from "@/islands/Contact.tsx";
+import type { Contact } from "@/islands/Contact.tsx";
+//import type { ContactSummaryProps } from "@/islands/Contact.tsx";
+import { ContactListModal } from "@/islands/ContactListModal.tsx";
 
 interface ContactListProps {
-  pagination: any;
-  contacts: AContact[];
+  contacts: Contact[];
 }
 
 export default function ContactList(props: ContactListProps) {
-  const { pagination, contacts } = props;
-  //const [contacts, setContacts] = useState(props.contacts);
+  const { contacts } = props;
   const [activeContact, setActiveContact] = useState();
 
   return (
@@ -29,10 +29,10 @@ export default function ContactList(props: ContactListProps) {
             {contacts &&
               contacts.map((contact) => {
                 return (
-                  <Contact
+                  <ContactSummary
                     contact={contact}
                     setActiveContact={setActiveContact}
-                  ></Contact>
+                  ></ContactSummary>
                 );
               })}
           </tbody>
@@ -46,11 +46,10 @@ export default function ContactList(props: ContactListProps) {
             </tr>
           </tfoot>
         </table>
-        {/* <Pagination pagination={pagination}></Pagination> */}
-        {/* <ContactListModal
+        <ContactListModal
           contact={activeContact}
           setActiveContact={setActiveContact}
-        ></ContactListModal> */}
+        ></ContactListModal>
       </div>
     </>
   );

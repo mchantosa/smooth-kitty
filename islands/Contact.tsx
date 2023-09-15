@@ -1,3 +1,5 @@
+import { StateUpdater } from "https://esm.sh/v118/preact@10.15.1/hooks/src/index.js";
+
 const avatarURL =
   "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Avatar_icon_green.svg/2048px-Avatar_icon_green.svg.png";
 
@@ -14,7 +16,16 @@ export interface Contact {
   period: string;
 }
 
-function DeleteContactButton(props: any) {
+interface DeleteContactButtonProps {
+  contactId: number;
+}
+
+export interface ContactSummaryProps {
+  contact: Contact;
+  setActiveContact: StateUpdater<Contact | null>;
+}
+
+function DeleteContactButton(props: DeleteContactButtonProps) {
   const { contactId } = props;
   return (
     <button
@@ -41,7 +52,7 @@ function DeleteContactButton(props: any) {
   );
 }
 
-export default function Contact(props: any) {
+export default function ContactSummary(props: ContactSummaryProps) {
   const { contact, setActiveContact } = props;
 
   return (

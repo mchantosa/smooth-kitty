@@ -1,7 +1,17 @@
 // import ContactForm from "@/components/ContactForm.tsx";
 
-export function ContactListModal(props: any) {
+import { Contact } from "@/islands/Contact.tsx";
+import { StateUpdater } from "preact/hooks";
+
+interface ContactListModalProps {
+  contact: Contact;
+  setActiveContact: StateUpdater<Contact | null>;
+}
+
+export function ContactListModal(props: ContactListModalProps) {
   const { contact, setActiveContact } = props;
+
+  console.log("contact", contact);
 
   return (
     <dialog id="contact_modal" className="modal">
@@ -10,13 +20,16 @@ export function ContactListModal(props: any) {
         className="modal-box w-11/12 max-w-5xl"
         onKeyUp={(e) => {
           if (e.key === "Escape") {
+            debugger;
+            console.log(
+              `exitting contact ${contact ? contact.id : contact}...`
+            );
             setActiveContact(null);
           }
         }}
       >
-        {/* <ContactForm contact={contact} action="contacts"></ContactForm> */}
+        {contact && contact.full_name}
         <div className="modal-action">
-          {/* if there is a button, it will close the modal */}
           <button
             className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
             onClick={() => {
