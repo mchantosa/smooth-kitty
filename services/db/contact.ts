@@ -1,4 +1,4 @@
-import { Contact, ContactList } from "@/shared/data/contact.ts";
+import type { Contact, ContactList } from "@/shared/data/contact.ts";
 import { z } from "zod";
 
 export const db = await Deno.openKv();
@@ -6,9 +6,17 @@ export const inputSchema = z.array(z.object({
   id: z.string(),
   firstName: z.string().nullable(),
   lastName: z.string().nullable(),
+  pronouns: z.string().nullable(),
+  avatarUrl: z.string().nullable(),
   email: z.string().nullable(),
   phoneNumber: z.string().nullable(),
-  avatarUrl: z.string().nullable(),
+  preferredMethod: z.string().nullable(),
+  preferredMethodHandle: z.string().nullable(),
+  birthdayDay: z.number().nullable(),
+  birthdayMonth: z.number().nullable(),
+  birthdayYear: z.number().nullable(),
+  connectOnBirthday: z.boolean().nullable(),
+  period: z.string().nullable(),
 }));
 export type InputSchema = z.infer<typeof inputSchema>;
 
@@ -56,9 +64,17 @@ export async function writeContacts(
       const item: Contact = {
         firstName: input.firstName,
         lastName: input.lastName,
+        pronouns: input.pronouns,
+        avatarUrl: input.avatarUrl,
         email: input.email,
         phoneNumber: input.phoneNumber,
-        avatarUrl: input.avatarUrl,
+        preferredMethod: input.preferredMethod,
+        preferredMethodHandle: input.preferredMethodHandle,
+        birthdayDay: input.birthdayDay,
+        birthdayMonth: input.birthdayMonth,
+        birthdayYear: input.birthdayYear,
+        connectOnBirthday: input.connectOnBirthday,
+        period: input.period,
         createdAt,
         updatedAt: now,
       };
