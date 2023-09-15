@@ -28,10 +28,10 @@ export default {
       path: "/dashboard",
       middleware,
     },
-    {
-      path: "/contacts",
-      middleware,
-    },
+    // {
+    //   path: "/contacts",
+    //   middleware,
+    // },
     {
       path: "/notifications",
       middleware,

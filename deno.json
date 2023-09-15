@@ -6,6 +6,7 @@
     "db:restore": "deno run --allow-read --allow-env --unstable tasks/db_restore.ts",
     "db:seed": "deno run --allow-read --allow-env --allow-net --unstable tasks/db_seed.ts",
     "db:migrate": "deno run --allow-read --allow-env --allow-net --unstable tasks/db_migrate.ts",
+    "db:seed:contacts": "deno run --allow-read --allow-env --allow-net --unstable tasks/contacts/seed.ts",
     "db:reset": "deno run --allow-read --allow-env --unstable tasks/db_reset.ts",
     "start": "deno run --unstable -A --watch=static/,routes/ dev.ts",
     "test": "KV_PATH=:memory: deno test -A --unstable --parallel --coverage=./cov --doc",
@@ -38,7 +39,10 @@
     "kv_oauth": "https://deno.land/x/deno_kv_oauth@v0.6.1/mod.ts",
     "tabler_icons_tsx/": "https://deno.land/x/tabler_icons_tsx@0.0.4/tsx/",
     "@twind/core": "https://esm.sh/@twind/core@1.1.3",
-    "fresh_charts/": "https://deno.land/x/fresh_charts@0.3.1/"
+    "fresh_charts/": "https://deno.land/x/fresh_charts@0.3.1/",
+    "zod": "https://esm.sh/zod@3.22.2",
+    "zod-mock": "https://esm.sh/@anatine/zod-mock@3.13.2",
+    "faker": "https://esm.sh/@faker-js/faker@8.0.2"
   },
   "exclude": [
     "cov/",
