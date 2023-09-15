@@ -11,7 +11,7 @@ const SEED_COUNT = 20;
 console.log(`Seeding sample contacts with list ID ${LIST_ID}...`);
 
 const getMockContact = () => {
-  const birthday = fakerEL.date.birthdate({ min: 1, max: 85, mode: "age" });
+  const birthday = faker.date.birthdate({ min: 1, max: 85, mode: "age" });
 
   const contact = {
     id: ulid(),
