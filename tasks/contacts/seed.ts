@@ -17,6 +17,8 @@ const getMockData = () =>
     stringMap: {
       id: () => ulid(),
       phoneNumber: () => faker.phone.number("##########"),
+      avatarUrl: () =>
+        `/images/faces/face_${Math.floor(Math.random() * 10) + 1}.jpeg`,
     },
   });
 

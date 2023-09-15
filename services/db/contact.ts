@@ -8,6 +8,7 @@ export const inputSchema = z.array(z.object({
   lastName: z.string().nullable(),
   email: z.string().nullable(),
   phoneNumber: z.string().nullable(),
+  avatarUrl: z.string().nullable(),
 }));
 export type InputSchema = z.infer<typeof inputSchema>;
 
@@ -57,6 +58,7 @@ export async function writeContacts(
         lastName: input.lastName,
         email: input.email,
         phoneNumber: input.phoneNumber,
+        avatarUrl: input.avatarUrl,
         createdAt,
         updatedAt: now,
       };

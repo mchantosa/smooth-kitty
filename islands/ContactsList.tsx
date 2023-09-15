@@ -28,7 +28,6 @@ function EmptyItemsList() {
 
 export default function ContactsList(props: {
   endpoint: string;
-  isSignedIn: boolean;
 }) {
   const itemsSig = useSignal<Contact[]>([]);
   const cursorSig = useSignal("");
@@ -52,10 +51,7 @@ export default function ContactsList(props: {
   }
 
   useEffect(() => {
-    if (!props.isSignedIn) {
-      loadMoreItems();
-      return;
-    }
+    loadMoreItems();
   }, []);
 
   type ContactComponentProps = {
@@ -63,9 +59,7 @@ export default function ContactsList(props: {
   };
 
   const ContactComponent = ({ contact }: ContactComponentProps) => {
-    const { firstName, lastName, phoneNumber, email } = contact;
-    const getRandomFaceUrl = () =>
-      `/images/faces/face_${Math.floor(Math.random() * 10) + 1}.jpeg`;
+    const { firstName, lastName, phoneNumber, email, avatarUrl } = contact;
     return (
       <tr>
         <th>
@@ -78,7 +72,7 @@ export default function ContactsList(props: {
             <div class="avatar">
               <div class="mask mask-squircle w-12 h-12">
                 <img
-                  src={getRandomFaceUrl()}
+                  src={avatarUrl}
                   alt="Avatar Tailwind CSS Component"
                 />
               </div>
