@@ -1,5 +1,8 @@
 import type { Contact, ContactList } from "@/shared/data/contact.ts";
 import { z } from "zod";
+import { ulid } from "std/ulid/mod.ts";
+import { faker } from "faker";
+import { kv } from "@/utils/db.ts";
 
 export const db = await Deno.openKv();
 export const inputSchema = z.array(z.object({
@@ -21,7 +24,7 @@ export const inputSchema = z.array(z.object({
 export type InputSchema = z.infer<typeof inputSchema>;
 
 export async function loadContactList(
-  id: string,
+  login: string,
   options?: Deno.KvListOptions,
 ): Promise<ContactList> {
   const contactList: ContactList = {
@@ -29,7 +32,7 @@ export async function loadContactList(
     cursor: "",
   };
 
-  const list = db.list({ prefix: ["list", id] }, options);
+  const list = db.list({ prefix: ["contacts", login] }, options);
 
   for await (const item of list) {
     const contact = item.value as Contact;
@@ -44,18 +47,19 @@ export async function loadContactList(
 }
 
 export async function writeContacts(
-  listId: string,
+  owner: string,
   inputs: InputSchema,
 ): Promise<void> {
   const currentEntries = await db.getMany(
-    inputs.map((input: InputSchema) => ["list", listId, input.id]),
+    inputs.map((input: InputSchema) => ["contacts", owner, input.id]),
   );
 
   const op = db.atomic();
 
   inputs.forEach((input: InputSchema, i: number) => {
+    // TODO: Check for empty record
     if (input.text === null) {
-      op.delete(["list", listId, input.id]);
+      op.delete(["contacts", owner, input.id]);
     } else {
       const current = currentEntries[i].value as Contact | null;
       const now = Date.now();
@@ -78,9 +82,53 @@ export async function writeContacts(
         createdAt,
         updatedAt: now,
       };
-      op.set(["list", listId, input.id], item);
+      op.set(["contacts", owner, input.id], item);
     }
   });
 
   await op.commit();
+}
+
+export async function seedContacts(owner: string, count: number) {
+  const getMockContact = () => {
+    const birthday = faker.date.birthdate({ min: 1, max: 85, mode: "age" });
+
+    const contact = {
+      id: ulid(),
+      firstName: faker.person.firstName(),
+      lastName: faker.person.lastName(),
+      pronouns: faker.helpers.arrayElement(["he/him", "she/her", "they/them"]),
+      avatarUrl: `/images/faces/face_${
+        Math.floor(Math.random() * 10) + 1
+      }.jpeg`,
+      email: faker.internet.email(),
+      phoneNumber: faker.phone.number("##########"),
+      preferredMethod: faker.helpers.arrayElement(["email", "phone"]),
+      preferredMethodHandle: faker.helpers.arrayElement(["email", "phone"]),
+      birthdayDay: birthday.getDay(),
+      birthdayMonth: birthday.getMonth(),
+      birthdayYear: birthday.getFullYear(),
+      connectOnBirthday: faker.datatype.boolean(),
+      period: faker.helpers.arrayElement(["day", "week", "month", "year"]),
+    };
+
+    return contact;
+  };
+
+  const contacts: any = [];
+
+  Array.from({ length: count }).forEach(() => {
+    contacts.push(getMockContact());
+  });
+
+  for (const contact of contacts) {
+    await writeContacts(owner, [contact]);
+  }
+}
+
+export async function resetContacts(owner: string) {
+  const iter = kv.list({ prefix: ["contacts", owner] });
+  const promises = [];
+  for await (const res of iter) promises.push(kv.delete(res.key));
+  await Promise.all(promises);
 }
