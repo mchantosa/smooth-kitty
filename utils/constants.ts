@@ -18,5 +18,3 @@ export const LINK_STYLES =
 export const ACTIVE_LINK_STYLES = LINK_STYLES + " !text-black !dark:text-white";
 export const HEADING_STYLES = "text-3xl font-bold";
 export const HEADING_WITH_MARGIN_STYLES = HEADING_STYLES + " mb-8";
-
-export const LIST_ID = "01HAAQKT5SRPPMZZJ1BMPRFJE3";
