@@ -54,14 +54,62 @@ export default function ContactsList(props: {
     loadMoreItems();
   }, []);
 
-  type ContactComponentProps = {
-    contact: Contact;
+  interface DeleteContactButtonProps {
+    contactId?: string;
+  }
+
+  const DeleteContactButton = (props: DeleteContactButtonProps) => {
+    const { contactId } = props;
+    return (
+      <button
+        className="badge bdg-btn-remove badge-neutral"
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+
+          console.log(`deleting ${props.contactId}...`);
+
+          // axiod
+          //   .delete(`/api/contacts/${props.contactId}`)
+          //   .then((response) => {
+          //     console.log(response);
+          //     window.location.reload();
+          //   })
+          //   .catch((error) => {
+          //     console.log(error);
+          //   });
+        }}
+      >
+        remove
+      </button>
+    );
   };
 
+  interface ContactComponentProps {
+    contact: Contact;
+  }
+
   const ContactComponent = ({ contact }: ContactComponentProps) => {
-    const { firstName, lastName, phoneNumber, email, avatarUrl } = contact;
+    const {
+      id,
+      avatarUrl,
+      fullName,
+      pronouns,
+      period,
+      phoneNumber,
+      email,
+      preferredMethod,
+      preferredMethodHandle,
+    } = contact;
+
     return (
-      <tr>
+      <tr
+        className="group cursor-pointer hover:backdrop-brightness-125 hover:shadow-lg"
+        onClick={(e) => {
+          e.preventDefault();
+          console.log(`opening ${id}...`);
+        }}
+      >
         <th>
           <label>
             <input type="checkbox" class="checkbox" />
@@ -78,18 +126,38 @@ export default function ContactsList(props: {
               </div>
             </div>
             <div>
-              <div class="font-bold">{`${firstName} ${lastName}`}</div>
-              <div class="text-sm opacity-50">United States</div>
+              <div class="font-bold">{`${fullName}`}</div>
+              <div>
+                {pronouns && (
+                  <span className="ml-2 badge badge-ghost badge-sm">
+                    <span>{`${pronouns}`}</span>
+                  </span>
+                )}
+              </div>
             </div>
           </div>
         </td>
+        <td>Date Placeholder</td>
+        <td>{period}</td>
         <td>
-          <div class="text-sm">Phone: {`${phoneNumber}`}</div>
-          <div class="text-sm">Email: {`${email}`}</div>
+          <strong>Phone number:</strong>{" "}
+          <span className="pl-4 text-cyan-700">{phoneNumber}</span>
+          <br />
+          <strong>Email:</strong>
+          <span className="pl-4 text-cyan-700">{email}</span>
+          <br />
+          <strong>Preferred Method:</strong>
+          <span className="pl-4 text-cyan-700">{preferredMethod}</span>
+          <br />
+          <span className="ml-2 badge badge-ghost badge-sm">
+            <strong>Handle:</strong>
+            <span className="pl-4 text-cyan-700">
+              {preferredMethodHandle}
+            </span>
+          </span>
         </td>
-        <td>[ TODO ]</td>
         <th>
-          <button class="btn btn-ghost btn-xs">details</button>
+          <DeleteContactButton contactId={id}></DeleteContactButton>
         </th>
       </tr>
     );
@@ -107,8 +175,9 @@ export default function ContactsList(props: {
                 </label>
               </th>
               <th>Name</th>
-              <th>Contact Info</th>
-              <th>Action</th>
+              <th>Next Connection</th>
+              <th>Period</th>
+              <th>Contact Information</th>
               <th></th>
             </tr>
           </thead>
@@ -125,8 +194,9 @@ export default function ContactsList(props: {
             <tr>
               <th></th>
               <th>Name</th>
-              <th>Contact Info</th>
-              <th>Action</th>
+              <th>Next Connection</th>
+              <th>Period</th>
+              <th>Contact Information</th>
               <th></th>
             </tr>
           </tfoot>

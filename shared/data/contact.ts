@@ -12,6 +12,7 @@ export interface Contact {
 
   firstName: string;
   lastName: string;
+  fullName: string;
   pronouns: string;
   avatarUrl: string;
   email: string;

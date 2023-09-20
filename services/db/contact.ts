@@ -9,6 +9,7 @@ export const inputSchema = z.array(z.object({
   id: z.string(),
   firstName: z.string().nullable(),
   lastName: z.string().nullable(),
+  fullName: z.string().nullable(),
   pronouns: z.string().nullable(),
   avatarUrl: z.string().nullable(),
   email: z.string().nullable(),
@@ -68,6 +69,7 @@ export async function writeContacts(
       const item: Contact = {
         firstName: input.firstName,
         lastName: input.lastName,
+        fullName: input.fullName,
         pronouns: input.pronouns,
         avatarUrl: input.avatarUrl,
         email: input.email,
