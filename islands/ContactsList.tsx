@@ -1,6 +1,6 @@
 // Copyright 2023 the Deno authors. All rights reserved. MIT license.
 import { useSignal } from "@preact/signals";
-import { useEffect } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import type { Contact } from "@/shared/data/contact.ts";
 import { LINK_STYLES } from "@/utils/constants.ts";
 import IconInfo from "tabler_icons_tsx/info-circle.tsx";
@@ -32,6 +32,8 @@ export default function ContactsList(props: {
   const itemsSig = useSignal<Contact[]>([]);
   const cursorSig = useSignal("");
   const isLoadingSig = useSignal(false);
+  const [searchText, setSearchText] = useState("");
+  const [debouncedSearchText, setDebouncedSearchText] = useState("");
 
   async function loadMoreItems() {
     if (isLoadingSig.value) return;
@@ -163,9 +165,46 @@ export default function ContactsList(props: {
     );
   };
 
+  useEffect(() => {
+    const delay = 300; // 300ms
+
+    const debounceTimer = setTimeout(() => {
+      setDebouncedSearchText(searchText);
+    }, delay);
+
+    return () => {
+      clearTimeout(debounceTimer);
+    };
+  }, [searchText]);
+
+  useEffect(() => {
+    // Implement your search logic using debouncedSearchText
+    console.log("Performing search for: ", debouncedSearchText);
+  }, [debouncedSearchText]);
+
+  const handleSearchChange = (e: Event) => {
+    if (e.target) setSearchText(e.target.value);
+  };
+
   return (
     <div>
       <div class="overflow-x-auto">
+        <div class="flex items-center justify-flex-end">
+          <div className="form-control w-full max-w-xs">
+            <select className="select select-bordered">
+              <option selected>Name</option>
+              <option>Next Connection</option>
+              <option>Period</option>
+            </select>
+          </div>
+          <input
+            type="text"
+            placeholder="Search contacts"
+            className="input input-bordered w-full max-w-xs"
+            onChange={handleSearchChange}
+          />
+        </div>
+
         <table class="table">
           <thead>
             <tr>

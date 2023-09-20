@@ -24,6 +24,7 @@ export interface Contact {
   birthdayYear: number;
   connectOnBirthday: boolean;
   period: string;
+  nextConnection: string;
   createdAt: number;
   updatedAt: number;
 }

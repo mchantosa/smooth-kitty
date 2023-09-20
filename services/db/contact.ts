@@ -3,6 +3,7 @@ import { z } from "zod";
 import { ulid } from "std/ulid/mod.ts";
 import { faker } from "faker";
 import { kv } from "@/utils/db.ts";
+import { add, format, nextSunday } from "date-fns";
 
 export const db = await Deno.openKv();
 export const inputSchema = z.array(z.object({
@@ -21,6 +22,7 @@ export const inputSchema = z.array(z.object({
   birthdayYear: z.number().nullable(),
   connectOnBirthday: z.boolean().nullable(),
   period: z.string().nullable(),
+  nextConnection: z.string().nullable(),
 }));
 export type InputSchema = z.infer<typeof inputSchema>;
 
@@ -81,6 +83,7 @@ export async function writeContacts(
         birthdayYear: input.birthdayYear,
         connectOnBirthday: input.connectOnBirthday,
         period: input.period,
+        nextConnection: input.nextConnection,
         createdAt,
         updatedAt: now,
       };
@@ -94,11 +97,20 @@ export async function writeContacts(
 export async function seedContacts(owner: string, count: number) {
   const getMockContact = () => {
     const birthday = faker.date.birthdate({ min: 1, max: 85, mode: "age" });
+    const firstName = faker.person.firstName();
+    const lastName = faker.person.lastName();
+    const fullName = firstName + " " + lastName;
+
+    const randomSundayWithinAQuarter = add(nextSunday(new Date()), {
+      weeks: Math.floor(Math.random() * 13),
+    });
+    const nextConnection = format(randomSundayWithinAQuarter, "dd-MMM-yyyy");
 
     const contact = {
       id: ulid(),
       firstName: faker.person.firstName(),
       lastName: faker.person.lastName(),
+      fullName,
       pronouns: faker.helpers.arrayElement(["he/him", "she/her", "they/them"]),
       avatarUrl: `/images/faces/face_${
         Math.floor(Math.random() * 10) + 1
@@ -111,6 +123,7 @@ export async function seedContacts(owner: string, count: number) {
       birthdayMonth: birthday.getMonth(),
       birthdayYear: birthday.getFullYear(),
       connectOnBirthday: faker.datatype.boolean(),
+      nextConnection,
       period: faker.helpers.arrayElement(["day", "week", "month", "year"]),
     };
 
