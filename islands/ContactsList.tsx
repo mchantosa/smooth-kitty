@@ -33,7 +33,6 @@ export default function ContactsList(props: {
   const cursorSig = useSignal("");
   const isLoadingSig = useSignal(false);
   const [searchText, setSearchText] = useState("");
-  const [debouncedSearchText, setDebouncedSearchText] = useState("");
 
   async function loadMoreItems() {
     if (isLoadingSig.value) return;
@@ -97,6 +96,7 @@ export default function ContactsList(props: {
       avatarUrl,
       fullName,
       pronouns,
+      nextConnection,
       period,
       phoneNumber,
       email,
@@ -139,7 +139,7 @@ export default function ContactsList(props: {
             </div>
           </div>
         </td>
-        <td>Date Placeholder</td>
+        <td>{nextConnection}</td>
         <td>{period}</td>
         <td>
           <strong>Phone number:</strong>{" "}
@@ -165,25 +165,12 @@ export default function ContactsList(props: {
     );
   };
 
-  useEffect(() => {
-    const delay = 300; // 300ms
-
-    const debounceTimer = setTimeout(() => {
-      setDebouncedSearchText(searchText);
-    }, delay);
-
-    return () => {
-      clearTimeout(debounceTimer);
-    };
-  }, [searchText]);
-
-  useEffect(() => {
-    // Implement your search logic using debouncedSearchText
-    console.log("Performing search for: ", debouncedSearchText);
-  }, [debouncedSearchText]);
-
   const handleSearchChange = (e: Event) => {
     if (e.target) setSearchText(e.target.value);
+  };
+
+  const handleEnter = (e: KeyboardEvent) => {
+    if (e.key === "Enter") console.log("text:", searchText);
   };
 
   return (
@@ -201,6 +188,7 @@ export default function ContactsList(props: {
             type="text"
             placeholder="Search contacts"
             className="input input-bordered w-full max-w-xs"
+            onKeyUp={handleEnter}
             onChange={handleSearchChange}
           />
         </div>
