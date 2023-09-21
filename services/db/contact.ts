@@ -1,30 +1,11 @@
 import type { Contact, ContactList } from "@/shared/data/contact.ts";
-import { z } from "zod";
 import { ulid } from "std/ulid/mod.ts";
 import { faker } from "faker";
 import { kv } from "@/utils/db.ts";
 import { add, format, nextSunday } from "date-fns";
+import type { InputSchema } from "@/shared/data/contact.ts";
 
 export const db = await Deno.openKv();
-export const inputSchema = z.array(z.object({
-  id: z.string(),
-  firstName: z.string().nullable(),
-  lastName: z.string().nullable(),
-  fullName: z.string().nullable(),
-  pronouns: z.string().nullable(),
-  avatarUrl: z.string().nullable(),
-  email: z.string().nullable(),
-  phoneNumber: z.string().nullable(),
-  preferredMethod: z.string().nullable(),
-  preferredMethodHandle: z.string().nullable(),
-  birthdayDay: z.number().nullable(),
-  birthdayMonth: z.number().nullable(),
-  birthdayYear: z.number().nullable(),
-  connectOnBirthday: z.boolean().nullable(),
-  period: z.string().nullable(),
-  nextConnection: z.string().nullable(),
-}));
-export type InputSchema = z.infer<typeof inputSchema>;
 
 export async function loadContactList(
   login: string,
