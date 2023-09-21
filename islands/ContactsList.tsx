@@ -175,7 +175,11 @@ export default function ContactsList(props: {
   };
 
   const handleEnter = (e: KeyboardEvent) => {
-    if (e.key === "Enter") console.log("text:", searchText);
+    if (e.key === "Enter") console.log("searching for: ", searchText);
+  };
+
+  const handleSort = (e: Event) => {
+    if (e.target.value) console.log("sorting by: ", e.target.value);
   };
 
   return (
@@ -186,7 +190,7 @@ export default function ContactsList(props: {
         </div>
         <div class="flex items-center justify-flex-end">
           <div className="form-control w-full max-w-xs">
-            <select className="select select-bordered">
+            <select className="select select-bordered" onChange={handleSort}>
               <option selected>Name</option>
               <option>Next Connection</option>
               <option>Period</option>
