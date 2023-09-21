@@ -112,9 +112,14 @@ export default function ContactsList(props: {
           console.log(`opening ${id}...`);
         }}
       >
-        <th>
+        <th aria-label="Contact">
           <label>
-            <input type="checkbox" class="checkbox" />
+            <input
+              title="Select this contact"
+              id="select-contact"
+              type="checkbox"
+              class="checkbox"
+            />
           </label>
         </th>
         <td>
@@ -176,6 +181,9 @@ export default function ContactsList(props: {
   return (
     <div>
       <div class="overflow-x-auto">
+        <div class="mb-6">
+          <a href="/contacts/new" class="btn btn-primary">New contact</a>
+        </div>
         <div class="flex items-center justify-flex-end">
           <div className="form-control w-full max-w-xs">
             <select className="select select-bordered">
@@ -198,7 +206,11 @@ export default function ContactsList(props: {
             <tr>
               <th>
                 <label>
-                  <input type="checkbox" class="checkbox" />
+                  <input
+                    title="Select Contact"
+                    type="checkbox"
+                    class="checkbox"
+                  />
                 </label>
               </th>
               <th>Name</th>

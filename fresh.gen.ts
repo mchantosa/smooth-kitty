@@ -26,24 +26,26 @@ import * as $20 from "./routes/api/users/index.ts";
 import * as $21 from "./routes/blog/[slug].tsx";
 import * as $22 from "./routes/blog/index.tsx";
 import * as $23 from "./routes/contacts/index.tsx";
-import * as $24 from "./routes/dashboard/index.tsx";
-import * as $25 from "./routes/dashboard/stats.tsx";
-import * as $26 from "./routes/dashboard/users.tsx";
-import * as $27 from "./routes/feed.ts";
-import * as $28 from "./routes/index.tsx";
-import * as $29 from "./routes/items/[id].tsx";
-import * as $30 from "./routes/notifications/[id].ts";
-import * as $31 from "./routes/notifications/index.tsx";
-import * as $32 from "./routes/pricing.tsx";
-import * as $33 from "./routes/submit.tsx";
-import * as $34 from "./routes/users/[login].tsx";
+import * as $24 from "./routes/contacts/new.tsx";
+import * as $25 from "./routes/dashboard/index.tsx";
+import * as $26 from "./routes/dashboard/stats.tsx";
+import * as $27 from "./routes/dashboard/users.tsx";
+import * as $28 from "./routes/feed.ts";
+import * as $29 from "./routes/index.tsx";
+import * as $30 from "./routes/items/[id].tsx";
+import * as $31 from "./routes/notifications/[id].ts";
+import * as $32 from "./routes/notifications/index.tsx";
+import * as $33 from "./routes/pricing.tsx";
+import * as $34 from "./routes/submit.tsx";
+import * as $35 from "./routes/users/[login].tsx";
 import * as $$0 from "./islands/Chart.tsx";
 import * as $$1 from "./islands/CommentsList.tsx";
-import * as $$2 from "./islands/ContactsList.tsx";
-import * as $$3 from "./islands/ItemsList.tsx";
-import * as $$4 from "./islands/NotificationsList.tsx";
-import * as $$5 from "./islands/UsersTable.tsx";
-import * as $$6 from "./islands/VoteButton.tsx";
+import * as $$2 from "./islands/ContactForm.tsx";
+import * as $$3 from "./islands/ContactsList.tsx";
+import * as $$4 from "./islands/ItemsList.tsx";
+import * as $$5 from "./islands/NotificationsList.tsx";
+import * as $$6 from "./islands/UsersTable.tsx";
+import * as $$7 from "./islands/VoteButton.tsx";
 
 const manifest = {
   routes: {
@@ -71,26 +73,28 @@ const manifest = {
     "./routes/blog/[slug].tsx": $21,
     "./routes/blog/index.tsx": $22,
     "./routes/contacts/index.tsx": $23,
-    "./routes/dashboard/index.tsx": $24,
-    "./routes/dashboard/stats.tsx": $25,
-    "./routes/dashboard/users.tsx": $26,
-    "./routes/feed.ts": $27,
-    "./routes/index.tsx": $28,
-    "./routes/items/[id].tsx": $29,
-    "./routes/notifications/[id].ts": $30,
-    "./routes/notifications/index.tsx": $31,
-    "./routes/pricing.tsx": $32,
-    "./routes/submit.tsx": $33,
-    "./routes/users/[login].tsx": $34,
+    "./routes/contacts/new.tsx": $24,
+    "./routes/dashboard/index.tsx": $25,
+    "./routes/dashboard/stats.tsx": $26,
+    "./routes/dashboard/users.tsx": $27,
+    "./routes/feed.ts": $28,
+    "./routes/index.tsx": $29,
+    "./routes/items/[id].tsx": $30,
+    "./routes/notifications/[id].ts": $31,
+    "./routes/notifications/index.tsx": $32,
+    "./routes/pricing.tsx": $33,
+    "./routes/submit.tsx": $34,
+    "./routes/users/[login].tsx": $35,
   },
   islands: {
     "./islands/Chart.tsx": $$0,
     "./islands/CommentsList.tsx": $$1,
-    "./islands/ContactsList.tsx": $$2,
-    "./islands/ItemsList.tsx": $$3,
-    "./islands/NotificationsList.tsx": $$4,
-    "./islands/UsersTable.tsx": $$5,
-    "./islands/VoteButton.tsx": $$6,
+    "./islands/ContactForm.tsx": $$2,
+    "./islands/ContactsList.tsx": $$3,
+    "./islands/ItemsList.tsx": $$4,
+    "./islands/NotificationsList.tsx": $$5,
+    "./islands/UsersTable.tsx": $$6,
+    "./islands/VoteButton.tsx": $$7,
   },
   baseUrl: import.meta.url,
 };
