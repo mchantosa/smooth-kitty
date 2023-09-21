@@ -12,6 +12,7 @@ export interface Contact {
 
   firstName: string;
   lastName: string;
+  fullName: string;
   pronouns: string;
   avatarUrl: string;
   email: string;
@@ -23,6 +24,7 @@ export interface Contact {
   birthdayYear: number;
   connectOnBirthday: boolean;
   period: string;
+  nextConnection: string;
   createdAt: number;
   updatedAt: number;
 }
