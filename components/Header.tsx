@@ -52,35 +52,38 @@ export default function Header(props: {
         `}
       </script>
       <nav
-        class={
-          "hidden flex-col gap-x-4 divide-y divide-solid sm:(flex items-center flex-row divide-y-0)"
-        }
+        class={"hidden flex-col gap-x-4 divide-y divide-solid sm:(flex items-center flex-row divide-y-0)"}
       >
-        {props.sessionUser ? (
-          <>
-            <a href="/contacts" class={cx(LINK_STYLES, NAV_ITEM)}>
-              Contacts
+        {props.sessionUser
+          ? (
+            <>
+              <a href="/dashboard" class={cx(LINK_STYLES, NAV_ITEM)}>
+                Dashboard
+              </a>
+              <a href="/contacts" class={cx(LINK_STYLES, NAV_ITEM)}>
+                Contacts
+              </a>
+              <a
+                href="/account"
+                class={cx(
+                  props.url.pathname === "/account"
+                    ? ACTIVE_LINK_STYLES
+                    : LINK_STYLES,
+                  NAV_ITEM,
+                )}
+              >
+                <div class="flex">
+                  <IconUserCircle class="mr-2"></IconUserCircle>
+                  Account
+                </div>
+              </a>
+            </>
+          )
+          : (
+            <a href="/signin" class={cx(LINK_STYLES, NAV_ITEM)}>
+              Sign in
             </a>
-            <a
-              href="/account"
-              class={cx(
-                props.url.pathname === "/account"
-                  ? ACTIVE_LINK_STYLES
-                  : LINK_STYLES,
-                NAV_ITEM
-              )}
-            >
-              <div class="flex">
-                <IconUserCircle class="mr-2"></IconUserCircle>
-                Account
-              </div>
-            </a>
-          </>
-        ) : (
-          <a href="/signin" class={cx(LINK_STYLES, NAV_ITEM)}>
-            Sign in
-          </a>
-        )}
+          )}
       </nav>
     </header>
   );
