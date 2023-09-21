@@ -44,7 +44,8 @@
     "react": "https://esm.sh/preact@10.15.1/compat",
     "react-dom": "https://esm.sh/preact@10.15.1/compat",
     "react-hook-form": "https://esm.sh/react-hook-form@7.46.1&external=react",
-    "zod-resolver": "https://esm.sh/@hookform/resolvers@3.3.1/zod"
+    "zod-resolver": "https://esm.sh/@hookform/resolvers@3.3.1/zod",
+    "date-fns": "https://esm.sh/date-fns@2.30.0"
   },
   "exclude": [
     "cov/",
