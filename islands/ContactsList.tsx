@@ -62,9 +62,14 @@ export default function ContactsList(props: {
     const { firstName, lastName, phoneNumber, email, avatarUrl } = contact;
     return (
       <tr>
-        <th>
+        <th aria-label="Contact">
           <label>
-            <input type="checkbox" class="checkbox" />
+            <input
+              title="Select this contact"
+              id="select-contact"
+              type="checkbox"
+              class="checkbox"
+            />
           </label>
         </th>
         <td>
@@ -98,12 +103,19 @@ export default function ContactsList(props: {
   return (
     <div>
       <div class="overflow-x-auto">
+        <div class="mb-6">
+          <a href="/contacts/new" class="btn btn-primary">New contact</a>
+        </div>
         <table class="table">
           <thead>
             <tr>
               <th>
                 <label>
-                  <input type="checkbox" class="checkbox" />
+                  <input
+                    title="Select Contact"
+                    type="checkbox"
+                    class="checkbox"
+                  />
                 </label>
               </th>
               <th>Name</th>
