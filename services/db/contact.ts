@@ -52,9 +52,9 @@ export async function writeContacts(
       const item: Contact = {
         firstName: input.firstName,
         lastName: input.lastName,
-        fullName: input.fullName,
+        fullName: `${input.firstName} ${input.lastName}`.trim(),
         pronouns: input.pronouns,
-        avatarUrl: input.avatarUrl,
+        avatarUrl: input.avatarUrl || "/images/faces/face_3.jpeg",
         email: input.email,
         phoneNumber: input.phoneNumber,
         preferredMethod: input.preferredMethod,
