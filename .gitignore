@@ -5,3 +5,5 @@ cov.lcov
 .idea
 _fresh/
 backup.json
+
+.vscode/launch.json

@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "zod-resolver";
 import { contactSchema } from "@/shared/data/contact.ts";
+import axios from "npm:axios";
 
 // const schema = z.object({
 //   name: z.string().min(1, { message: "Required" }),
@@ -20,7 +21,16 @@ const ContactForm = () => {
     <form
       class="max-w-md mx-auto bg-white p-8 border-1 border-slate-100 rounded shadow-lg"
       // @ts-ignore TODO: fix react-hook-form types
-      onSubmit={handleSubmit((d) => console.log(d))}
+      onSubmit={handleSubmit((d) => {
+        const formData = new FormData();
+        formData.append("email", d.email);
+        formData.append("firstName", d.firstName);
+        formData.append("lastName", d.lastName);
+
+        axios.post("/api/contacts", formData).then((res) => {
+          window.location.href = "/contacts";
+        });
+      })}
     >
       <div class="mb-4">
         <label for="email" class="block text-gray-700 text-sm font-bold mb-2">
