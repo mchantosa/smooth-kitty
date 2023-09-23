@@ -27,6 +27,7 @@ export interface Contact {
   connectOnBirthday: boolean;
   period: string;
   nextConnection: string;
+  lastConnection: string;
   createdAt: number;
   updatedAt: number;
 }
@@ -50,6 +51,7 @@ export const contactSchema = z.object({
   connectOnBirthday: z.boolean().optional(),
   period: z.string().optional(),
   nextConnection: z.string().optional(),
+  lastConnection: z.string().optional(),
 });
 
 export const inputSchema = z.array(contactSchema);
