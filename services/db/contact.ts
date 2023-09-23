@@ -65,6 +65,7 @@ export async function writeContacts(
         connectOnBirthday: input.connectOnBirthday,
         period: input.period,
         nextConnection: input.nextConnection,
+        lastConnection: input.lastConnection,
         createdAt,
         updatedAt: now,
       };
@@ -105,6 +106,7 @@ export async function seedContacts(owner: string, count: number) {
       birthdayYear: birthday.getFullYear(),
       connectOnBirthday: faker.datatype.boolean(),
       nextConnection,
+      lastConnection: "",
       period: faker.helpers.arrayElement(["day", "week", "month", "year"]),
     };
 

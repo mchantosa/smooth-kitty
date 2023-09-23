@@ -97,6 +97,7 @@ export default function ContactsList(props: {
       fullName,
       pronouns,
       nextConnection,
+      lastConnection,
       period,
       phoneNumber,
       email,
@@ -144,10 +145,23 @@ export default function ContactsList(props: {
             </div>
           </div>
         </td>
-        <td>{nextConnection}</td>
+        <td>
+          <div>
+            <strong>Next:</strong>
+            <span className="pl-4 text-cyan-700 whitespace-nowrap">
+              {nextConnection}
+            </span>
+          </div>
+          <div>
+            <strong>Last:</strong>
+            <span className="pl-4 text-cyan-700 whitespace-nowrap">
+              {lastConnection}
+            </span>
+          </div>
+        </td>
         <td>{period}</td>
         <td>
-          <strong>Phone number:</strong>{" "}
+          <strong>Phone number:</strong>
           <span className="pl-4 text-cyan-700">{phoneNumber}</span>
           <br />
           <strong>Email:</strong>
@@ -171,24 +185,27 @@ export default function ContactsList(props: {
   };
 
   const handleSearchChange = (e: Event) => {
-    if (e.target) setSearchText(e.target.value);
+    const target = e.target as HTMLSelectElement;
+    if (target) setSearchText(target.value);
   };
 
   const handleEnter = (e: KeyboardEvent) => {
-    if (e.key === "Enter") console.log("text:", searchText);
+    if (e.key === "Enter") console.log("searching for: ", searchText);
+  };
+
+  const handleSort = (e: Event) => {
+    const target = e.target as HTMLSelectElement;
+    if (target.value) console.log("sorting by: ", target.value);
   };
 
   return (
     <div>
       <div class="overflow-x-auto">
-        <div class="mb-6">
-          <a href="/contacts/new" class="btn btn-primary">New contact</a>
-        </div>
         <div class="flex items-center justify-flex-end">
           <div className="form-control w-full max-w-xs">
-            <select className="select select-bordered">
+            <select className="select select-bordered" onChange={handleSort}>
               <option selected>Name</option>
-              <option>Next Connection</option>
+              <option>Connection Dates</option>
               <option>Period</option>
             </select>
           </div>
