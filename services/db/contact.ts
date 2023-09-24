@@ -130,3 +130,7 @@ export async function resetContacts(owner: string) {
   for await (const res of iter) promises.push(kv.delete(res.key));
   await Promise.all(promises);
 }
+
+export async function deleteContact(owner: string, contactId: string) {
+  await kv.delete(["contacts", owner, contactId]);
+}

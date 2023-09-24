@@ -25,10 +25,11 @@ export const handler: Handlers<undefined, State> = {
   async POST(req, ctx) {
     assertSignedIn(ctx);
     const { login } = ctx.state.sessionUser!;
-
     const form = await req.formData();
     const firstName = form.get("firstName");
     const lastName = form.get("lastName");
+    const pronouns = form.get("pronouns");
+    const avatarUrl = form.get("avatarUrl");
     const email = form.get("email");
 
     // TODO: Validate contact data
@@ -37,6 +38,8 @@ export const handler: Handlers<undefined, State> = {
       id: ulid(),
       firstName,
       lastName,
+      pronouns,
+      avatarUrl,
       email,
     };
 

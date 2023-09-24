@@ -87,9 +87,6 @@ export default function Header(props: {
             )}
         </nav>
       </div>
-      <div class="pl-4">
-        <a href="/contacts/new" class="btn btn-primary">New contact</a>
-      </div>
     </header>
   );
 }

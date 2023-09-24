@@ -33,25 +33,25 @@ export interface Contact {
 }
 
 export const contactSchema = z.object({
-  id: z.string().optional(),
-  firstName: z.string().optional(),
-  lastName: z.string().optional(),
-  fullName: z.string().optional(),
-  pronouns: z.string().optional(),
-  avatarUrl: z.string().optional(),
-  email: z.string().min(1, { message: "Email cannot be empty" }).email(
+  id: z.string().trim().optional(),
+  firstName: z.string().trim().optional(),
+  lastName: z.string().trim().optional(),
+  fullName: z.string().trim().optional(),
+  pronouns: z.string().trim().optional(),
+  avatarUrl: z.string().trim().optional(),
+  email: z.string().trim().email(
     "Invalid email",
-  ),
-  phoneNumber: z.string().optional(),
-  preferredMethod: z.string().optional(),
-  preferredMethodHandle: z.string().optional(),
+  ).optional(),
+  phoneNumber: z.string().trim().optional(),
+  preferredMethod: z.string().trim().optional(),
+  preferredMethodHandle: z.string().trim().optional(),
   birthdayDay: z.number().optional(),
   birthdayMonth: z.number().optional(),
   birthdayYear: z.number().optional(),
   connectOnBirthday: z.boolean().optional(),
-  period: z.string().optional(),
-  nextConnection: z.string().optional(),
-  lastConnection: z.string().optional(),
+  period: z.string().trim().optional(),
+  nextConnection: z.string().trim().optional(),
+  lastConnection: z.string().trim().optional(),
 });
 
 export const inputSchema = z.array(contactSchema);
