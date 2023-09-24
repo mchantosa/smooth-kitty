@@ -54,7 +54,7 @@ export async function writeContacts(
         lastName: input.lastName,
         fullName: `${input.firstName} ${input.lastName}`.trim(),
         pronouns: input.pronouns,
-        avatarUrl: input.avatarUrl || "/images/faces/face_3.jpeg",
+        avatarUrl: input.avatarUrl || "/images/avatar_icon_green.png",
         email: input.email,
         phoneNumber: input.phoneNumber,
         preferredMethod: input.preferredMethod,

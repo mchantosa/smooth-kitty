@@ -15,14 +15,33 @@ const ContactForm = () => {
   const {
     register,
     handleSubmit,
+    getValues, 
+    watch,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(contactSchema),
   });
 
+  const watchFirstName = watch("firstName", "") // you can supply default value as second argument
+  const watchLastName = watch("lastName", "")
+  const MONTHS = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
+
   return (
     <form
-      class="max-w-md mx-auto p-8 border-1 border-neutral rounded shadow-lg"
+      class="max-w-md mx-auto p-8 bg-default rounded shadow-lg"
       // @ts-ignore TODO: fix react-hook-form types
       onSubmit={handleSubmit((d) => {
         const formData = new FormData();
@@ -30,8 +49,15 @@ const ContactForm = () => {
         formData.append("lastName", d.lastName);
         formData.append("pronouns", d.pronouns);
         formData.append("avatarUrl", d.avatarUrl);
+        formData.append("phoneNumber", d.phoneNumber);
         formData.append("email", d.email);
-
+        formData.append("preferredMethod", d.preferredMethod);
+        formData.append("preferredMethodHandle", d.preferredMethodHandle);
+        formData.append("period", d.period);
+        formData.append("birthdayDay", d.birthdayDay);
+        formData.append("birthdayMonth", d.birthdayMonth);
+        formData.append("birthdayYear", d.birthdayYear);
+        formData.append("connectOnBirthday", d.connectOnBirthday);
         axios.post("/api/contacts", formData).then((res) => {
           window.location.href = "/contacts";
         });
@@ -41,13 +67,13 @@ const ContactForm = () => {
       <div class="mb-4">
         <label
           for="firstName"
-          class="block text-sm font-bold text-neutral-content mb-2"
+          class="block text-sm font-bold text-neutral mb-2"
         >
           First name
         </label>
         <input
           id="firstName"
-          class="w-full px-3 py-2 border-1 border-error rounded-lg focus:outline-none focus:shadow-outline"
+          class="input input-bordered w-full max-w-md px-3 py-2 focus:outline-none focus:shadow-outline"
           {...register("firstName")}
         >
         </input>
@@ -55,27 +81,44 @@ const ContactForm = () => {
       <div class="mb-4">
         <label
           for="lastName"
-          class="block  text-sm font-bold text-neutral-content mb-2"
+          class="block text-sm font-bold text-neutral mb-2"
         >
           Last name
         </label>
         <input
           id="lastName"
-          class="w-full px-3 py-2 border-1 border-neutral rounded-lg focus:outline-none focus:shadow-outline"
+          class="input input-bordered w-full max-w-md px-3 py-2 focus:outline-none focus:shadow-outline"
           {...register("lastName")}
         >
         </input>
       </div>
       <div class="mb-4">
         <label
+          for="fullName"
+          class="block text-sm font-bold text-neutral mb-2"
+        >
+          Full Name
+        </label>
+        <div class="border-warning border-1 rounded-lg">
+          <input
+            id="fullName"
+            disabled
+            value={`${watchFirstName} ${watchLastName}`.trim()}
+            class="input input-bordered input-warning w-full max-w-md px-3 py-2 focus:outline-none focus:shadow-outline"
+          >
+          </input>
+        </div>
+      </div>
+      <div class="mb-4">
+        <label
           for="pronouns"
-          class="block  text-sm font-bold text-neutral-content mb-2"
+          class="block text-sm font-bold text-neutral mb-2"
         >
           Titles and Pronouns
         </label>
         <input
           id="pronouns"
-          class="w-full px-3 py-2 border-1 border-neutral rounded-lg focus:outline-none focus:shadow-outline"
+          class="input input-bordered w-full max-w-md px-3 py-2 focus:outline-none focus:shadow-outline"
           {...register("pronouns")}
         >
         </input>
@@ -83,13 +126,13 @@ const ContactForm = () => {
       <div class="mb-4">
         <label
           for="avatarUrl"
-          class="block  text-sm font-bold text-neutral-content mb-2"
+          class="block text-sm font-bold text-neutral mb-2"
         >
           Avatar URL
         </label>
         <input
           id="avatarUrl"
-          class="w-full px-3 py-2 border-1 border-neutral rounded-lg focus:outline-none focus:shadow-outline"
+          class="input input-bordered w-full max-w-md px-3 py-2 focus:outline-none focus:shadow-outline"
           {...register("avatarUrl")}
         >
         </input>
@@ -97,27 +140,30 @@ const ContactForm = () => {
       <Divider textInsert="Contact Information" />
       <div class="mb-4">
         <label
-          for="phone"
-          class="block  text-sm font-bold text-neutral-content mb-2"
+
+          for="phoneNumber"
+          class="block text-sm font-bold text-neutral mb-2"
         >
           Phone
         </label>
         <input
-          {...register("phone")}
-          class="w-full px-3 py-2 border-1 border-neutral rounded-lg focus:outline-none focus:shadow-outline"
+        id="phoneNumber"
+          {...register("phoneNumber")}
+          class="input input-bordered w-full max-w-md px-3 py-2 focus:outline-none focus:shadow-outline"
         >
         </input>
       </div>
       <div class="mb-4">
         <label
           for="email"
-          class="block  text-sm font-bold text-neutral-content mb-2"
+          class="block text-sm font-bold text-neutral mb-2"
         >
           Email
         </label>
         <input
+        id="email"
           {...register("email")}
-          class="w-full px-3 py-2 border-1 border-neutral rounded-lg focus:outline-none focus:shadow-outline"
+          class="input input-bordered w-full max-w-md px-3 py-2 focus:outline-none focus:shadow-outline"
         >
         </input>
         {errors.email?.message && <p>{errors.email?.message}</p>}
@@ -125,26 +171,28 @@ const ContactForm = () => {
       <div class="mb-4">
         <label
           for="preferredMethod"
-          class="block  text-sm font-bold text-neutral-content mb-2"
+          class="block text-sm font-bold text-neutral mb-2"
         >
           Preferred Method
         </label>
         <input
+        id="preferredMethod"
           {...register("preferredMethod")}
-          class="w-full px-3 py-2 border-1 border-neutral rounded-lg focus:outline-none focus:shadow-outline"
+          class="input input-bordered w-full max-w-md px-3 py-2 focus:outline-none focus:shadow-outline"
         >
         </input>
       </div>
       <div class="mb-4">
         <label
-          for="preferrefMethodHandle"
-          class="block  text-sm font-bold text-neutral-content mb-2"
+          for="preferredMethodHandle"
+          class="block text-sm font-bold text-neutral mb-2"
         >
           Preferred Method Handle
         </label>
         <input
-          {...register("preferrefMethodHandle")}
-          class="w-full px-3 py-2 border-1 border-neutral rounded-lg focus:outline-none focus:shadow-outline"
+        id="preferredMethodHandle"
+          {...register("preferredMethodHandle")}
+          class="input input-bordered w-full max-w-md px-3 py-2 focus:outline-none focus:shadow-outline"
         >
         </input>
       </div>
@@ -152,13 +200,14 @@ const ContactForm = () => {
       <div class="mb-4">
         <label
           for="period"
-          class="block  text-sm font-bold text-neutral-content mb-2"
+          class="block text-sm font-bold text-neutral mb-2"
         >
           Period
         </label>
         <select
           id="period"
-          className="select w-full select-bordered select-error w=full"
+          {...register("period")}
+          class="select w-full select-bordered select-warning w=full"
         >
           <option selected disabled></option>
           <option>Weekly</option>
@@ -167,68 +216,70 @@ const ContactForm = () => {
           <option>Quarterly</option>
         </select>
       </div>
-      <p class="text-neutral-content mb-2">Birthday</p>
+      <p class="text-neutral mb-2">Birthday</p>
       <div class="mb-4 flex">
         <div class="pr-2">
           <label
-            for="day"
-            class="block  text-sm text-neutral-content font-bold mb-2"
+            for="birthdayDay"
+            class="block text-sm text-neutral font-bold mb-2"
           >
             Day
           </label>
-          <select id="day" className="select select-bordered">
-            <option selected></option>
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
+          <select 
+            id="birthdayDay" 
+            {...register("birthdayDay", { valueAsNumber: true })} 
+            class="select select-bordered"
+          >
+            {Array.from({ length: 31}, (_, i) => i).map((
+             i
+            ) => <option value={i+1}>{i+1}</option>)}
           </select>
         </div>
         <div class="pr-2">
           <label
-            for="month"
-            class="block  text-sm font-bold text-neutral-content mb-2"
+            for="birthdayMonth"
+            class="block text-sm font-bold text-neutral mb-2"
           >
             Month
           </label>
-          <select id="month" className="select select-bordered">
-            <option selected></option>
-            <option>January</option>
-            <option>February</option>
-            <option>March</option>
-            <option>April</option>
-            <option>May</option>
-            <option>June</option>
-            <option>July</option>
-            <option>August</option>
-            <option>September</option>
-            <option>October</option>
-            <option>November</option>
-            <option>December</option>
+          <select 
+            id="birthdayMonth" 
+            {...register("birthdayMonth", { valueAsNumber: true })}
+            class="select select-bordered"
+          >
+            {MONTHS.map((month, i) => <option value={i + 1}>{month}</option>)}
           </select>
         </div>
         <div>
           <label
-            for="year"
-            class="block  text-sm font-bold text-neutral-content mb-2"
+            for="birthdayYear"
+            class="block text-sm font-bold text-neutral mb-2"
           >
             Year
           </label>
-          <select className="select select-bordered">
-            <option selected></option>
-            {Array.from({ length: 120 }, (_, i) => i + get119YearsAgo()).map((
+          <select 
+            id="birthdayYear"
+            {...register("birthdayYear", { valueAsNumber: true })}
+            class="select select-bordered">
+            {Array.from({ length: 120 }, (_, i) => 119 + get119YearsAgo() - i).map((
               year,
-            ) => <option>{year}</option>)}
+            ) => <option value={year}>{year}</option>)}
           </select>
         </div>
       </div>
       <div class="mb-4">
         <label
-          for="birthdayCheck"
-          class="block  text-sm font-bold text-neutral-content mb-2"
+          for="connectOnBirthday"
+          class="block text-sm font-bold text-neutral mb-2"
         >
           Contact on Birthday
         </label>
-        <input id="birthdayCheck" type="checkbox" className="checkbox" />
+        <input 
+          id="connectOnBirthday" 
+          type="checkbox" 
+          {...register("connectOnBirthday")}
+          class="checkbox" 
+        />
       </div>
       <div class="text-center">
         <button type="submit" class="btn btn-primary">Submit</button>
@@ -236,4 +287,5 @@ const ContactForm = () => {
     </form>
   );
 };
+
 export default ContactForm;

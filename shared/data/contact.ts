@@ -33,15 +33,15 @@ export interface Contact {
 }
 
 export const contactSchema = z.object({
-  id: z.string().trim().optional(),
+  id: z.string().optional(),
   firstName: z.string().trim().optional(),
   lastName: z.string().trim().optional(),
   fullName: z.string().trim().optional(),
   pronouns: z.string().trim().optional(),
   avatarUrl: z.string().trim().optional(),
-  email: z.string().trim().email(
+  email: z.union([z.string().trim().email(
     "Invalid email",
-  ).optional(),
+  ), z.literal('')]),
   phoneNumber: z.string().trim().optional(),
   preferredMethod: z.string().trim().optional(),
   preferredMethodHandle: z.string().trim().optional(),

@@ -109,7 +109,7 @@ export default function DashboardList(props: {
     } = contact;
 
     return (
-      <div className="card w-64 shadow-xl p-4 m-2">
+      <div className="card w-64 bg-default shadow-xl p-4 m-2">
         <figure>
           <img
             src={avatarUrl}
@@ -117,11 +117,11 @@ export default function DashboardList(props: {
           />
         </figure>
         <div className="flex flex-col h-3/4 justify-between p-2">
-          <h2 className="card-title text-neutral-content">
+          <h2 className="card-title text-neutral-info">
             {fullName}
           </h2>
           <div>
-            <strong className="text-neutral-content">Last Connection:</strong>
+            <strong className="text-neutral-info">Last Connection:</strong>
             <span className="pl-4 text-accent whitespace-nowrap">
               {lastConnection}
             </span>

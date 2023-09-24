@@ -30,7 +30,16 @@ export const handler: Handlers<undefined, State> = {
     const lastName = form.get("lastName");
     const pronouns = form.get("pronouns");
     const avatarUrl = form.get("avatarUrl");
+    const phone = form.get("phone");
     const email = form.get("email");
+    const preferredMethod = form.get("preferredMethod");
+    const preferredMethodHandle = form.get("preferredMethodHandle");
+    const period = form.get("period");
+    const birthdayDay = form.get("birthdayDay");
+    const birthdayMonth = form.get("birthdayMonth");
+    const birthdayYear = form.get("birthdayYear");
+    const connectOnBirthday = form.get("connectOnBirthday");
+
 
     // TODO: Validate contact data
 
@@ -40,7 +49,15 @@ export const handler: Handlers<undefined, State> = {
       lastName,
       pronouns,
       avatarUrl,
+      phone,
       email,
+      preferredMethod,
+      preferredMethodHandle,
+      period,
+      birthdayDay,
+      birthdayMonth,
+      birthdayYear,
+      connectOnBirthday,
     };
 
     const contacts: InputSchema = [contact];

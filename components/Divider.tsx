@@ -14,7 +14,7 @@ export default function Divider(props: { textInsert?: string }) {
         <div class="border-t border-neutral py-2"></div>
       </div>
       <div>
-        <span class="px-4 text-neutral-content whitespace-nowrap">
+        <span class="px-4 text-neutral whitespace-nowrap">
           {textInsert}
         </span>
       </div>

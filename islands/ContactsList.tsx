@@ -127,7 +127,7 @@ export default function ContactsList(props: {
               </div>
             </div>
             <div>
-              <div class="font-bold text-neutral-content">{`${fullName}`}</div>
+              <div class="font-bold text-neutral">{`${fullName}`}</div>
               <div>
                 {pronouns && (
                   <span className="ml-2 badge badge-ghost badge-sm">
@@ -140,29 +140,29 @@ export default function ContactsList(props: {
         </td>
         <td>
           <div>
-            <strong className="text-neutral-content">Next:</strong>
+            <strong className="text-neutral">Next:</strong>
             <span className="pl-4 text-accent whitespace-nowrap">
               {nextConnection}
             </span>
           </div>
           <div>
-            <strong className="text-neutral-content">Last:</strong>
+            <strong className="text-neutral">Last:</strong>
             <span className="pl-4 text-accent whitespace-nowrap">
               {lastConnection}
             </span>
           </div>
         </td>
         <td>
-          <span className="text-neutral-content">{period}</span>
+          <span className="text-neutral">{period}</span>
         </td>
         <td>
-          <strong className="text-neutral-content">Phone number:</strong>
+          <strong className="text-neutral">Phone number:</strong>
           <span className="pl-4 text-accent">{phoneNumber}</span>
           <br />
-          <strong className="text-neutral-content">Email:</strong>
+          <strong className="text-neutral">Email:</strong>
           <span className="pl-4 text-accent">{email}</span>
           <br />
-          <strong className="text-neutral-content">Preferred Method:</strong>
+          <strong className="text-neutral">Preferred Method:</strong>
           <span className="pl-4 text-accent">{preferredMethod}</span>
           <br />
           <span className="ml-2 badge badge-ghost badge-sm">
