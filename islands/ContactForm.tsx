@@ -15,15 +15,15 @@ const ContactForm = () => {
   const {
     register,
     handleSubmit,
-    getValues, 
+    getValues,
     watch,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(contactSchema),
   });
 
-  const watchFirstName = watch("firstName", "") // you can supply default value as second argument
-  const watchLastName = watch("lastName", "")
+  const watchFirstName = watch("firstName", ""); // you can supply default value as second argument
+  const watchLastName = watch("lastName", "");
   const MONTHS = [
     "January",
     "February",
@@ -36,8 +36,19 @@ const ContactForm = () => {
     "September",
     "October",
     "November",
-    "December"
+    "December",
   ];
+  const inputClassNames =
+    "input input-bordered w-full max-w-md px-3 py-2 focus:outline-none focus:shadow-outline";
+  const selectClassNames = "select select-bordered";
+  const selectClassNamesWarningFull = "select select-bordered" +
+    " w-full" +
+    " select-warning";
+  const textErrorClassNames = "text-error text-xs italic pt-2";
+  const annotationClassNames = "text-xs italic";
+  const labelClassNames = "block text-sm font-bold opacity-60 mb-2";
+
+  console.log(errors);
 
   return (
     <form
@@ -64,221 +75,271 @@ const ContactForm = () => {
       })}
     >
       <Divider textInsert="Name" />
-      <div class="mb-4">
+      <div class="mb-6">
         <label
           for="firstName"
-          class="block text-sm font-bold text-neutral mb-2"
+          className={labelClassNames}
         >
-          First name
+          First Name
         </label>
         <input
           id="firstName"
-          class="input input-bordered w-full max-w-md px-3 py-2 focus:outline-none focus:shadow-outline"
+          className={inputClassNames}
           {...register("firstName")}
         >
         </input>
+        {errors.firstName?.message && (
+          <p className={textErrorClassNames}>{errors.firstName?.message}</p>
+        )}
       </div>
-      <div class="mb-4">
+      <div class="mb-6">
         <label
           for="lastName"
-          class="block text-sm font-bold text-neutral mb-2"
+          className={labelClassNames}
         >
-          Last name
+          Last Name
         </label>
         <input
           id="lastName"
-          class="input input-bordered w-full max-w-md px-3 py-2 focus:outline-none focus:shadow-outline"
+          className={inputClassNames}
           {...register("lastName")}
         >
         </input>
+        {errors.lastName?.message && (
+          <p className={textErrorClassNames}>{errors.lastName?.message}</p>
+        )}
       </div>
-      <div class="mb-4">
+      <div class="mb-6">
         <label
           for="fullName"
-          class="block text-sm font-bold text-neutral mb-2"
+          className={labelClassNames}
         >
-          Full Name
+          Full Name{" "}
+          <span className={annotationClassNames}>
+            (modify First and Last Name to update)
+          </span>
         </label>
         <div class="border-warning border-1 rounded-lg">
           <input
             id="fullName"
             disabled
             value={`${watchFirstName} ${watchLastName}`.trim()}
-            class="input input-bordered input-warning w-full max-w-md px-3 py-2 focus:outline-none focus:shadow-outline"
+            className={inputClassNames}
           >
           </input>
         </div>
+        {errors.name?.message && (
+          <p className={textErrorClassNames}>{errors.name?.message}</p>
+        )}
       </div>
-      <div class="mb-4">
+      <div class="mb-6">
         <label
           for="pronouns"
-          class="block text-sm font-bold text-neutral mb-2"
+          className={labelClassNames}
         >
           Titles and Pronouns
         </label>
         <input
           id="pronouns"
-          class="input input-bordered w-full max-w-md px-3 py-2 focus:outline-none focus:shadow-outline"
+          className={inputClassNames}
           {...register("pronouns")}
         >
         </input>
+        {errors.pronouns?.message && (
+          <p className={textErrorClassNames}>{errors.pronouns?.message}</p>
+        )}
       </div>
-      <div class="mb-4">
+      <div class="mb-6">
         <label
           for="avatarUrl"
-          class="block text-sm font-bold text-neutral mb-2"
+          className={labelClassNames}
         >
-          Avatar URL
+          Avatar URL{" "}
+          <span className={annotationClassNames}>
+            (must be a publicly available image)
+          </span>
         </label>
         <input
           id="avatarUrl"
-          class="input input-bordered w-full max-w-md px-3 py-2 focus:outline-none focus:shadow-outline"
+          className={inputClassNames}
           {...register("avatarUrl")}
         >
         </input>
       </div>
       <Divider textInsert="Contact Information" />
-      <div class="mb-4">
+      <div class="mb-6">
         <label
-
           for="phoneNumber"
-          class="block text-sm font-bold text-neutral mb-2"
+          className={labelClassNames}
         >
           Phone
         </label>
         <input
-        id="phoneNumber"
+          id="phoneNumber"
+          className={inputClassNames}
           {...register("phoneNumber")}
-          class="input input-bordered w-full max-w-md px-3 py-2 focus:outline-none focus:shadow-outline"
         >
         </input>
+        {errors.phoneNumber?.message && (
+          <p className={textErrorClassNames}>{errors.phoneNumber?.message}</p>
+        )}
       </div>
-      <div class="mb-4">
+      <div class="mb-6">
         <label
           for="email"
-          class="block text-sm font-bold text-neutral mb-2"
+          className={labelClassNames}
         >
           Email
         </label>
         <input
-        id="email"
+          id="email"
+          className={inputClassNames}
           {...register("email")}
-          class="input input-bordered w-full max-w-md px-3 py-2 focus:outline-none focus:shadow-outline"
         >
         </input>
-        {errors.email?.message && <p>{errors.email?.message}</p>}
+        {errors.email?.message && (
+          <p className={textErrorClassNames}>{errors.email?.message}</p>
+        )}
       </div>
-      <div class="mb-4">
+      <div class="mb-6">
         <label
           for="preferredMethod"
-          class="block text-sm font-bold text-neutral mb-2"
+          className={labelClassNames}
         >
           Preferred Method
         </label>
         <input
-        id="preferredMethod"
+          id="preferredMethod"
+          className={inputClassNames}
           {...register("preferredMethod")}
-          class="input input-bordered w-full max-w-md px-3 py-2 focus:outline-none focus:shadow-outline"
         >
         </input>
+        {errors.preferredMethod?.message && (
+          <p className={textErrorClassNames}>
+            {errors.preferredMethod?.message}
+          </p>
+        )}
       </div>
-      <div class="mb-4">
+      <div class="mb-6">
         <label
           for="preferredMethodHandle"
-          class="block text-sm font-bold text-neutral mb-2"
+          className={labelClassNames}
         >
           Preferred Method Handle
         </label>
         <input
-        id="preferredMethodHandle"
+          id="preferredMethodHandle"
+          className={inputClassNames}
           {...register("preferredMethodHandle")}
-          class="input input-bordered w-full max-w-md px-3 py-2 focus:outline-none focus:shadow-outline"
         >
         </input>
+        {errors.preferredMethodHandle?.message && (
+          <p className={textErrorClassNames}>
+            {errors.preferredMethodHandle?.message}
+          </p>
+        )}
       </div>
       <Divider textInsert="Contact Objectives" />
-      <div class="mb-4">
+      <div class="mb-6">
         <label
           for="period"
-          class="block text-sm font-bold text-neutral mb-2"
+          className={labelClassNames}
         >
           Period
         </label>
         <select
           id="period"
+          className={selectClassNamesWarningFull}
           {...register("period")}
-          class="select w-full select-bordered select-warning w=full"
         >
           <option selected disabled></option>
-          <option>Weekly</option>
-          <option>Biweekly</option>
-          <option>Monthly</option>
-          <option>Quarterly</option>
+          <option value="Weekly">Weekly</option>
+          <option value="Biweekly">Biweekly</option>
+          <option value="Monthly">Monthly</option>
+          <option value="Quarterly">Quarterly</option>
         </select>
+        {errors.period?.message && (
+          <p className={textErrorClassNames}>{errors.period?.message}</p>
+        )}
       </div>
-      <p class="text-neutral mb-2">Birthday</p>
-      <div class="mb-4 flex">
-        <div class="pr-2">
-          <label
-            for="birthdayDay"
-            class="block text-sm text-neutral font-bold mb-2"
-          >
-            Day
-          </label>
-          <select 
-            id="birthdayDay" 
-            {...register("birthdayDay", { valueAsNumber: true })} 
-            class="select select-bordered"
-          >
-            {Array.from({ length: 31}, (_, i) => i).map((
-             i
-            ) => <option value={i+1}>{i+1}</option>)}
-          </select>
+      <div class="mb-6">
+        <p className={labelClassNames}>
+          Birthday{" "}
+          <span className={annotationClassNames}>
+            (optional, a day and month is sufficient)
+          </span>
+        </p>
+        <div class="flex">
+          <div class="pr-2">
+            <label
+              for="birthdayDay"
+              className={labelClassNames}
+            >
+              Day
+            </label>
+            <select
+              id="birthdayDay"
+              className={selectClassNames}
+              {...register("birthdayDay", { valueAsNumber: true })}
+            >
+              <option value="0"></option>
+              {Array.from({ length: 31 }, (_, i) => i).map((
+                i,
+              ) => <option value={i + 1}>{i + 1}</option>)}
+            </select>
+          </div>
+          <div class="pr-2">
+            <label
+              for="birthdayMonth"
+              className={labelClassNames}
+            >
+              Month
+            </label>
+            <select
+              id="birthdayMonth"
+              className={selectClassNames}
+              {...register("birthdayMonth", { valueAsNumber: true })}
+            >
+              <option value="-1"></option>
+              {MONTHS.map((month, i) => <option value={i}>{month}</option>)}
+            </select>
+          </div>
+          <div>
+            <label
+              for="birthdayYear"
+              className={labelClassNames}
+            >
+              Year
+            </label>
+            <select
+              id="birthdayYear"
+              className={selectClassNames}
+              {...register("birthdayYear", { valueAsNumber: true })}
+            >
+              <option value="0"></option>
+              {Array.from({ length: 120 }, (_, i) => 119 + get119YearsAgo() - i)
+                .map((
+                  year,
+                ) => <option value={year}>{year}</option>)}
+            </select>
+          </div>
         </div>
-        <div class="pr-2">
-          <label
-            for="birthdayMonth"
-            class="block text-sm font-bold text-neutral mb-2"
-          >
-            Month
-          </label>
-          <select 
-            id="birthdayMonth" 
-            {...register("birthdayMonth", { valueAsNumber: true })}
-            class="select select-bordered"
-          >
-            {MONTHS.map((month, i) => <option value={i + 1}>{month}</option>)}
-          </select>
-        </div>
-        <div>
-          <label
-            for="birthdayYear"
-            class="block text-sm font-bold text-neutral mb-2"
-          >
-            Year
-          </label>
-          <select 
-            id="birthdayYear"
-            {...register("birthdayYear", { valueAsNumber: true })}
-            class="select select-bordered">
-            {Array.from({ length: 120 }, (_, i) => 119 + get119YearsAgo() - i).map((
-              year,
-            ) => <option value={year}>{year}</option>)}
-          </select>
-        </div>
+        {errors.date?.message && (
+          <p className={textErrorClassNames}>{errors.date?.message}</p>
+        )}
       </div>
-      <div class="mb-4">
+      <div class="mb-6">
         <label
           for="connectOnBirthday"
-          class="block text-sm font-bold text-neutral mb-2"
+          className={labelClassNames}
         >
           Contact on Birthday
         </label>
-        <input 
-          id="connectOnBirthday" 
-          type="checkbox" 
+        <input
+          id="connectOnBirthday"
+          type="checkbox"
           {...register("connectOnBirthday")}
-          class="checkbox" 
+          class="checkbox"
         />
       </div>
       <div class="text-center">

@@ -30,7 +30,7 @@ export const handler: Handlers<undefined, State> = {
     const lastName = form.get("lastName");
     const pronouns = form.get("pronouns");
     const avatarUrl = form.get("avatarUrl");
-    const phone = form.get("phone");
+    const phoneNumber = form.get("phone");
     const email = form.get("email");
     const preferredMethod = form.get("preferredMethod");
     const preferredMethodHandle = form.get("preferredMethodHandle");
@@ -40,7 +40,6 @@ export const handler: Handlers<undefined, State> = {
     const birthdayYear = form.get("birthdayYear");
     const connectOnBirthday = form.get("connectOnBirthday");
 
-
     // TODO: Validate contact data
 
     const contact = {
@@ -49,7 +48,7 @@ export const handler: Handlers<undefined, State> = {
       lastName,
       pronouns,
       avatarUrl,
-      phone,
+      phoneNumber,
       email,
       preferredMethod,
       preferredMethodHandle,

@@ -48,6 +48,7 @@ export async function writeContacts(
       const current = currentEntries[i].value as Contact | null;
       const now = Date.now();
       const createdAt = current?.createdAt ?? now;
+      const nextConnection = format(nextSunday(new Date()), "dd-MMM-yyyy");
 
       const item: Contact = {
         firstName: input.firstName,
@@ -64,7 +65,7 @@ export async function writeContacts(
         birthdayYear: input.birthdayYear,
         connectOnBirthday: input.connectOnBirthday,
         period: input.period,
-        nextConnection: input.nextConnection,
+        nextConnection: input.nextConnection || nextConnection,
         lastConnection: input.lastConnection,
         createdAt,
         updatedAt: now,

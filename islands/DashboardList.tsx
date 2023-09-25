@@ -117,11 +117,11 @@ export default function DashboardList(props: {
           />
         </figure>
         <div className="flex flex-col h-3/4 justify-between p-2">
-          <h2 className="card-title text-neutral-info">
+          <h2 className="card-title opacity-60">
             {fullName}
           </h2>
           <div>
-            <strong className="text-neutral-info">Last Connection:</strong>
+            <strong className="opacity-60">Last Connection:</strong>
             <span className="pl-4 text-accent whitespace-nowrap">
               {lastConnection}
             </span>
