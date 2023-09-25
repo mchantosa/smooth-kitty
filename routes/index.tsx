@@ -44,7 +44,7 @@ const Section = (props: SectionProp) => {
 // deno-lint-ignore require-await
 export default async function HomePage(
   _req: Request,
-  ctx: RouteContext<undefined, State>
+  ctx: RouteContext<undefined, State>,
 ) {
   // const isSignedIn = ctx.state.sessionUser !== undefined;
   // const endpoint = "/api/items";
@@ -52,12 +52,14 @@ export default async function HomePage(
   return (
     <>
       <Head href={ctx.url.href}>
-        {/* <link
+        {
+          /* <link
           as="fetch"
           crossOrigin="anonymous"
           href={endpoint}
           rel="preload"
-        /> */}
+        /> */
+        }
       </Head>
       <main class="flex-1 p-4">
         <div class="hero min-h-screen bg-base-200">
@@ -89,7 +91,8 @@ export default async function HomePage(
                 <Section
                   title={section.title}
                   content={section.content}
-                ></Section>
+                >
+                </Section>
               ))}
             </div>
           </div>

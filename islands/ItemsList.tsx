@@ -52,7 +52,7 @@ export default function ItemsList(props: {
     try {
       const { values, cursor } = await fetchValues<Item>(
         props.endpoint,
-        cursorSig.value
+        cursorSig.value,
       );
       itemsSig.value = [...itemsSig.value, ...values];
       cursorSig.value = cursor;
@@ -71,28 +71,29 @@ export default function ItemsList(props: {
 
     fetchVotedItems()
       .then(
-        (votedItems) =>
-          (votedItemsIdsSig.value = votedItems.map(({ id }) => id))
+        (
+          votedItems,
+        ) => (votedItemsIdsSig.value = votedItems.map(({ id }) => id)),
       )
       .finally(() => loadMoreItems());
   }, []);
 
   return (
     <div>
-      {itemsSig.value.length ? (
-        itemsSig.value.map((item, id) => {
-          return (
-            <ItemSummary
-              key={item.id}
-              item={item}
-              isVoted={itemsAreVotedSig.value[id]}
-              isSignedIn={props.isSignedIn}
-            />
-          );
-        })
-      ) : (
-        <EmptyItemsList />
-      )}
+      {itemsSig.value.length
+        ? (
+          itemsSig.value.map((item, id) => {
+            return (
+              <ItemSummary
+                key={item.id}
+                item={item}
+                isVoted={itemsAreVotedSig.value[id]}
+                isSignedIn={props.isSignedIn}
+              />
+            );
+          })
+        )
+        : <EmptyItemsList />}
       {cursorSig.value !== "" && (
         <button onClick={loadMoreItems} class={LINK_STYLES}>
           {isLoadingSig.value ? "Loading..." : "Load more"}

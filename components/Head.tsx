@@ -9,10 +9,12 @@ import { ComponentChildren } from "preact";
  * It includes HTML metadata from the `<Meta />` with defaults specifically for Deno Hunt.
  */
 export default function Head(
-  props: Partial<Omit<MetaProps, "href">> &
-    Pick<MetaProps, "href"> & {
+  props:
+    & Partial<Omit<MetaProps, "href">>
+    & Pick<MetaProps, "href">
+    & {
       children?: ComponentChildren;
-    }
+    },
 ) {
   return (
     <_Head>

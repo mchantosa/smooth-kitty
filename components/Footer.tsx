@@ -20,13 +20,14 @@ export default function Footer(props: { url: URL }) {
       <nav class={NAV_STYLES}>
         <a
           href="/blog"
-          class={
-            props.url.pathname === "/blog" ? ACTIVE_LINK_STYLES : LINK_STYLES
-          }
+          class={props.url.pathname === "/blog"
+            ? ACTIVE_LINK_STYLES
+            : LINK_STYLES}
         >
           Blog
         </a>
-        {/* <a href="/feed" aria-label="Deno Hunt RSS Feed" class={LINK_STYLES}>
+        {
+          /* <a href="/feed" aria-label="Deno Hunt RSS Feed" class={LINK_STYLES}>
           <IconRss class="h-6 w-6" />
         </a>
         <a
@@ -36,7 +37,8 @@ export default function Footer(props: { url: URL }) {
           class={LINK_STYLES}
         >
           <IconBrandDiscord class="h-6 w-6" />
-        </a> */}
+        </a> */
+        }
         <a
           href="https://github.com/digioak/smooth-kitty"
           target="_blank"
