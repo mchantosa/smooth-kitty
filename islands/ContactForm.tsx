@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "zod-resolver";
 import { contactSchema } from "@/shared/data/contact.ts";
-//import { add, format, nextSunday } from "date-fns";
 import axios from "npm:axios";
+import { nanoid } from "https://deno.land/x/nanoid/mod.ts";
 import Divider from "@/components/Divider.tsx";
 
 const get119YearsAgo = () => {
@@ -15,7 +15,6 @@ const ContactForm = () => {
   const {
     register,
     handleSubmit,
-    getValues,
     watch,
     formState: { errors },
   } = useForm({
@@ -293,7 +292,7 @@ const ContactForm = () => {
               <option value="0"></option>
               {Array.from({ length: 31 }, (_, i) => i).map((
                 i,
-              ) => <option value={i + 1}>{i + 1}</option>)}
+              ) => <option key={nanoid()} value={i + 1}>{i + 1}</option>)}
             </select>
           </div>
           <div class="pr-2">
@@ -309,7 +308,9 @@ const ContactForm = () => {
               {...register("birthdayMonth", { valueAsNumber: true })}
             >
               <option value="-1"></option>
-              {MONTHS.map((month, i) => <option value={i}>{month}</option>)}
+              {MONTHS.map((month, i) => (
+                <option key={nanoid()} value={i}>{month}</option>
+              ))}
             </select>
           </div>
           <div>
@@ -328,7 +329,7 @@ const ContactForm = () => {
               {Array.from({ length: 120 }, (_, i) => 119 + get119YearsAgo() - i)
                 .map((
                   year,
-                ) => <option value={year}>{year}</option>)}
+                ) => <option key={nanoid()} value={year}>{year}</option>)}
             </select>
           </div>
         </div>

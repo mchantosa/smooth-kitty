@@ -1,10 +1,3 @@
-import { useSignal } from "@preact/signals";
-import { useEffect, useState } from "preact/hooks";
-import type { Contact } from "@/shared/data/contact.ts";
-import { LINK_STYLES } from "@/utils/constants.ts";
-import IconInfo from "tabler_icons_tsx/info-circle.tsx";
-import { fetchValues } from "@/utils/islands.ts";
-
 export default function Divider(props: { textInsert?: string }) {
   const { textInsert } = props;
   return (

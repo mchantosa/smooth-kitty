@@ -1,4 +1,4 @@
-export default function DashboardUpcompingList(props: {
+export default function DashboardUpcomingList(props: {
   endpoint: string;
 }) {
   return (

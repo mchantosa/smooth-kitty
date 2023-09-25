@@ -1,9 +1,12 @@
-import type { Contact, ContactList } from "@/shared/data/contact.ts";
+import type {
+  Contact,
+  ContactList,
+  InputSchema,
+} from "@/shared/data/contact.ts";
 import { ulid } from "std/ulid/mod.ts";
 import { faker } from "faker";
 import { kv } from "@/utils/db.ts";
 import { add, format, nextSunday } from "date-fns";
-import type { InputSchema } from "@/shared/data/contact.ts";
 
 export const db = await Deno.openKv();
 

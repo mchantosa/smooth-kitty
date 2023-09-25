@@ -6,6 +6,7 @@ import { LINK_STYLES } from "@/utils/constants.ts";
 import IconInfo from "tabler_icons_tsx/info-circle.tsx";
 import { fetchValues } from "@/utils/islands.ts";
 import axios from "npm:axios";
+import { nanoid } from "https://deno.land/x/nanoid/mod.ts";
 
 function EmptyItemsList() {
   return (
@@ -26,6 +27,126 @@ function EmptyItemsList() {
     </>
   );
 }
+
+const DeleteContactButton = (props: {
+  contactId?: string;
+}) => {
+  const { contactId } = props;
+  return (
+    <button
+      className="badge bdg-btn-remove badge-neutral"
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        axios.delete(`/api/contacts/${contactId}`).then((res) => {
+          window.location.href = "/contacts";
+        });
+      }}
+    >
+      Remove
+    </button>
+  );
+};
+
+interface ContactComponentProps {
+  contact: Contact;
+}
+
+const ContactComponent = ({ contact }: ContactComponentProps) => {
+  const {
+    id,
+    avatarUrl,
+    fullName,
+    pronouns,
+    nextConnection,
+    lastConnection,
+    period,
+    phoneNumber,
+    email,
+    preferredMethod,
+    preferredMethodHandle,
+  } = contact;
+
+  return (
+    <tr
+      className="group cursor-pointer hover:backdrop-brightness-125 hover:shadow-lg"
+      onClick={(e) => {
+        e.preventDefault();
+      }}
+    >
+      <th aria-label="Contact">
+        <label>
+          <input
+            title="Select this contact"
+            id="select-contact"
+            type="checkbox"
+            class="checkbox"
+          />
+        </label>
+      </th>
+      <td>
+        <div class="flex items-center space-x-3">
+          <div class="avatar">
+            <div class="mask mask-squircle w-12 h-12">
+              <img
+                src={avatarUrl}
+                alt="Avatar Tailwind CSS Component"
+              />
+            </div>
+          </div>
+          <div>
+            <div class="font-bold opacity-60">{`${fullName}`}</div>
+            <div>
+              {pronouns && (
+                <span className="ml-2 badge badge-ghost badge-sm">
+                  <span>{`${pronouns}`}</span>
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+      </td>
+      <td>
+        <div>
+          <strong className="opacity-60">Next:</strong>
+          <span className="pl-4 text-accent whitespace-nowrap">
+            {nextConnection}
+          </span>
+        </div>
+        <div>
+          <strong className="opacity-60">Last:</strong>
+          <span className="pl-4 text-accent whitespace-nowrap">
+            {lastConnection}
+          </span>
+        </div>
+      </td>
+      <td>
+        <span className="opacity-60">{period}</span>
+      </td>
+      <td>
+        <strong className="opacity-60">Phone number:</strong>
+        <span className="pl-4 text-accent">{phoneNumber}</span>
+        <br />
+        <strong className="opacity-60">Email:</strong>
+        <span className="pl-4 text-accent">{email}</span>
+        <br />
+        <strong className="opacity-60">Preferred Method:</strong>
+        <span className="pl-4 text-accent">{preferredMethod}</span>
+        <br />
+        <span className="ml-2 badge badge-ghost badge-sm">
+          <strong>Handle:</strong>
+          <span className="pl-4 text-accent">
+            {preferredMethodHandle}
+          </span>
+        </span>
+      </td>
+      <th>
+        <DeleteContactButton contactId={id}></DeleteContactButton>
+      </th>
+    </tr>
+  );
+};
 
 export default function ContactsList(props: {
   endpoint: string;
@@ -56,141 +177,22 @@ export default function ContactsList(props: {
     loadMoreItems();
   }, []);
 
-  const DeleteContactButton = (props: {
-    contactId?: string;
-  }) => {
-    const { contactId } = props;
-    return (
-      <button
-        className="badge bdg-btn-remove badge-neutral"
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-
-          console.log(`deleting ${props.contactId}...`);
-
-          axios.delete(`/api/contacts/${props.contactId}`).then((res) => {
-            window.location.href = "/contacts";
-          });
-        }}
-      >
-        remove
-      </button>
-    );
-  };
-
-  interface ContactComponentProps {
-    contact: Contact;
-  }
-
-  const ContactComponent = ({ contact }: ContactComponentProps) => {
-    const {
-      id,
-      avatarUrl,
-      fullName,
-      pronouns,
-      nextConnection,
-      lastConnection,
-      period,
-      phoneNumber,
-      email,
-      preferredMethod,
-      preferredMethodHandle,
-    } = contact;
-
-    return (
-      <tr
-        className="group cursor-pointer hover:backdrop-brightness-125 hover:shadow-lg"
-        onClick={(e) => {
-          e.preventDefault();
-          console.log(`opening ${id}...`);
-        }}
-      >
-        <th aria-label="Contact">
-          <label>
-            <input
-              title="Select this contact"
-              id="select-contact"
-              type="checkbox"
-              class="checkbox"
-            />
-          </label>
-        </th>
-        <td>
-          <div class="flex items-center space-x-3">
-            <div class="avatar">
-              <div class="mask mask-squircle w-12 h-12">
-                <img
-                  src={avatarUrl}
-                  alt="Avatar Tailwind CSS Component"
-                />
-              </div>
-            </div>
-            <div>
-              <div class="font-bold opacity-60">{`${fullName}`}</div>
-              <div>
-                {pronouns && (
-                  <span className="ml-2 badge badge-ghost badge-sm">
-                    <span>{`${pronouns}`}</span>
-                  </span>
-                )}
-              </div>
-            </div>
-          </div>
-        </td>
-        <td>
-          <div>
-            <strong className="opacity-60">Next:</strong>
-            <span className="pl-4 text-accent whitespace-nowrap">
-              {nextConnection}
-            </span>
-          </div>
-          <div>
-            <strong className="opacity-60">Last:</strong>
-            <span className="pl-4 text-accent whitespace-nowrap">
-              {lastConnection}
-            </span>
-          </div>
-        </td>
-        <td>
-          <span className="opacity-60">{period}</span>
-        </td>
-        <td>
-          <strong className="opacity-60">Phone number:</strong>
-          <span className="pl-4 text-accent">{phoneNumber}</span>
-          <br />
-          <strong className="opacity-60">Email:</strong>
-          <span className="pl-4 text-accent">{email}</span>
-          <br />
-          <strong className="opacity-60">Preferred Method:</strong>
-          <span className="pl-4 text-accent">{preferredMethod}</span>
-          <br />
-          <span className="ml-2 badge badge-ghost badge-sm">
-            <strong>Handle:</strong>
-            <span className="pl-4 text-accent">
-              {preferredMethodHandle}
-            </span>
-          </span>
-        </td>
-        <th>
-          <DeleteContactButton contactId={id}></DeleteContactButton>
-        </th>
-      </tr>
-    );
-  };
-
   const handleSearchChange = (e: Event) => {
     const target = e.target as HTMLSelectElement;
     if (target) setSearchText(target.value);
   };
 
   const handleEnter = (e: KeyboardEvent) => {
-    if (e.key === "Enter") console.log("searching for: ", searchText);
+    if (e.key === "Enter") {
+      // TODO: Implement search
+    }
   };
 
   const handleSort = (e: Event) => {
     const target = e.target as HTMLSelectElement;
-    if (target.value) console.log("sorting by: ", target.value);
+    if (target.value) {
+      // TODO: Implement sort
+    }
   };
 
   return (
@@ -236,7 +238,7 @@ export default function ContactsList(props: {
             {itemsSig.value.length
               ? (
                 itemsSig.value.map((item, id) => {
-                  return <ContactComponent contact={item} />;
+                  return <ContactComponent key={nanoid()} contact={item} />;
                 })
               )
               : <EmptyItemsList />}

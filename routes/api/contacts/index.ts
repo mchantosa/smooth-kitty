@@ -2,7 +2,6 @@ import { type Handlers } from "$fresh/server.ts";
 import { assertSignedIn, State } from "@/middleware/session.ts";
 import { getCursor } from "@/utils/http.ts";
 import { loadContactList, writeContacts } from "@/services/db/contact.ts";
-// import { errors } from "std/http/http_errors.ts";
 import { ulid } from "std/ulid/mod.ts";
 import type { InputSchema } from "@/shared/data/contact.ts";
 
