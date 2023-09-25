@@ -1,8 +1,9 @@
+import { useEffect } from "preact/hooks";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "zod-resolver";
 import { contactSchema } from "@/shared/data/contact.ts";
 import axios from "npm:axios";
-import { nanoid } from "https://deno.land/x/nanoid/mod.ts";
+import { nanoid } from "https://deno.land/x/nanoid@v3.0.0/mod.ts";
 import Divider from "@/components/Divider.tsx";
 
 const get119YearsAgo = () => {
@@ -11,11 +12,17 @@ const get119YearsAgo = () => {
   return date.getFullYear();
 };
 
-const ContactForm = () => {
+interface ContactFormProps {
+  endpoint?: string;
+};
+
+const ContactForm = ({ endpoint }: ContactFormProps) => {
   const {
     register,
     handleSubmit,
     watch,
+    getValues,
+    setValue,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(contactSchema),
@@ -47,7 +54,30 @@ const ContactForm = () => {
   const annotationClassNames = "text-xs italic";
   const labelClassNames = "block text-sm font-bold opacity-60 mb-2";
 
-  console.log(errors);
+  async function loadContact() {
+    if (endpoint) {
+      const resp = await fetch(endpoint);
+      const data = await resp.json();
+      const { value: contact } = data;
+      setValue("firstName", contact.firstName);
+      setValue("lastName", contact.lastName);
+      setValue("pronouns", contact.pronouns);
+      setValue("avatarUrl", contact.avatarUrl);
+      setValue("email", contact.email);
+      setValue("phoneNumber", contact.phoneNumber);
+      setValue("preferredMethod", contact.preferredMethod);
+      setValue("preferredMethodHandle", contact.preferredMethodHandle);
+      setValue("birthdayDay", contact.birthdayDay);
+      setValue("birthdayMonth", contact.birthdayMonth);
+      setValue("birthdayYear", contact.birthdayYear);
+      setValue("connectOnBirthday", contact.connectOnBirthday);
+      setValue("period", contact.period);
+    }
+  }
+
+  useEffect(() => {
+    loadContact();
+  }, []);
 
   return (
     <form
@@ -259,11 +289,11 @@ const ContactForm = () => {
           className={selectClassNamesWarningFull}
           {...register("period")}
         >
-          <option selected disabled></option>
-          <option value="Weekly">Weekly</option>
-          <option value="Biweekly">Biweekly</option>
-          <option value="Monthly">Monthly</option>
-          <option value="Quarterly">Quarterly</option>
+          <option selected={!getValues("period")} disabled></option>
+          <option selected={getValues("period") === "Weekly"}  value="Weekly">Weekly</option>
+          <option selected={getValues("period") === "Biweekly"} value="Biweekly">Biweekly</option>
+          <option selected={getValues("period") === "Monthly"} value="Monthly">Monthly</option>
+          <option selected={getValues("period") === "Quarterly"} value="Quarterly">Quarterly</option>
         </select>
         {errors.period?.message && (
           <p className={textErrorClassNames}>{errors.period?.message}</p>
@@ -292,7 +322,7 @@ const ContactForm = () => {
               <option value="0"></option>
               {Array.from({ length: 31 }, (_, i) => i).map((
                 i,
-              ) => <option key={nanoid()} value={i + 1}>{i + 1}</option>)}
+              ) => <option  selected={getValues("birthdayDay") == i} key={nanoid()} value={i + 1}>{i + 1}</option>)}
             </select>
           </div>
           <div class="pr-2">
@@ -309,7 +339,7 @@ const ContactForm = () => {
             >
               <option value="-1"></option>
               {MONTHS.map((month, i) => (
-                <option key={nanoid()} value={i}>{month}</option>
+                <option selected={getValues("birthdayMonth") == i} key={nanoid()} value={i}>{month}</option>
               ))}
             </select>
           </div>
@@ -329,7 +359,7 @@ const ContactForm = () => {
               {Array.from({ length: 120 }, (_, i) => 119 + get119YearsAgo() - i)
                 .map((
                   year,
-                ) => <option key={nanoid()} value={year}>{year}</option>)}
+                ) => <option selected={getValues("birthdayYear") == year} key={nanoid()} value={year}>{year}</option>)}
             </select>
           </div>
         </div>

@@ -10,6 +10,12 @@ import { add, format, nextSunday } from "date-fns";
 
 export const db = await Deno.openKv();
 
+export async function loadContact(login: string, id: string) {
+  const contact = await db.get(["contacts", login, id]);
+  if (!contact) throw new Error("Contact not found");
+  return contact;
+}
+
 export async function loadContactList(
   login: string,
   options?: Deno.KvListOptions,
@@ -111,7 +117,7 @@ export async function seedContacts(owner: string, count: number) {
       connectOnBirthday: faker.datatype.boolean(),
       nextConnection,
       lastConnection: "",
-      period: faker.helpers.arrayElement(["day", "week", "month", "year"]),
+      period: faker.helpers.arrayElement(["Weekly", "Biweekly", "Monthly", "Quarterly"]),
     };
 
     return contact;
