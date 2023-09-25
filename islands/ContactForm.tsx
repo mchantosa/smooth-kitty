@@ -85,6 +85,7 @@ const ContactForm = () => {
         <input
           id="firstName"
           className={inputClassNames}
+          placeholder="Jane"
           {...register("firstName")}
         >
         </input>
@@ -102,6 +103,7 @@ const ContactForm = () => {
         <input
           id="lastName"
           className={inputClassNames}
+          placeholder="Doe"
           {...register("lastName")}
         >
         </input>
@@ -142,6 +144,7 @@ const ContactForm = () => {
         <input
           id="pronouns"
           className={inputClassNames}
+          placeholder="she/her, Dr."
           {...register("pronouns")}
         >
         </input>
@@ -162,6 +165,7 @@ const ContactForm = () => {
         <input
           id="avatarUrl"
           className={inputClassNames}
+          placeholder="https://example.com/avatar.png"
           {...register("avatarUrl")}
         >
         </input>
@@ -177,6 +181,7 @@ const ContactForm = () => {
         <input
           id="phoneNumber"
           className={inputClassNames}
+          placeholder="555-555-5555"
           {...register("phoneNumber")}
         >
         </input>
@@ -194,6 +199,7 @@ const ContactForm = () => {
         <input
           id="email"
           className={inputClassNames}
+          placeholder="myemail@domain.com"
           {...register("email")}
         >
         </input>
@@ -211,6 +217,7 @@ const ContactForm = () => {
         <input
           id="preferredMethod"
           className={inputClassNames}
+          placeholder="Slack or Twitter"
           {...register("preferredMethod")}
         >
         </input>
@@ -230,6 +237,7 @@ const ContactForm = () => {
         <input
           id="preferredMethodHandle"
           className={inputClassNames}
+          placeholder="@slackhandle, @twitterhandle"
           {...register("preferredMethodHandle")}
         >
         </input>
@@ -341,6 +349,9 @@ const ContactForm = () => {
           {...register("connectOnBirthday")}
           class="checkbox"
         />
+        {errors.connectOnBirthday?.message && (
+          <p className={textErrorClassNames}>{errors.connectOnBirthday?.message}</p>
+        )}
       </div>
       <div class="text-center">
         <button type="submit" class="btn btn-primary">Submit</button>

@@ -75,6 +75,18 @@ export const contactSchema = z.object({
   },
 ).refine(
   ({ birthdayDay, birthdayMonth}) => {
+    console.log("birthdayDay", birthdayDay, "birthdayMonth", birthdayMonth)
+    if(birthdayDay === 0 || birthdayMonth === -1) {
+      return false;
+    }
+    return true;
+  },
+  {
+    message: "Birthday must have a Day and a Month",
+    path: ["date"],
+  },
+).refine(
+  ({ birthdayDay, birthdayMonth}) => {
     if(birthdayDay > 29 && birthdayMonth === 1) {
       return false;
     }
@@ -97,7 +109,7 @@ export const contactSchema = z.object({
   },
 ).refine(
   ({ birthdayDay, birthdayMonth, birthdayYear }) => {
-    if (birthdayDay && birthdayMonth && birthdayYear) {
+    if (birthdayDay>0 && birthdayMonth>-1 && birthdayYear>0) {
       const birthday = new Date(birthdayYear, birthdayMonth, birthdayDay);
       const dayMonthYearCheck = birthday.getFullYear() === birthdayYear &&
         birthday.getMonth() === birthdayMonth &&
@@ -109,6 +121,19 @@ export const contactSchema = z.object({
   {
     message: "Invalid date",
     path: ["date"],
+  },
+).refine(
+  ({ birthdayDay, birthdayMonth, connectOnBirthday }) => {
+    if (birthdayDay===0 || birthdayMonth===-1) {
+      if (connectOnBirthday) {
+        return false;
+      }
+    }
+    return true;
+  },
+  {
+    message: "You must enter a birthday to connect on birthday",
+    path: ["connectOnBirthday"],
   },
 );
 
