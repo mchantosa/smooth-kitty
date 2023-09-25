@@ -1,7 +1,9 @@
 // Copyright 2023 the Deno authors. All rights reserved. MIT license.
+import type { ComponentChildren } from "preact";
 import type { RouteContext } from "$fresh/server.ts";
 import type { State } from "@/middleware/session.ts";
 import Head from "@/components/Head.tsx";
+import { nanoid } from "https://deno.land/x/nanoid/mod.ts";
 
 const sections = [
   {
@@ -26,13 +28,13 @@ const sections = [
   },
 ];
 
-interface SectionProp {
+interface SectionProps {
+  children?: ComponentChildren;
   title: string;
   content: string;
 }
 
-const Section = (props: SectionProp) => {
-  const { title, content } = props;
+const Section = ({ title, content }: SectionProps) => {
   return (
     <>
       <h2 class="text-2xl font-bold">{title}</h2>
@@ -46,9 +48,6 @@ export default async function HomePage(
   _req: Request,
   ctx: RouteContext<undefined, State>,
 ) {
-  // const isSignedIn = ctx.state.sessionUser !== undefined;
-  // const endpoint = "/api/items";
-
   return (
     <>
       <Head href={ctx.url.href}>
@@ -89,10 +88,10 @@ export default async function HomePage(
               </p>
               {sections.map((section) => (
                 <Section
+                  key={nanoid()}
                   title={section.title}
                   content={section.content}
-                >
-                </Section>
+                />
               ))}
             </div>
           </div>

@@ -15,11 +15,16 @@
     "axios",
     "daisyui",
     "hookform",
+    "lcov",
     "signin",
     "signup",
     "supabase",
     "tabler",
-    "versionstamp"
+    "versionstamp",
+    "slackhandle",
+    "twitterhandle",
+    "birthdate",
+    "squircle"
   ],
   "githubPullRequests.ignoredPullRequestBranches": [
     "main"

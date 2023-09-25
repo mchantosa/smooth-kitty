@@ -5,6 +5,7 @@ import type { Contact } from "@/shared/data/contact.ts";
 import { LINK_STYLES } from "@/utils/constants.ts";
 import IconInfo from "tabler_icons_tsx/info-circle.tsx";
 import { fetchValues } from "@/utils/islands.ts";
+import { nanoid } from "https://deno.land/x/nanoid/mod.ts";
 
 function EmptyItemsList() {
   return (
@@ -21,6 +22,83 @@ function EmptyItemsList() {
     </>
   );
 }
+
+const SnoozeContactButton = (props: {
+  contactId?: string;
+}) => {
+  const { contactId } = props;
+  return (
+    <button
+      className="btn btn-primary btn-xs m-1"
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        console.log(`Snoozing: ${contactId}...`);
+      }}
+    >
+      Snooze
+    </button>
+  );
+};
+
+const UpdateConnectionButton = (props: {
+  contactId?: string;
+}) => {
+  const { contactId } = props;
+  return (
+    <button
+      className="btn btn-primary btn-xs m-1"
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        console.log(`Updating connection for: ${contactId}...`);
+      }}
+    >
+      Connected
+    </button>
+  );
+};
+
+const DashboardComponent = (
+  { contact }: {
+    contact: Contact;
+  },
+) => {
+  const {
+    id,
+    avatarUrl,
+    fullName,
+    lastConnection,
+  } = contact;
+
+  return (
+    <div className="card w-64 bg-default shadow-xl p-4 m-2">
+      <figure>
+        <img
+          src={avatarUrl}
+          alt="avatar"
+        />
+      </figure>
+      <div className="flex flex-col h-3/4 justify-between p-2">
+        <h2 className="card-title opacity-60">
+          {fullName}
+        </h2>
+        <div>
+          <strong className="opacity-60">Last Connection:</strong>
+          <span className="pl-4 text-accent whitespace-nowrap">
+            {lastConnection}
+          </span>
+        </div>
+        <div className="flex justify-center">
+          <UpdateConnectionButton contactId={id} />
+          <SnoozeContactButton contactId={id} />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default function DashboardList(props: {
   endpoint: string;
@@ -51,97 +129,13 @@ export default function DashboardList(props: {
     loadMoreItems();
   }, []);
 
-  const SnoozeContactButton = (props: {
-    contactId?: string;
-  }) => {
-    const { contactId } = props;
-    return (
-      <button
-        className="btn btn-primary btn-xs m-1"
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-
-          console.log(`Snoozing: ${contactId}...`);
-        }}
-      >
-        Snooze
-      </button>
-    );
-  };
-
-  const UpdateConnectionButton = (props: {
-    contactId?: string;
-  }) => {
-    const { contactId } = props;
-    return (
-      <button
-        className="btn btn-primary btn-xs m-1"
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-
-          console.log(`Updating connection for: ${contactId}...`);
-        }}
-      >
-        Connected
-      </button>
-    );
-  };
-
-  const DashboardComponent = (
-    { contact }: {
-      contact: Contact;
-    },
-  ) => {
-    const {
-      id,
-      avatarUrl,
-      fullName,
-      pronouns,
-      nextConnection,
-      lastConnection,
-      period,
-      phoneNumber,
-      email,
-      preferredMethod,
-      preferredMethodHandle,
-    } = contact;
-
-    return (
-      <div className="card w-64 bg-default shadow-xl p-4 m-2">
-        <figure>
-          <img
-            src={avatarUrl}
-            alt="avatar"
-          />
-        </figure>
-        <div className="flex flex-col h-3/4 justify-between p-2">
-          <h2 className="card-title opacity-60">
-            {fullName}
-          </h2>
-          <div>
-            <strong className="opacity-60">Last Connection:</strong>
-            <span className="pl-4 text-accent whitespace-nowrap">
-              {lastConnection}
-            </span>
-          </div>
-          <div className="flex justify-center">
-            <UpdateConnectionButton contactId={id} />
-            <SnoozeContactButton contactId={id} />
-          </div>
-        </div>
-      </div>
-    );
-  };
-
   return (
     <div>
       <div class="flex flex-wrap justify-center">
         {itemsSig.value.length
           ? (
             itemsSig.value.map((item, id) => {
-              return <DashboardComponent contact={item} />;
+              return <DashboardComponent key={nanoid()} contact={item} />;
             })
           )
           : <EmptyItemsList />}
