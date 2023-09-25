@@ -74,9 +74,9 @@ export const contactSchema = z.object({
     path: ["name"],
   },
 ).refine(
-  ({ birthdayDay, birthdayMonth}) => {
-    console.log("birthdayDay", birthdayDay, "birthdayMonth", birthdayMonth)
-    if(birthdayDay === 0 || birthdayMonth === -1) {
+  ({ birthdayDay, birthdayMonth }) => {
+    console.log("birthdayDay", birthdayDay, "birthdayMonth", birthdayMonth);
+    if (birthdayDay === 0 || birthdayMonth === -1) {
       return false;
     }
     return true;
@@ -86,8 +86,8 @@ export const contactSchema = z.object({
     path: ["date"],
   },
 ).refine(
-  ({ birthdayDay, birthdayMonth}) => {
-    if(birthdayDay > 29 && birthdayMonth === 1) {
+  ({ birthdayDay, birthdayMonth }) => {
+    if (birthdayDay > 29 && birthdayMonth === 1) {
       return false;
     }
     return true;
@@ -97,19 +97,24 @@ export const contactSchema = z.object({
     path: ["date"],
   },
 ).refine(
-  ({ birthdayDay, birthdayMonth}) => {
-    if(birthdayDay > 30 && (birthdayMonth === 3 || birthdayMonth === 5 || birthdayMonth === 8 || birthdayMonth === 10)) {
+  ({ birthdayDay, birthdayMonth }) => {
+    if (
+      birthdayDay > 30 &&
+      (birthdayMonth === 3 || birthdayMonth === 5 || birthdayMonth === 8 ||
+        birthdayMonth === 10)
+    ) {
       return false;
     }
     return true;
   },
   {
-    message: "Days in April, June, September, and November must be less than 30",
+    message:
+      "Days in April, June, September, and November must be less than 30",
     path: ["date"],
   },
 ).refine(
   ({ birthdayDay, birthdayMonth, birthdayYear }) => {
-    if (birthdayDay>0 && birthdayMonth>-1 && birthdayYear>0) {
+    if (birthdayDay > 0 && birthdayMonth > -1 && birthdayYear > 0) {
       const birthday = new Date(birthdayYear, birthdayMonth, birthdayDay);
       const dayMonthYearCheck = birthday.getFullYear() === birthdayYear &&
         birthday.getMonth() === birthdayMonth &&
@@ -124,7 +129,7 @@ export const contactSchema = z.object({
   },
 ).refine(
   ({ birthdayDay, birthdayMonth, connectOnBirthday }) => {
-    if (birthdayDay===0 || birthdayMonth===-1) {
+    if (birthdayDay === 0 || birthdayMonth === -1) {
       if (connectOnBirthday) {
         return false;
       }

@@ -10,7 +10,7 @@ import {
 
 async function redirectToNewOrigin(
   req: Request,
-  ctx: MiddlewareHandlerContext
+  ctx: MiddlewareHandlerContext,
 ) {
   const { hostname } = new URL(req.url);
   return hostname === "saaskit.deno.dev"
@@ -27,10 +27,9 @@ async function recordVisit(_req: Request, ctx: MiddlewareHandlerContext) {
 
 async function redirectToErrorOnNeedSetup(
   _req: Request,
-  ctx: MiddlewareHandlerContext
+  ctx: MiddlewareHandlerContext,
 ) {
-  const NEEDS_SETUP =
-    Deno.env.get("GITHUB_CLIENT_ID") === undefined ||
+  const NEEDS_SETUP = Deno.env.get("GITHUB_CLIENT_ID") === undefined ||
     Deno.env.get("GITHUB_CLIENT_SECRET") === undefined;
 
   if (NEEDS_SETUP) {

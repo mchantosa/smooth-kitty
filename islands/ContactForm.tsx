@@ -350,7 +350,9 @@ const ContactForm = () => {
           class="checkbox"
         />
         {errors.connectOnBirthday?.message && (
-          <p className={textErrorClassNames}>{errors.connectOnBirthday?.message}</p>
+          <p className={textErrorClassNames}>
+            {errors.connectOnBirthday?.message}
+          </p>
         )}
       </div>
       <div class="text-center">
