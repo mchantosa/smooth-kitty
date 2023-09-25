@@ -5,6 +5,7 @@ import type { Contact } from "@/shared/data/contact.ts";
 import { LINK_STYLES } from "@/utils/constants.ts";
 import IconInfo from "tabler_icons_tsx/info-circle.tsx";
 import { fetchValues } from "@/utils/islands.ts";
+import axios from "npm:axios";
 
 function EmptyItemsList() {
   return (
@@ -55,11 +56,9 @@ export default function ContactsList(props: {
     loadMoreItems();
   }, []);
 
-  interface DeleteContactButtonProps {
+  const DeleteContactButton = (props: {
     contactId?: string;
-  }
-
-  const DeleteContactButton = (props: DeleteContactButtonProps) => {
+  }) => {
     const { contactId } = props;
     return (
       <button
@@ -70,15 +69,9 @@ export default function ContactsList(props: {
 
           console.log(`deleting ${props.contactId}...`);
 
-          // axiod
-          //   .delete(`/api/contacts/${props.contactId}`)
-          //   .then((response) => {
-          //     console.log(response);
-          //     window.location.reload();
-          //   })
-          //   .catch((error) => {
-          //     console.log(error);
-          //   });
+          axios.delete(`/api/contacts/${props.contactId}`).then((res) => {
+            window.location.href = "/contacts";
+          });
         }}
       >
         remove
@@ -134,7 +127,7 @@ export default function ContactsList(props: {
               </div>
             </div>
             <div>
-              <div class="font-bold">{`${fullName}`}</div>
+              <div class="font-bold opacity-60">{`${fullName}`}</div>
               <div>
                 {pronouns && (
                   <span className="ml-2 badge badge-ghost badge-sm">
@@ -147,32 +140,34 @@ export default function ContactsList(props: {
         </td>
         <td>
           <div>
-            <strong>Next:</strong>
-            <span className="pl-4 text-cyan-700 whitespace-nowrap">
+            <strong className="opacity-60">Next:</strong>
+            <span className="pl-4 text-accent whitespace-nowrap">
               {nextConnection}
             </span>
           </div>
           <div>
-            <strong>Last:</strong>
-            <span className="pl-4 text-cyan-700 whitespace-nowrap">
+            <strong className="opacity-60">Last:</strong>
+            <span className="pl-4 text-accent whitespace-nowrap">
               {lastConnection}
             </span>
           </div>
         </td>
-        <td>{period}</td>
         <td>
-          <strong>Phone number:</strong>
-          <span className="pl-4 text-cyan-700">{phoneNumber}</span>
+          <span className="opacity-60">{period}</span>
+        </td>
+        <td>
+          <strong className="opacity-60">Phone number:</strong>
+          <span className="pl-4 text-accent">{phoneNumber}</span>
           <br />
-          <strong>Email:</strong>
-          <span className="pl-4 text-cyan-700">{email}</span>
+          <strong className="opacity-60">Email:</strong>
+          <span className="pl-4 text-accent">{email}</span>
           <br />
-          <strong>Preferred Method:</strong>
-          <span className="pl-4 text-cyan-700">{preferredMethod}</span>
+          <strong className="opacity-60">Preferred Method:</strong>
+          <span className="pl-4 text-accent">{preferredMethod}</span>
           <br />
           <span className="ml-2 badge badge-ghost badge-sm">
             <strong>Handle:</strong>
-            <span className="pl-4 text-cyan-700">
+            <span className="pl-4 text-accent">
               {preferredMethodHandle}
             </span>
           </span>

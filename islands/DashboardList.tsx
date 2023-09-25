@@ -100,6 +100,7 @@ export default function DashboardList(props: {
       fullName,
       pronouns,
       nextConnection,
+      lastConnection,
       period,
       phoneNumber,
       email,
@@ -108,18 +109,23 @@ export default function DashboardList(props: {
     } = contact;
 
     return (
-      <div className="card w-60 bg-base-100 shadow-xl p-4 m-2">
+      <div className="card w-64 bg-default shadow-xl p-4 m-2">
         <figure>
           <img
             src={avatarUrl}
             alt="avatar"
           />
         </figure>
-        <div className="p-2">
-          <h2 className="card-title">
+        <div className="flex flex-col h-3/4 justify-between p-2">
+          <h2 className="card-title opacity-60">
             {fullName}
           </h2>
-          <div className="">Last Connection</div>
+          <div>
+            <strong className="opacity-60">Last Connection:</strong>
+            <span className="pl-4 text-accent whitespace-nowrap">
+              {lastConnection}
+            </span>
+          </div>
           <div className="flex justify-center">
             <UpdateConnectionButton contactId={id} />
             <SnoozeContactButton contactId={id} />
@@ -131,7 +137,7 @@ export default function DashboardList(props: {
 
   return (
     <div>
-      <div class="flex flex-wrap">
+      <div class="flex flex-wrap justify-center">
         {itemsSig.value.length
           ? (
             itemsSig.value.map((item, id) => {

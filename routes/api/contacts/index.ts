@@ -25,11 +25,20 @@ export const handler: Handlers<undefined, State> = {
   async POST(req, ctx) {
     assertSignedIn(ctx);
     const { login } = ctx.state.sessionUser!;
-
     const form = await req.formData();
     const firstName = form.get("firstName");
     const lastName = form.get("lastName");
+    const pronouns = form.get("pronouns");
+    const avatarUrl = form.get("avatarUrl");
+    const phoneNumber = form.get("phone");
     const email = form.get("email");
+    const preferredMethod = form.get("preferredMethod");
+    const preferredMethodHandle = form.get("preferredMethodHandle");
+    const period = form.get("period");
+    const birthdayDay = form.get("birthdayDay");
+    const birthdayMonth = form.get("birthdayMonth");
+    const birthdayYear = form.get("birthdayYear");
+    const connectOnBirthday = form.get("connectOnBirthday");
 
     // TODO: Validate contact data
 
@@ -37,7 +46,17 @@ export const handler: Handlers<undefined, State> = {
       id: ulid(),
       firstName,
       lastName,
+      pronouns,
+      avatarUrl,
+      phoneNumber,
       email,
+      preferredMethod,
+      preferredMethodHandle,
+      period,
+      birthdayDay,
+      birthdayMonth,
+      birthdayYear,
+      connectOnBirthday,
     };
 
     const contacts: InputSchema = [contact];

@@ -48,13 +48,14 @@ export async function writeContacts(
       const current = currentEntries[i].value as Contact | null;
       const now = Date.now();
       const createdAt = current?.createdAt ?? now;
+      const nextConnection = format(nextSunday(new Date()), "dd-MMM-yyyy");
 
       const item: Contact = {
         firstName: input.firstName,
         lastName: input.lastName,
         fullName: `${input.firstName} ${input.lastName}`.trim(),
         pronouns: input.pronouns,
-        avatarUrl: input.avatarUrl || "/images/faces/face_3.jpeg",
+        avatarUrl: input.avatarUrl || "/images/avatar_icon_green.png",
         email: input.email,
         phoneNumber: input.phoneNumber,
         preferredMethod: input.preferredMethod,
@@ -64,7 +65,7 @@ export async function writeContacts(
         birthdayYear: input.birthdayYear,
         connectOnBirthday: input.connectOnBirthday,
         period: input.period,
-        nextConnection: input.nextConnection,
+        nextConnection: input.nextConnection || nextConnection,
         lastConnection: input.lastConnection,
         createdAt,
         updatedAt: now,
@@ -129,4 +130,8 @@ export async function resetContacts(owner: string) {
   const promises = [];
   for await (const res of iter) promises.push(kv.delete(res.key));
   await Promise.all(promises);
+}
+
+export async function deleteContact(owner: string, contactId: string) {
+  await kv.delete(["contacts", owner, contactId]);
 }
