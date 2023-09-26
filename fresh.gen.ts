@@ -26,17 +26,18 @@ import * as $20 from "./routes/api/users/[login]/items.ts";
 import * as $21 from "./routes/api/users/index.ts";
 import * as $22 from "./routes/blog/[slug].tsx";
 import * as $23 from "./routes/blog/index.tsx";
-import * as $24 from "./routes/contacts/index.tsx";
-import * as $25 from "./routes/contacts/new.tsx";
-import * as $26 from "./routes/dashboard/index.tsx";
-import * as $27 from "./routes/feed.ts";
-import * as $28 from "./routes/index.tsx";
-import * as $29 from "./routes/items/[id].tsx";
-import * as $30 from "./routes/notifications/[id].ts";
-import * as $31 from "./routes/notifications/index.tsx";
-import * as $32 from "./routes/pricing.tsx";
-import * as $33 from "./routes/submit.tsx";
-import * as $34 from "./routes/users/[login].tsx";
+import * as $24 from "./routes/contacts/[id]/edit.tsx";
+import * as $25 from "./routes/contacts/index.tsx";
+import * as $26 from "./routes/contacts/new.tsx";
+import * as $27 from "./routes/dashboard/index.tsx";
+import * as $28 from "./routes/feed.ts";
+import * as $29 from "./routes/index.tsx";
+import * as $30 from "./routes/items/[id].tsx";
+import * as $31 from "./routes/notifications/[id].ts";
+import * as $32 from "./routes/notifications/index.tsx";
+import * as $33 from "./routes/pricing.tsx";
+import * as $34 from "./routes/submit.tsx";
+import * as $35 from "./routes/users/[login].tsx";
 import * as $$0 from "./islands/Chart.tsx";
 import * as $$1 from "./islands/CommentsList.tsx";
 import * as $$2 from "./islands/ContactForm.tsx";
@@ -74,17 +75,18 @@ const manifest = {
     "./routes/api/users/index.ts": $21,
     "./routes/blog/[slug].tsx": $22,
     "./routes/blog/index.tsx": $23,
-    "./routes/contacts/index.tsx": $24,
-    "./routes/contacts/new.tsx": $25,
-    "./routes/dashboard/index.tsx": $26,
-    "./routes/feed.ts": $27,
-    "./routes/index.tsx": $28,
-    "./routes/items/[id].tsx": $29,
-    "./routes/notifications/[id].ts": $30,
-    "./routes/notifications/index.tsx": $31,
-    "./routes/pricing.tsx": $32,
-    "./routes/submit.tsx": $33,
-    "./routes/users/[login].tsx": $34,
+    "./routes/contacts/[id]/edit.tsx": $24,
+    "./routes/contacts/index.tsx": $25,
+    "./routes/contacts/new.tsx": $26,
+    "./routes/dashboard/index.tsx": $27,
+    "./routes/feed.ts": $28,
+    "./routes/index.tsx": $29,
+    "./routes/items/[id].tsx": $30,
+    "./routes/notifications/[id].ts": $31,
+    "./routes/notifications/index.tsx": $32,
+    "./routes/pricing.tsx": $33,
+    "./routes/submit.tsx": $34,
+    "./routes/users/[login].tsx": $35,
   },
   islands: {
     "./islands/Chart.tsx": $$0,

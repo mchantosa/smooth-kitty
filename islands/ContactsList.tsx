@@ -6,7 +6,7 @@ import { LINK_STYLES } from "@/utils/constants.ts";
 import IconInfo from "tabler_icons_tsx/info-circle.tsx";
 import { fetchValues } from "@/utils/islands.ts";
 import axios from "npm:axios";
-import { nanoid } from "https://deno.land/x/nanoid/mod.ts";
+import { nanoid } from "https://deno.land/x/nanoid@v3.0.0/mod.ts";
 
 function EmptyItemsList() {
   return (
@@ -73,6 +73,7 @@ const ContactComponent = ({ contact }: ContactComponentProps) => {
       className="group cursor-pointer hover:backdrop-brightness-125 hover:shadow-lg"
       onClick={(e) => {
         e.preventDefault();
+        window.location.href = `/contacts/${id}/edit`;
       }}
     >
       <th aria-label="Contact">
