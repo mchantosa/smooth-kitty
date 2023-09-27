@@ -1,7 +1,7 @@
 // Copyright 2023 the Deno authors. All rights reserved. MIT license.
 import { Plugin } from "$fresh/server.ts";
 import {
-  createGitHubOAuth2Client,
+  createGitHubOAuthConfig,
   handleCallback,
   signIn,
   signOut,
@@ -16,7 +16,7 @@ import {
 } from "@/utils/db.ts";
 import { isStripeEnabled, stripe } from "@/utils/stripe.ts";
 
-const oauth2Client = createGitHubOAuth2Client();
+const oauth2Client = createGitHubOAuthConfig();
 
 // deno-lint-ignore no-explicit-any
 async function getGitHubUser(accessToken: string): Promise<any> {
@@ -45,12 +45,12 @@ export default {
     {
       path: "/callback",
       handler: async (req) => {
-        const { response, accessToken, sessionId } = await handleCallback(
+        const { response, tokens, sessionId } = await handleCallback(
           req,
           oauth2Client,
         );
 
-        const githubUser = await getGitHubUser(accessToken);
+        const githubUser = await getGitHubUser(tokens.accessToken);
 
         const user = await getUser(githubUser.login);
         if (!user) {
