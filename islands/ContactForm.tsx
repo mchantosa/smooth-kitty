@@ -14,7 +14,7 @@ const get119YearsAgo = () => {
 
 interface ContactFormProps {
   endpoint?: string;
-};
+}
 
 const ContactForm = ({ endpoint }: ContactFormProps) => {
   const {
@@ -290,10 +290,24 @@ const ContactForm = ({ endpoint }: ContactFormProps) => {
           {...register("period")}
         >
           <option selected={!getValues("period")} disabled></option>
-          <option selected={getValues("period") === "Weekly"}  value="Weekly">Weekly</option>
-          <option selected={getValues("period") === "Biweekly"} value="Biweekly">Biweekly</option>
-          <option selected={getValues("period") === "Monthly"} value="Monthly">Monthly</option>
-          <option selected={getValues("period") === "Quarterly"} value="Quarterly">Quarterly</option>
+          <option selected={getValues("period") === "Weekly"} value="Weekly">
+            Weekly
+          </option>
+          <option
+            selected={getValues("period") === "Biweekly"}
+            value="Biweekly"
+          >
+            Biweekly
+          </option>
+          <option selected={getValues("period") === "Monthly"} value="Monthly">
+            Monthly
+          </option>
+          <option
+            selected={getValues("period") === "Quarterly"}
+            value="Quarterly"
+          >
+            Quarterly
+          </option>
         </select>
         {errors.period?.message && (
           <p className={textErrorClassNames}>{errors.period?.message}</p>
@@ -322,7 +336,15 @@ const ContactForm = ({ endpoint }: ContactFormProps) => {
               <option value="0"></option>
               {Array.from({ length: 31 }, (_, i) => i).map((
                 i,
-              ) => <option  selected={getValues("birthdayDay") == i} key={nanoid()} value={i + 1}>{i + 1}</option>)}
+              ) => (
+                <option
+                  selected={getValues("birthdayDay") == i}
+                  key={nanoid()}
+                  value={i + 1}
+                >
+                  {i + 1}
+                </option>
+              ))}
             </select>
           </div>
           <div class="pr-2">
@@ -339,7 +361,13 @@ const ContactForm = ({ endpoint }: ContactFormProps) => {
             >
               <option value="-1"></option>
               {MONTHS.map((month, i) => (
-                <option selected={getValues("birthdayMonth") == i} key={nanoid()} value={i}>{month}</option>
+                <option
+                  selected={getValues("birthdayMonth") == i}
+                  key={nanoid()}
+                  value={i}
+                >
+                  {month}
+                </option>
               ))}
             </select>
           </div>
@@ -359,7 +387,15 @@ const ContactForm = ({ endpoint }: ContactFormProps) => {
               {Array.from({ length: 120 }, (_, i) => 119 + get119YearsAgo() - i)
                 .map((
                   year,
-                ) => <option selected={getValues("birthdayYear") == year} key={nanoid()} value={year}>{year}</option>)}
+                ) => (
+                  <option
+                    selected={getValues("birthdayYear") == year}
+                    key={nanoid()}
+                    value={year}
+                  >
+                    {year}
+                  </option>
+                ))}
             </select>
           </div>
         </div>

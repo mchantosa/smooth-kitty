@@ -2,6 +2,7 @@
 import { Plugin } from "$fresh/server.ts";
 import {
   createGitHubOAuthConfig,
+  createGoogleOAuthConfig,
   handleCallback,
   signIn,
   signOut,
@@ -16,13 +17,31 @@ import {
 } from "@/utils/db.ts";
 import { isStripeEnabled, stripe } from "@/utils/stripe.ts";
 
-const oauth2Client = createGitHubOAuthConfig();
+const githubOAuthClient = createGitHubOAuthConfig();
+const googleOAuthClient = createGoogleOAuthConfig({
+  redirectUri: "http://localhost:8000/google/callback",
+  scope: "openid email profile",
+});
 
 // deno-lint-ignore no-explicit-any
 async function getGitHubUser(accessToken: string): Promise<any> {
   const response = await fetch("https://api.github.com/user", {
     headers: { authorization: `Bearer ${accessToken}` },
   });
+  if (!response.ok) {
+    const { message } = await response.json();
+    throw new Error(message);
+  }
+  return await response.json();
+}
+
+async function getGoogleUser(accessToken: string): Promise<any> {
+  const response = await fetch(
+    "https://www.googleapis.com/oauth2/v1/userinfo",
+    {
+      headers: { authorization: `Bearer ${accessToken}` },
+    },
+  );
   if (!response.ok) {
     const { message } = await response.json();
     throw new Error(message);
@@ -39,15 +58,49 @@ export default {
   name: "kv-oauth",
   routes: [
     {
-      path: "/signin",
-      handler: async (req) => await signIn(req, oauth2Client),
+      path: "/google/signin",
+      handler: async (req) => await signIn(req, googleOAuthClient),
     },
     {
-      path: "/callback",
+      path: "/google/callback",
       handler: async (req) => {
         const { response, tokens, sessionId } = await handleCallback(
           req,
-          oauth2Client,
+          googleOAuthClient,
+        );
+
+        const googleUser = await getGoogleUser(tokens.accessToken);
+
+        const user = await getUser(googleUser.email);
+
+        if (!user) {
+          const user: User = {
+            provider: "google",
+            login: googleUser.email,
+            sessionId,
+            firstName: googleUser.given_name,
+            lastName: googleUser.family_name,
+            profilePictureUrl: googleUser.picture,
+            ...newUserProps(),
+          };
+          await createUser(user);
+        } else {
+          await deleteUserBySession(sessionId);
+          await updateUser({ ...user, sessionId });
+        }
+        return response;
+      },
+    },
+    {
+      path: "/github/signin",
+      handler: async (req) => await signIn(req, githubOAuthClient),
+    },
+    {
+      path: "/github/callback",
+      handler: async (req) => {
+        const { response, tokens, sessionId } = await handleCallback(
+          req,
+          githubOAuthClient,
         );
 
         const githubUser = await getGitHubUser(tokens.accessToken);
@@ -62,6 +115,7 @@ export default {
             stripeCustomerId = customer.id;
           }
           const user: User = {
+            provider: "github",
             login: githubUser.login,
             stripeCustomerId,
             sessionId,

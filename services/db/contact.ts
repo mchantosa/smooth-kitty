@@ -117,7 +117,12 @@ export async function seedContacts(owner: string, count: number) {
       connectOnBirthday: faker.datatype.boolean(),
       nextConnection,
       lastConnection: "",
-      period: faker.helpers.arrayElement(["Weekly", "Biweekly", "Monthly", "Quarterly"]),
+      period: faker.helpers.arrayElement([
+        "Weekly",
+        "Biweekly",
+        "Monthly",
+        "Quarterly",
+      ]),
     };
 
     return contact;
