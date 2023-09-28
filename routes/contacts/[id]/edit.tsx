@@ -21,7 +21,7 @@ export default async function ContactDetailsPage(
         />
       </Head>
       <main class="flex-1 p-4 space-y-8">
-        <ContactForm endpoint={endpoint}></ContactForm>
+        <ContactForm endpoint={endpoint} id={contactId}></ContactForm>
       </main>
     </>
   );
