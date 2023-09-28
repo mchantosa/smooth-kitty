@@ -80,8 +80,6 @@ const ContactForm = ({ endpoint, id }: ContactFormProps) => {
     loadContact();
   }, []);
 
-  console.log(errors);
-
   return (
     <form
       class="max-w-md mx-auto p-8 bg-default rounded shadow-lg"
