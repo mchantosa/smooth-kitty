@@ -25,11 +25,12 @@ export const handler: Handlers<undefined, State> = {
     assertSignedIn(ctx);
     const { login } = ctx.state.sessionUser!;
     const form = await req.formData();
+    const contactId = form.get("id");
     const firstName = form.get("firstName");
     const lastName = form.get("lastName");
     const pronouns = form.get("pronouns");
     const avatarUrl = form.get("avatarUrl");
-    const phoneNumber = form.get("phone");
+    const phoneNumber = form.get("phoneNumber");
     const email = form.get("email");
     const preferredMethod = form.get("preferredMethod");
     const preferredMethodHandle = form.get("preferredMethodHandle");
@@ -37,12 +38,12 @@ export const handler: Handlers<undefined, State> = {
     const birthdayDay = form.get("birthdayDay");
     const birthdayMonth = form.get("birthdayMonth");
     const birthdayYear = form.get("birthdayYear");
-    const connectOnBirthday = form.get("connectOnBirthday");
+    const connectOnBirthday = form.get("connectOnBirthday") === "true";
 
     // TODO: Validate contact data
 
     const contact = {
-      id: ulid(),
+      id: contactId || ulid(),
       firstName,
       lastName,
       pronouns,
