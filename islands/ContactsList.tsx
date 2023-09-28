@@ -7,6 +7,8 @@ import IconInfo from "tabler_icons_tsx/info-circle.tsx";
 import { fetchValues } from "@/utils/islands.ts";
 import axios from "npm:axios";
 import { nanoid } from "https://deno.land/x/nanoid@v3.0.0/mod.ts";
+import {format} from "date-fns";
+import {getBirthdayContactDatePretty} from "@/utils/date_time.ts";
 
 function EmptyItemsList() {
   return (
@@ -49,24 +51,26 @@ const DeleteContactButton = (props: {
   );
 };
 
-interface ContactComponentProps {
+const ContactComponent = (props: {
   contact: Contact;
-}
-
-const ContactComponent = ({ contact }: ContactComponentProps) => {
+}) => {
   const {
     id,
     avatarUrl,
     fullName,
     pronouns,
     nextConnection,
+    birthdayDay,
+    birthdayMonth,
+    birthdayYear,
     lastConnection,
     period,
+    connectOnBirthday,
     phoneNumber,
     email,
     preferredMethod,
     preferredMethodHandle,
-  } = contact;
+  } = props.contact;
 
   return (
     <tr
@@ -76,16 +80,6 @@ const ContactComponent = ({ contact }: ContactComponentProps) => {
         window.location.href = `/contacts/${id}/edit`;
       }}
     >
-      <th aria-label="Contact">
-        <label>
-          <input
-            title="Select this contact"
-            id="select-contact"
-            type="checkbox"
-            class="checkbox"
-          />
-        </label>
-      </th>
       <td>
         <div class="flex items-center space-x-3">
           <div class="avatar">
@@ -115,6 +109,14 @@ const ContactComponent = ({ contact }: ContactComponentProps) => {
             {nextConnection}
           </span>
         </div>
+        {connectOnBirthday && birthdayDay && birthdayMonth && (
+          <div>
+            <strong className="opacity-60">Birthday:</strong>
+            <span className="pl-4 text-accent whitespace-nowrap">
+              {getBirthdayContactDatePretty(birthdayDay, birthdayMonth)}
+            </span>
+          </div>
+        )}
         <div>
           <strong className="opacity-60">Last:</strong>
           <span className="pl-4 text-accent whitespace-nowrap">
@@ -219,15 +221,6 @@ export default function ContactsList(props: {
         <table class="table">
           <thead>
             <tr>
-              <th>
-                <label>
-                  <input
-                    title="Select Contact"
-                    type="checkbox"
-                    class="checkbox"
-                  />
-                </label>
-              </th>
               <th>Name</th>
               <th>Next Connection</th>
               <th>Period</th>
@@ -246,7 +239,6 @@ export default function ContactsList(props: {
           </tbody>
           <tfoot>
             <tr>
-              <th></th>
               <th>Name</th>
               <th>Next Connection</th>
               <th>Period</th>
