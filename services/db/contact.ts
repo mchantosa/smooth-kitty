@@ -80,10 +80,7 @@ export async function writeContacts(
         updatedAt: now,
       };
       op.set(["contacts", owner, input.id], item);
-<<<<<<< Updated upstream
-=======
       op.set(["contacts_by_full_name", owner, item.fullName.toLowerCase(), input.id], item);
->>>>>>> Stashed changes
     }
   });
 
