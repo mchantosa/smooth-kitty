@@ -80,7 +80,7 @@ export async function writeContacts(
         updatedAt: now,
       };
       op.set(["contacts", owner, input.id], item);
-      op.set(["contacts_by_full_name", owner, input.fullName.toLowerCase(), input.id], item);
+      op.set(["contacts_by_full_name", owner, item.fullName.toLowerCase(), input.id], item);
     }
   });
 
