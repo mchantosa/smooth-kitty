@@ -41,14 +41,16 @@ import * as $35 from "./routes/submit.tsx";
 import * as $36 from "./routes/users/[login].tsx";
 import * as $$0 from "./islands/Chart.tsx";
 import * as $$1 from "./islands/CommentsList.tsx";
-import * as $$2 from "./islands/ContactForm.tsx";
-import * as $$3 from "./islands/ContactsList.tsx";
-import * as $$4 from "./islands/DashboardList.tsx";
-import * as $$5 from "./islands/DashboardUpcomingList.tsx";
-import * as $$6 from "./islands/ItemsList.tsx";
-import * as $$7 from "./islands/NotificationsList.tsx";
-import * as $$8 from "./islands/UsersTable.tsx";
-import * as $$9 from "./islands/VoteButton.tsx";
+import * as $$2 from "./islands/Contact.tsx";
+import * as $$3 from "./islands/ContactForm.tsx";
+import * as $$4 from "./islands/ContactSearch.tsx";
+import * as $$5 from "./islands/ContactsList.tsx";
+import * as $$6 from "./islands/DashboardList.tsx";
+import * as $$7 from "./islands/DashboardUpcomingList.tsx";
+import * as $$8 from "./islands/ItemsList.tsx";
+import * as $$9 from "./islands/NotificationsList.tsx";
+import * as $$10 from "./islands/UsersTable.tsx";
+import * as $$11 from "./islands/VoteButton.tsx";
 
 const manifest = {
   routes: {
@@ -93,14 +95,16 @@ const manifest = {
   islands: {
     "./islands/Chart.tsx": $$0,
     "./islands/CommentsList.tsx": $$1,
-    "./islands/ContactForm.tsx": $$2,
-    "./islands/ContactsList.tsx": $$3,
-    "./islands/DashboardList.tsx": $$4,
-    "./islands/DashboardUpcomingList.tsx": $$5,
-    "./islands/ItemsList.tsx": $$6,
-    "./islands/NotificationsList.tsx": $$7,
-    "./islands/UsersTable.tsx": $$8,
-    "./islands/VoteButton.tsx": $$9,
+    "./islands/Contact.tsx": $$2,
+    "./islands/ContactForm.tsx": $$3,
+    "./islands/ContactSearch.tsx": $$4,
+    "./islands/ContactsList.tsx": $$5,
+    "./islands/DashboardList.tsx": $$6,
+    "./islands/DashboardUpcomingList.tsx": $$7,
+    "./islands/ItemsList.tsx": $$8,
+    "./islands/NotificationsList.tsx": $$9,
+    "./islands/UsersTable.tsx": $$10,
+    "./islands/VoteButton.tsx": $$11,
   },
   baseUrl: import.meta.url,
 };
