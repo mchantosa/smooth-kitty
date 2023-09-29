@@ -25,7 +25,7 @@ export async function loadContactList(
     cursor: "",
   };
 
-  const list = db.list({ prefix: ["contacts", login] }, options);
+  const list = db.list({ prefix: ["contacts_by_full_name", login] }, options);
 
   for await (const item of list) {
     const contact = item.value as Contact;
@@ -101,8 +101,8 @@ export async function seedContacts(owner: string, count: number) {
 
     const contact = {
       id: ulid(),
-      firstName: faker.person.firstName(),
-      lastName: faker.person.lastName(),
+      firstName,
+      lastName,
       fullName,
       pronouns: faker.helpers.arrayElement(["he/him", "she/her", "they/them"]),
       avatarUrl: `/images/faces/face_${

@@ -11,7 +11,7 @@ export const handler: Handlers<undefined, State> = {
     const url = new URL(req.url);
     const response = await loadContactList(login, {
       cursor: getCursor(url),
-      reverse: true,
+      reverse: false,
       consistency: "strong",
     });
 
