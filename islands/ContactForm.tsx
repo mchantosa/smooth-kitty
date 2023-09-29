@@ -14,9 +14,10 @@ const get119YearsAgo = () => {
 
 interface ContactFormProps {
   endpoint?: string;
+  id?: string;
 }
 
-const ContactForm = ({ endpoint }: ContactFormProps) => {
+const ContactForm = ({ endpoint, id }: ContactFormProps) => {
   const {
     register,
     handleSubmit,
@@ -85,6 +86,7 @@ const ContactForm = ({ endpoint }: ContactFormProps) => {
       // @ts-ignore TODO: fix react-hook-form types
       onSubmit={handleSubmit((d) => {
         const formData = new FormData();
+        if (id) formData.append("id", id);
         formData.append("firstName", d.firstName);
         formData.append("lastName", d.lastName);
         formData.append("pronouns", d.pronouns);
@@ -338,7 +340,7 @@ const ContactForm = ({ endpoint }: ContactFormProps) => {
                 i,
               ) => (
                 <option
-                  selected={getValues("birthdayDay") == i}
+                  selected={getValues("birthdayDay") == i + 1}
                   key={nanoid()}
                   value={i + 1}
                 >
@@ -413,7 +415,7 @@ const ContactForm = ({ endpoint }: ContactFormProps) => {
         <input
           id="connectOnBirthday"
           type="checkbox"
-          {...register("connectOnBirthday")}
+          {...register("connectOnBirthday", { setValueAs: (v) => Boolean(v) })}
           class="checkbox"
         />
         {errors.connectOnBirthday?.message && (
