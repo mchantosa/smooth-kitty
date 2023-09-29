@@ -81,7 +81,7 @@ export default function Header(props: {
               </>
             )
             : (
-              <a href="/signin" class={cx(LINK_STYLES, NAV_ITEM)}>
+              <a href="/login" class={cx(LINK_STYLES, NAV_ITEM)}>
                 Sign in
               </a>
             )}

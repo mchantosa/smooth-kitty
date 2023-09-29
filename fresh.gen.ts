@@ -33,11 +33,12 @@ import * as $27 from "./routes/dashboard/index.tsx";
 import * as $28 from "./routes/feed.ts";
 import * as $29 from "./routes/index.tsx";
 import * as $30 from "./routes/items/[id].tsx";
-import * as $31 from "./routes/notifications/[id].ts";
-import * as $32 from "./routes/notifications/index.tsx";
-import * as $33 from "./routes/pricing.tsx";
-import * as $34 from "./routes/submit.tsx";
-import * as $35 from "./routes/users/[login].tsx";
+import * as $31 from "./routes/login.tsx";
+import * as $32 from "./routes/notifications/[id].ts";
+import * as $33 from "./routes/notifications/index.tsx";
+import * as $34 from "./routes/pricing.tsx";
+import * as $35 from "./routes/submit.tsx";
+import * as $36 from "./routes/users/[login].tsx";
 import * as $$0 from "./islands/Chart.tsx";
 import * as $$1 from "./islands/CommentsList.tsx";
 import * as $$2 from "./islands/ContactForm.tsx";
@@ -82,11 +83,12 @@ const manifest = {
     "./routes/feed.ts": $28,
     "./routes/index.tsx": $29,
     "./routes/items/[id].tsx": $30,
-    "./routes/notifications/[id].ts": $31,
-    "./routes/notifications/index.tsx": $32,
-    "./routes/pricing.tsx": $33,
-    "./routes/submit.tsx": $34,
-    "./routes/users/[login].tsx": $35,
+    "./routes/login.tsx": $31,
+    "./routes/notifications/[id].ts": $32,
+    "./routes/notifications/index.tsx": $33,
+    "./routes/pricing.tsx": $34,
+    "./routes/submit.tsx": $35,
+    "./routes/users/[login].tsx": $36,
   },
   islands: {
     "./islands/Chart.tsx": $$0,

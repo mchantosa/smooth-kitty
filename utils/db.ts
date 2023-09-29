@@ -385,9 +385,13 @@ export function listItemsVotedByUser(userLogin: string) {
 // User
 export interface User {
   // AKA username
+  provider: "google" | "github" | "facebook";
   login: string;
   sessionId: string;
+  firstName?: string;
+  lastName?: string;
   stripeCustomerId?: string;
+  profilePictureUrl?: string;
   // The below properties can be automatically generated upon comment creation
   isSubscribed: boolean;
 }

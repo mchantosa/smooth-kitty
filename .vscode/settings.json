@@ -13,18 +13,19 @@
   },
   "cSpell.words": [
     "axios",
+    "birthdate",
     "daisyui",
     "hookform",
     "lcov",
     "signin",
+    "signout",
     "signup",
+    "slackhandle",
+    "squircle",
     "supabase",
     "tabler",
-    "versionstamp",
-    "slackhandle",
     "twitterhandle",
-    "birthdate",
-    "squircle"
+    "versionstamp"
   ],
   "githubPullRequests.ignoredPullRequestBranches": [
     "main"
