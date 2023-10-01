@@ -26,7 +26,8 @@ const DeleteContactButton = (props: {
   );
 };
 
-export const Contact = ({ contact }: ContactProps) => {
+export const Contact = (props: ContactProps) => {
+  const {contact} = props;
   const {
     id,
     avatarUrl,
@@ -41,24 +42,18 @@ export const Contact = ({ contact }: ContactProps) => {
     preferredMethodHandle,
   } = contact;
 
+  // console.log("name", fullName);
+  // console.log("letterNav", letterNav);
+
   return (
     <tr
       className="group cursor-pointer hover:backdrop-brightness-125 hover:shadow-lg"
+      id={contact.id}
       onClick={(e) => {
         e.preventDefault();
         window.location.href = `/contacts/${id}/edit`;
       }}
     >
-      <th aria-label="Contact">
-        <label>
-          <input
-            title="Select this contact"
-            id="select-contact"
-            type="checkbox"
-            class="checkbox"
-          />
-        </label>
-      </th>
       <td>
         <div class="flex items-center space-x-3">
           <div class="avatar">
