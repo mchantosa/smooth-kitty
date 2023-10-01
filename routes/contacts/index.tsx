@@ -9,7 +9,8 @@ export default async function ContactsPage(_req: Request, ctx: RouteContext) {
       <Head title="Contacts" href={ctx.url.href} />
       <main class="p-4 flex-1">
         <div class="pl-4">
-          <a href="/contacts/new" class="btn btn-primary">New contact</a>
+          <a href="/contacts/new" class="btn btn-primary mx-2">New contact</a>
+          <a href="/api/contacts/seed" class="btn btn-primary mx-2">Seed</a>
         </div>
         <ContactsList endpoint="/api/contacts" />
       </main>
