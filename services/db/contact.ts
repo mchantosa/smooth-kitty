@@ -6,12 +6,14 @@ import type {
 import { ulid } from "std/ulid/mod.ts";
 import { faker } from "faker";
 import { kv } from "@/utils/db.ts";
+import { MuxAsyncIterator } from "https://deno.land/std@0.203.0/async/mod.ts";
 import { add, format, nextSunday } from "date-fns";
 
-export const db = await Deno.openKv();
+export const CONTACTS_KEY = "contacts";
+export const CONTACTS_BY_FULL_NAME_KEY = "contacts_by_full_name";
 
 export async function loadContact(login: string, id: string) {
-  const contact = await db.get(["contacts", login, id]);
+  const contact = await kv.get([CONTACTS_KEY, login, id]);
   if (!contact) throw new Error("Contact not found");
   return contact;
 }
@@ -25,7 +27,7 @@ export async function loadContactList(
     cursor: "",
   };
 
-  const list = db.list({ prefix: ["contacts_by_full_name", login] }, options);
+  const list = kv.list({ prefix: [CONTACTS_BY_FULL_NAME_KEY, login] }, options);
 
   for await (const item of list) {
     const contact = item.value as Contact;
@@ -39,52 +41,88 @@ export async function loadContactList(
   return contactList;
 }
 
-export async function writeContacts(
-  owner: string,
-  inputs: InputSchema,
-): Promise<void> {
-  const currentEntries = await db.getMany(
-    inputs.map((input: InputSchema) => ["contacts", owner, input.id]),
-  );
+async function createContact(contactKey: string[], contact: Contact) {
+  const [_contacts, owner, contactId] = contactKey;
+  contact.fullName = `${contact.firstName} ${contact.lastName}`;
+  const contactsByFullNameKey = [
+    CONTACTS_BY_FULL_NAME_KEY,
+    owner,
+    contact.fullName.toLowerCase(),
+    contactId,
+  ];
 
-  const op = db.atomic();
+  const op = kv.atomic();
+  op.check({ key: contactKey, versionstamp: null });
+  op.check({ key: contactsByFullNameKey, versionstamp: null });
+  op.set(contactKey, contact);
+  op.set(contactsByFullNameKey, contact);
 
-  inputs.forEach((input: InputSchema, i: number) => {
-    // TODO: Check for empty record
-    if (input.text === null) {
-      op.delete(["contacts", owner, input.id]);
-    } else {
-      const current = currentEntries[i].value as Contact | null;
-      const now = Date.now();
-      const createdAt = current?.createdAt ?? now;
-      const nextConnection = format(nextSunday(new Date()), "dd-MMM-yyyy");
+  const res = await op.commit();
 
-      const item: Contact = {
-        firstName: input.firstName,
-        lastName: input.lastName,
-        fullName: `${input.firstName} ${input.lastName}`.trim(),
-        pronouns: input.pronouns,
-        avatarUrl: input.avatarUrl || "/images/avatar_icon_green.png",
-        email: input.email,
-        phoneNumber: input.phoneNumber,
-        preferredMethod: input.preferredMethod,
-        preferredMethodHandle: input.preferredMethodHandle,
-        birthdayDay: input.birthdayDay,
-        birthdayMonth: input.birthdayMonth,
-        birthdayYear: input.birthdayYear,
-        connectOnBirthday: input.connectOnBirthday,
-        period: input.period,
-        nextConnection: input.nextConnection || nextConnection,
-        lastConnection: input.lastConnection,
-        createdAt,
-        updatedAt: now,
-      };
-      op.set(["contacts", owner, input.id], item);
-      op.set(["contacts_by_full_name", owner, item.fullName.toLowerCase(), input.id], item);
-    }
-  });
+  if (!res.ok) {
+    throw new Error(`Failed to create contact ${contactKey}`);
+  }
+}
 
-  await op.commit();
+async function updateContact(
+  contactRecord: Deno.KvEntry<Contact>,
+  contact: Contact,
+) {
+  const contactKey = contactRecord.key;
+  const [_contacts, owner, contactId] = contactKey;
+  const currentFullName =
+    `${contactRecord.value.firstName} ${contactRecord.value.lastName}`
+      .toLocaleLowerCase();
+  contact.fullName = `${contact.firstName} ${contact.lastName}`;
+  const contactsByFullNameKey = [
+    CONTACTS_BY_FULL_NAME_KEY,
+    owner,
+    currentFullName,
+    contactId,
+  ];
+
+  const op = kv.atomic();
+  op.check({ key: contactKey, versionstamp: contactRecord.versionstamp });
+  op.set(contactKey, contact);
+
+  if (currentFullName !== contact.fullName.toLowerCase()) {
+    // Contact name changed, delete old index
+    // and create new secondary index
+    await kv.delete(contactsByFullNameKey);
+    contactsByFullNameKey[2] = contact.fullName.toLowerCase();
+    op.check({
+      key: contactsByFullNameKey,
+      versionstamp: null,
+    });
+  } else {
+    // Contact name did not change, so just check that
+    // the secondary index has not changed
+    const contactByFullName = await kv.get<Contact>(contactsByFullNameKey);
+    op.check({
+      key: contactsByFullNameKey,
+      versionstamp: contactByFullName.versionstamp,
+    });
+  }
+  op.set(contactsByFullNameKey, contact);
+
+  const res = await op.commit();
+
+  if (!res.ok) {
+    throw new Error(`Failed to update contact ${contactKey}`);
+  }
+}
+
+export async function writeContact(owner: string, contact: Contact) {
+  contact.id = contact.id || ulid();
+
+  const contactKey: string[] = [CONTACTS_KEY, owner, contact.id];
+  const contactRecord = await kv.get<Contact>(contactKey);
+
+  if (!contactRecord.value) {
+    await createContact(contactKey, contact);
+  } else {
+    await updateContact(contactRecord, contact);
+  }
 }
 
 export async function seedContacts(owner: string, count: number) {
@@ -136,17 +174,47 @@ export async function seedContacts(owner: string, count: number) {
   });
 
   for (const contact of contacts) {
-    await writeContacts(owner, [contact]);
+    await writeContact(owner, contact);
   }
 }
 
-export async function resetContacts(owner: string) {
-  const iter = kv.list({ prefix: ["contacts", owner] });
+export async function resetDb() {
+  const mux = new MuxAsyncIterator<Deno.KvEntryMaybe<string>>();
+  mux.add(kv.list<string>({ prefix: [CONTACTS_KEY] }));
+  mux.add(kv.list<string>({ prefix: [CONTACTS_BY_FULL_NAME_KEY] }));
   const promises = [];
-  for await (const res of iter) promises.push(kv.delete(res.key));
+  for await (const res of mux) {
+    promises.push(kv.delete(res.key));
+  }
   await Promise.all(promises);
 }
 
 export async function deleteContact(owner: string, contactId: string) {
-  await kv.delete(["contacts", owner, contactId]);
+  const contactKey = [CONTACTS_KEY, owner, contactId];
+  const contact = await kv.get<Contact>(contactKey);
+
+  if (!contact.value) {
+    console.warn(`Delete: Contact not found: ${contactKey}`);
+    return;
+  }
+
+  const contactByFullNameKey = [
+    CONTACTS_BY_FULL_NAME_KEY,
+    owner,
+    contact.value.fullName.toLowerCase(),
+    contactId,
+  ];
+
+  const contactByFullName = await kv.get(contactByFullNameKey);
+
+  const op = kv.atomic();
+  op.check(contact);
+  op.check(contactByFullName);
+  op.delete(contact.key);
+  op.delete(contactByFullName.key);
+
+  const res = await op.commit();
+  if (!res.ok) {
+    throw new Error(`Failed to delete contact ${contactKey}`);
+  }
 }

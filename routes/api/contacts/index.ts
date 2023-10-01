@@ -1,7 +1,7 @@
 import { type Handlers } from "$fresh/server.ts";
 import { assertSignedIn, State } from "@/middleware/session.ts";
 import { getCursor } from "@/utils/http.ts";
-import { loadContactList, writeContacts } from "@/services/db/contact.ts";
+import { loadContactList, writeContact } from "@/services/db/contact.ts";
 import { ulid } from "std/ulid/mod.ts";
 import type { InputSchema } from "@/shared/data/contact.ts";
 
@@ -58,8 +58,7 @@ export const handler: Handlers<undefined, State> = {
       connectOnBirthday,
     };
 
-    const contacts: InputSchema = [contact];
-    await writeContacts(login, contacts);
+    await writeContact(login, contact);
 
     // TODO: Do server side redirect to /contacts
     return new Response(null, { status: 200 });
