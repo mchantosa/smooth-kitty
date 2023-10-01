@@ -1,5 +1,5 @@
 import { effect, useSignal } from "@preact/signals";
-import { useEffect } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import { nanoid } from "https://deno.land/x/nanoid@v3.0.0/mod.ts";
 import { fetchValues } from "@/utils/islands.ts";
 import { ContactSearch } from "@/islands/ContactSearch.tsx";
@@ -51,7 +51,35 @@ export default function ContactsList(props: {
   const searchTextSig = useSignal("");
   const allContactsSig = useSignal([]);
   const filteredContactsSig = useSignal(allContactsSig.value);
-  effect(() => {
+
+  function groupAndReturnFirstOccurrence(arr) {
+    const grouped = {};
+    const result = [];
+  
+    for (const item of arr) {
+      const letter = item.fullName[0].toUpperCase();
+      if (!grouped[letter]) {
+        grouped[letter] = true;
+        result.push(item);
+      }
+    }
+  
+    return result;
+  }
+
+  const NavBar = () => {
+    return (
+      <div className="flex-none">
+        <ul className="menu menu-horizontal px-1">
+          {groupAndReturnFirstOccurrence(filteredContactsSig.value).map((contact) => {
+            return (<li><a href={`#${contact.id}`}>{contact.fullName[0].toUpperCase()}</a></li>)
+          })}
+        </ul>
+      </div>
+    )
+  }
+
+  effect(() => {//runs every time a signal changes
     if (searchTextSig.value === "") {
       filteredContactsSig.value = allContactsSig.value;
       return;
@@ -63,7 +91,7 @@ export default function ContactsList(props: {
     filteredContactsSig.value = filtered;
   });
 
-  useEffect(async () => {
+  useEffect(async () => {//runs every time a component renders
     await loadContacts();
   }, []);
 
@@ -85,34 +113,40 @@ export default function ContactsList(props: {
   }
 
   return (
-    <div>
-      {isLoadingSig.value && <Loader />}
-      {!isLoadingSig.value && !allContactsSig.value.length && <NoContacts />}
-      {!isLoadingSig.value && allContactsSig.value.length > 0 && (
-        <div class="overflow-x-auto">
-          <div class="flex items-center justify-flex-end">
-            <ContactSearch searchText={searchTextSig}></ContactSearch>
-          </div>
-
-          <table class="table">
-            <thead>
-              <tr>
-                <th>
-                </th>
-                <th>Name</th>
-                <th>Next Connection</th>
-                <th>Period</th>
-                <th>Contact Information</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              { !filteredContactsSig.value.length && <NotFound /> }
-              { Boolean(filteredContactsSig.value.length) && filteredContactsSig.value.map((contact) => (<Contact key={nanoid()} contact={contact} />))}
-            </tbody>
-          </table>
-        </div>
-      )}
-    </div>
+    <>
+      <div>
+        {isLoadingSig.value && <Loader />}
+        {!isLoadingSig.value && !allContactsSig.value.length && <NoContacts />}
+        {!isLoadingSig.value && allContactsSig.value.length > 0 && (
+          <div class="overflow-x-auto">
+            <div class="flex items-center justify-flex-end">
+              <NavBar/>
+              <ContactSearch searchText={searchTextSig}></ContactSearch>
+            </div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Next Connection</th>
+                  <th>Period</th>
+                  <th>Contact Information</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                { !filteredContactsSig.value.length && <NotFound /> }
+                { Boolean(filteredContactsSig.value.length) 
+                  && filteredContactsSig.value.map((contact)=><Contact contact={contact}/>)}
+              </tbody>
+            </table>
+            </div>
+        )}
+      </div>
+    </>
   );
 }
+
+
+
+
+

@@ -75,7 +75,6 @@ export const contactSchema = z.object({
   },
 ).refine(
   ({ birthdayDay, birthdayMonth }) => {
-    console.log("birthdayDay", birthdayDay, "birthdayMonth", birthdayMonth);
     if (birthdayDay === 0 || birthdayMonth === -1) {
       return false;
     }
@@ -93,7 +92,7 @@ export const contactSchema = z.object({
     return true;
   },
   {
-    message: "Days in February must be less than 29",
+    message: "Days in February must be less than 30",
     path: ["date"],
   },
 ).refine(
