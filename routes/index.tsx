@@ -65,7 +65,7 @@ export default async function HomePage(
           <div class="hero-content flex-col lg:flex-row">
             <div class="mr-6">
               <img
-                src="/images/connections-logo.png"
+                src="/images/connections-logo-alt.png"
                 class="max-w-sm rounded-lg shadow-2xl mb-6"
               />
               <img
