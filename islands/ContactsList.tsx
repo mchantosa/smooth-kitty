@@ -63,7 +63,6 @@ export default function ContactsList(props: {
         result.push(item);
       }
     }
-  
     return result;
   }
 

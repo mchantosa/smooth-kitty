@@ -1,4 +1,4 @@
-import {format} from "date-fns";
+import {format, add, nextSunday} from "date-fns";
 
 export const isLeapYear = (year) => {
     const feb29 = new Date(year,1,29);
@@ -19,12 +19,16 @@ export const getBirthdayContactDatePretty = (birthdayDay, birthdayMonth)=>{
 }
     
 
-const randomSundayWithinAQuarter = () => {
-    return add(nextSunday(new Date()), {weeks: Math.floor(Math.random() * 13),});
+export const getRandomSundayWithinAQuarterDBDate = () => {
+    return format(add(nextSunday(new Date()), {weeks: Math.floor(Math.random() * 13),}),'yyyy/MM/dd');
+}
+
+export const getRandomDayWithinThePastMonthDBDate = () => {
+    return format(add(new Date(), {days: -Math.floor(Math.random() * 30),}),'yyyy/MM/dd');
 }
 
 const getNextSundayDate = () => {
-    return format(nextSunday(new Date()), "yyyy-mm-dd");
+    return format(nextSunday(new Date()), "yyyy/MM/dd");
 }
 
 const convertDateToPretty = (date) => {
@@ -35,7 +39,8 @@ const convertDateToPrettyShort = (date) => {
     return format(date, "dd-MMM");
 }
 
-const convertDBDateToPretty = (DBDate) => {
+export const convertDBDateToPretty = (DBDate) => {
+    if (!DBDate) return "";
     const date = new Date(DBDate);
     return format(date, "dd-MMM-yyyy");
 }
@@ -48,4 +53,38 @@ const convertDBDateToPrettyShort = (DBDate) => {
 const convertDateFromPrettyToDB = (datePretty) => {
     const date = new Date(datePretty);
     return format(date, "yyyy-mm-dd");
+}
+
+export const getNextSundayDateToPretty = ()=> {
+    return format(nextSunday(new Date()), "yyyy-MM-dd");
+}
+
+export const getLastSundayOrTodayDate= ()=> {
+    //is today sunday
+    const today = new Date();
+    const day = today.getDay();
+    if(day === 0){
+        return today;
+    }else {
+        return add(nextSunday(new Date()), {weeks: -1});
+    }
+}
+
+export const getLastSundayOrTodayDatePretty = ()=> {
+    return convertDateToPretty(getLastSundayOrTodayDate());
+}
+
+export const getNextSaturdayOrTodayDate = ()=> {
+    //is today Saturday
+    const today = new Date();
+    const day = today.getDay();
+    if(day === 6){
+        return today;
+    }else {
+        return add(today, {days: 6 - day});
+    }
+}
+
+export const getNextSaturdayOrTodayDatePretty = ()=> {  
+    return convertDateToPretty(getNextSaturdayOrTodayDate());
 }

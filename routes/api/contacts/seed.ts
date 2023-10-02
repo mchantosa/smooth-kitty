@@ -8,7 +8,7 @@ export const handler: Handlers<undefined, State> = {
   async GET(req, ctx) {
     const { login } = ctx.state.sessionUser!;
     await resetDb();
-    await seedContacts(login, 2);
+    await seedContacts(login, 10);
     return redirect("/contacts", Status.SeeOther);
   },
 };

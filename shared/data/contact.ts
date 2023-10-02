@@ -62,7 +62,7 @@ export const contactSchema = z.object({
     /^(Weekly|Biweekly|Monthly|Quarterly)$/,
     "Invalid period",
   ),
-  nextConnection: z.string().trim().optional(),
+  nextConnection: z.string().trim().optional(),//yyyy-mm-dd
   lastConnection: z.string().trim().optional(),
 }).refine(
   ({ firstName, lastName }) => {
@@ -75,7 +75,7 @@ export const contactSchema = z.object({
   },
 ).refine(
   ({ birthdayDay, birthdayMonth }) => {
-    if (birthdayDay === 0 || birthdayMonth === -1) {
+    if ((birthdayDay !== 0 && birthdayMonth === -1)||(birthdayDay === 0 && birthdayMonth !== -1)) {
       return false;
     }
     return true;
