@@ -27,8 +27,13 @@ export default function Header(props: {
         />
 
         <div class="flex justify-between items-center">
-          <a href="/" class="shrink-0">
-            <h1 class="text-3xl font-bold">InnerCircle</h1>
+          <a href="/" class="shrink-0 flex flex-row">
+            <img
+              src="/images/connections-logo-alt.png"
+              class="w-10 h-10 mr-2"
+              alt="inner circle logo"
+            />
+            <h1 class="text-3xl font-bold">Inner Circle</h1>
           </a>
           <div class="flex gap-4 items-center">
             <label
