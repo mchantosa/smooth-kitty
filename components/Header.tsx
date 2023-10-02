@@ -15,6 +15,7 @@ export default function Header(props: {
   hasNotifications: boolean;
   url: URL;
 }) {
+  const { sessionUser, url } = props;
   const NAV_ITEM = "text-gray-500 px-3 py-4 sm:py-2";
   return (
     <header>
@@ -55,7 +56,7 @@ export default function Header(props: {
         <nav
           class={"hidden flex-col gap-x-4 divide-y divide-solid sm:(flex items-center flex-row divide-y-0)"}
         >
-          {props.sessionUser
+          {sessionUser
             ? (
               <>
                 <a href="/dashboard" class={cx(LINK_STYLES, NAV_ITEM)}>
@@ -67,14 +68,17 @@ export default function Header(props: {
                 <a
                   href="/account"
                   class={cx(
-                    props.url.pathname === "/account"
+                    url.pathname === "/account"
                       ? ACTIVE_LINK_STYLES
                       : LINK_STYLES,
                     NAV_ITEM,
                   )}
                 >
                   <div class="flex">
-                    <IconUserCircle class="mr-2"></IconUserCircle>
+                    <img
+                      src={sessionUser?.profilePictureUrl}
+                      class="w-6 mr-2 rounded rounded-full"
+                    />
                     Account
                   </div>
                 </a>
