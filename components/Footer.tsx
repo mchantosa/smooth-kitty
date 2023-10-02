@@ -1,14 +1,11 @@
 // Copyright 2023 the Deno authors. All rights reserved. MIT license.
 import {
-  ACTIVE_LINK_STYLES,
   LINK_STYLES,
   NAV_STYLES,
   SITE_BAR_STYLES,
   SITE_NAME,
 } from "@/utils/constants.ts";
-import IconBrandDiscord from "tabler_icons_tsx/brand-discord.tsx";
 import IconBrandGithub from "tabler_icons_tsx/brand-github.tsx";
-import IconRss from "tabler_icons_tsx/rss.tsx";
 import MadeWithFreshBadge from "@/components/MadeWithFreshBadge.tsx";
 
 export default function Footer(props: { url: URL }) {
@@ -18,14 +15,16 @@ export default function Footer(props: { url: URL }) {
         © {new Date().getFullYear()} {SITE_NAME}
       </p>
       <nav class={NAV_STYLES}>
-        <a
+        {
+          /* <a
           href="/blog"
           class={props.url.pathname === "/blog"
             ? ACTIVE_LINK_STYLES
             : LINK_STYLES}
         >
           Blog
-        </a>
+        </a> */
+        }
         {
           /* <a href="/feed" aria-label="Deno Hunt RSS Feed" class={LINK_STYLES}>
           <IconRss class="h-6 w-6" />

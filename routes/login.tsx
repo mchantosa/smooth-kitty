@@ -17,6 +17,21 @@ export const handler: Handlers = {
   },
 };
 
+const LoginButton = (
+  { href, logo, provider }: { href: string; logo: string; provider: string },
+) => (
+  <>
+    <a href={href} class="btn btn-wide my-1">
+      <img
+        class="inline w-5 h-5 mr-2"
+        src={logo}
+        alt={`${provider} logo`}
+      />
+      {`Log in with ${provider}`}
+    </a>
+  </>
+);
+
 export default async function LoginPage(
   _req: Request,
   ctx: RouteContext<undefined, State>,
@@ -25,22 +40,24 @@ export default async function LoginPage(
     <>
       <Head href={ctx.url.href}>
       </Head>
-      <main class="flex-1 p-4">
-        <div class="mb-4">
-          <a className="btn btn-primary" href="/google/signin">
-            Login with Google
-          </a>
-        </div>
-        <div class="mb-4">
-          <a className="btn btn-primary" href="/facebook/signin">
-            Login with Facebook
-          </a>
-        </div>
-        <div class="mb-4">
-          <a className="btn btn-primary" href="/github/signin">
-            Login with GitHub
-          </a>
-        </div>
+      <main class="flex flex-col flex-1 p-4 items-center justify-center">
+        <LoginButton
+          href="/google/signin"
+          logo="/images/google-logo.png"
+          provider="Google"
+        />
+        {
+          /* <LoginButton
+          href="/facebook/signin"
+          logo="/images/meta.png"
+          provider="Facebook"
+        /> */
+        }
+        <LoginButton
+          href="/github/signin"
+          logo="/images/github-mark/github-mark.png"
+          provider="Github"
+        />
       </main>
     </>
   );

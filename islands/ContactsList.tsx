@@ -30,18 +30,20 @@ const NoContacts = () => (
   </>
 );
 
-const NotFound = () => ( <>
-  <tr>
-    <td colspan="6">
-      <div class="w-full">
-        <div class="flex flex-col justify-center items-center gap-2">
-        <IconInfo class="w-10 h-10 text-gray-400 dark:text-gray-600" />
-          <p class="font-medium">No contacts found</p>
-        </div>      
-      </div>
-    </td>
-  </tr>
-</>);
+const NotFound = () => (
+  <>
+    <tr>
+      <td colspan="6">
+        <div class="w-full">
+          <div class="flex flex-col justify-center items-center gap-2">
+            <IconInfo class="w-10 h-10 text-gray-400 dark:text-gray-600" />
+            <p class="font-medium">No contacts found</p>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </>
+);
 
 export default function ContactsList(props: {
   endpoint: string;
@@ -55,7 +57,7 @@ export default function ContactsList(props: {
   function groupAndReturnFirstOccurrence(arr) {
     const grouped = {};
     const result = [];
-  
+
     for (const item of arr) {
       const letter = item.fullName[0].toUpperCase();
       if (!grouped[letter]) {
@@ -63,7 +65,7 @@ export default function ContactsList(props: {
         result.push(item);
       }
     }
-  
+
     return result;
   }
 
@@ -71,27 +73,39 @@ export default function ContactsList(props: {
     return (
       <div className="flex-none">
         <ul className="menu menu-horizontal px-1">
-          {groupAndReturnFirstOccurrence(filteredContactsSig.value).map((contact) => {
-            return (<li><a href={`#${contact.id}`}>{contact.fullName[0].toUpperCase()}</a></li>)
-          })}
+          {groupAndReturnFirstOccurrence(filteredContactsSig.value).map(
+            (contact) => {
+              return (
+                <li>
+                  <a href={`#${contact.id}`}>
+                    {contact.fullName[0].toUpperCase()}
+                  </a>
+                </li>
+              );
+            },
+          )}
         </ul>
       </div>
-    )
-  }
+    );
+  };
 
-  effect(() => {//runs every time a signal changes
+  effect(() => { //runs every time a signal changes
     if (searchTextSig.value === "") {
       filteredContactsSig.value = allContactsSig.value;
       return;
     }
     const filtered = allContactsSig.value.filter((contact) =>
-      contact?.firstName?.toLowerCase().includes(searchTextSig.value.toLowerCase()) ||
-      contact?.lastName?.toLowerCase().includes(searchTextSig.value.toLowerCase())
+      contact?.firstName?.toLowerCase().includes(
+        searchTextSig.value.toLowerCase(),
+      ) ||
+      contact?.lastName?.toLowerCase().includes(
+        searchTextSig.value.toLowerCase(),
+      )
     );
     filteredContactsSig.value = filtered;
   });
 
-  useEffect(async () => {//runs every time a component renders
+  useEffect(async () => { //runs every time a component renders
     await loadContacts();
   }, []);
 
@@ -120,7 +134,7 @@ export default function ContactsList(props: {
         {!isLoadingSig.value && allContactsSig.value.length > 0 && (
           <div class="overflow-x-auto">
             <div class="flex items-center justify-flex-end">
-              <NavBar/>
+              <NavBar />
               <ContactSearch searchText={searchTextSig}></ContactSearch>
             </div>
             <table class="table">
@@ -134,19 +148,16 @@ export default function ContactsList(props: {
                 </tr>
               </thead>
               <tbody>
-                { !filteredContactsSig.value.length && <NotFound /> }
-                { Boolean(filteredContactsSig.value.length) 
-                  && filteredContactsSig.value.map((contact)=><Contact contact={contact}/>)}
+                {!filteredContactsSig.value.length && <NotFound />}
+                {Boolean(filteredContactsSig.value.length) &&
+                  filteredContactsSig.value.map((contact) => (
+                    <Contact contact={contact} />
+                  ))}
               </tbody>
             </table>
-            </div>
+          </div>
         )}
       </div>
     </>
   );
 }
-
-
-
-
-

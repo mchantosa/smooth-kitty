@@ -1,9 +1,9 @@
 // Copyright 2023 the Deno authors. All rights reserved. MIT license.
 import { Plugin } from "$fresh/server.ts";
 import {
+  createFacebookOAuthConfig,
   createGitHubOAuthConfig,
   createGoogleOAuthConfig,
-  createFacebookOAuthConfig,
   handleCallback,
   signIn,
   signOut,
@@ -19,7 +19,6 @@ import {
 import { isStripeEnabled, stripe } from "@/utils/stripe.ts";
 
 /**
- * 
  * curl -i -X GET \
  * "https://graph.facebook.com/v18.0/me?fields=id%2Cname&access_token="
  */
@@ -62,7 +61,7 @@ async function getGoogleUser(accessToken: string): Promise<any> {
 
 async function getFacebookUser(accessToken: string): Promise<any> {
   const response = await fetch(
-    `https://graph.facebook.com/v18.0/me?fields=id%2Cname&access_token=${accessToken}`
+    `https://graph.facebook.com/v18.0/me?fields=id%2Cname&access_token=${accessToken}`,
   );
   if (!response.ok) {
     const { message } = await response.json();
@@ -173,6 +172,7 @@ export default {
           const user: User = {
             provider: "github",
             login: githubUser.login,
+            profilePictureUrl: githubUser.avatar_url,
             stripeCustomerId,
             sessionId,
             ...newUserProps(),
