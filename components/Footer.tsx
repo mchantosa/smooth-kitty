@@ -39,7 +39,7 @@ export default function Footer(props: { url: URL }) {
         </a> */
         }
         <a
-          href="https://github.com/digioak/smooth-kitty"
+          href="https://github.com/mchantosa/smooth-kitty"
           target="_blank"
           aria-label="Connections on GitHub"
           class={LINK_STYLES}
