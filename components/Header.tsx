@@ -19,6 +19,12 @@ export default function Header(props: {
   const NAV_ITEM = "text-gray-500 px-3 py-4 sm:py-2";
   return (
     <header>
+      <script>
+        {`  if (window.location.hostname === 'greetingshooman.com') {
+            window.location.href = 'https://innercircleprm.com/login';
+          }
+          `}
+      </script>
       <div class={cx(SITE_BAR_STYLES, "flex-col sm:flex-row")}>
         <input
           type="checkbox"
