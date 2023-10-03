@@ -7,10 +7,15 @@ import { ulid } from "std/ulid/mod.ts";
 import { faker } from "faker";
 import { kv } from "@/utils/db.ts";
 import { MuxAsyncIterator } from "https://deno.land/std@0.203.0/async/mod.ts";
-import { add, format, nextSunday } from "date-fns";
+//import { add, format, nextSunday } from "date-fns";
+import { getNextSundayDateToPretty, 
+  getRandomSundayWithinAQuarterDBDate, 
+  getRandomDayWithinThePastMonthDBDate
+} from "@/utils/dates.ts";
 
 export const CONTACTS_KEY = "contacts";
 export const CONTACTS_BY_FULL_NAME_KEY = "contacts_by_full_name";
+export const DEFAULT_AVATAR_URL= "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Avatar_icon_green.svg/1200px-Avatar_icon_green.svg.png";
 
 export async function loadContact(login: string, id: string) {
   const contact = await kv.get([CONTACTS_KEY, login, id]);
@@ -44,6 +49,8 @@ export async function loadContactList(
 async function createContact(contactKey: string[], contact: Contact) {
   const [_contacts, owner, contactId] = contactKey;
   contact.fullName = `${contact.firstName} ${contact.lastName}`;
+  if(!contact.nextConnection) contact.nextConnection = getNextSundayDateToPretty();
+  
   const contactsByFullNameKey = [
     CONTACTS_BY_FULL_NAME_KEY,
     owner,
@@ -132,10 +139,8 @@ export async function seedContacts(owner: string, count: number) {
     const lastName = faker.person.lastName();
     const fullName = firstName + " " + lastName;
 
-    const randomSundayWithinAQuarter = add(nextSunday(new Date()), {
-      weeks: Math.floor(Math.random() * 13),
-    });
-    const nextConnection = format(randomSundayWithinAQuarter, "dd-MMM-yyyy");
+    const lastConnection = getRandomDayWithinThePastMonthDBDate();
+    const nextConnection = getRandomSundayWithinAQuarterDBDate();
 
     const contact = {
       id: ulid(),
@@ -150,12 +155,12 @@ export async function seedContacts(owner: string, count: number) {
       phoneNumber: faker.phone.number("##########"),
       preferredMethod: faker.helpers.arrayElement(["email", "phone"]),
       preferredMethodHandle: faker.helpers.arrayElement(["email", "phone"]),
-      birthdayDay: birthday.getDay(),
+      birthdayDay: birthday.getDate(),
       birthdayMonth: birthday.getMonth(),
       birthdayYear: birthday.getFullYear(),
-      connectOnBirthday: faker.datatype.boolean(),
+      connectOnBirthday: true,
       nextConnection,
-      lastConnection: "",
+      lastConnection,
       period: faker.helpers.arrayElement([
         "Weekly",
         "Biweekly",

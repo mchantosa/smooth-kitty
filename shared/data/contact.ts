@@ -33,6 +33,36 @@ export interface Contact {
   updatedAt: number;
 }
 
+export const generateContactForm = (contact: Contact) => {
+  const formData = new FormData();
+  if (contact.id) formData.append("id", contact.id);
+  formData.append("firstName", contact.firstName);
+  formData.append("lastName", contact.lastName);
+  formData.append("pronouns", contact.pronouns);
+  formData.append("avatarUrl", contact.avatarUrl);
+  formData.append("phoneNumber", contact.phoneNumber);
+  formData.append("email", contact.email);
+  formData.append("preferredMethod", contact.preferredMethod);
+  formData.append("preferredMethodHandle", contact.preferredMethodHandle);
+  formData.append("period", contact.period);
+  formData.append("birthdayDay", contact.birthdayDay.toString());
+  formData.append("birthdayMonth", contact.birthdayMonth.toString());
+  formData.append("birthdayYear", contact.birthdayYear.toString());
+  formData.append(
+    "connectOnBirthday",
+    contact.connectOnBirthday.toString(),
+  );
+  formData.append(
+    "lastConnection",
+    (contact.lastConnection) ? contact.lastConnection.toString() : "",
+  );
+  formData.append(
+    "nextConnection",
+    (contact.nextConnection) ? contact.nextConnection.toString() : "",
+  );
+  return formData;
+};
+
 export const contactSchema = z.object({
   id: z.string().optional(),
   firstName: z.string().trim().max(25, "25 character limit exceeded")
@@ -62,7 +92,7 @@ export const contactSchema = z.object({
     /^(Weekly|Biweekly|Monthly|Quarterly)$/,
     "Invalid period",
   ),
-  nextConnection: z.string().trim().optional(),
+  nextConnection: z.string().trim().optional(), //yyyy-mm-dd
   lastConnection: z.string().trim().optional(),
 }).refine(
   ({ firstName, lastName }) => {
@@ -75,7 +105,10 @@ export const contactSchema = z.object({
   },
 ).refine(
   ({ birthdayDay, birthdayMonth }) => {
-    if (birthdayDay === 0 || birthdayMonth === -1) {
+    if (
+      (birthdayDay !== 0 && birthdayMonth === -1) ||
+      (birthdayDay === 0 && birthdayMonth !== -1)
+    ) {
       return false;
     }
     return true;
@@ -115,9 +148,9 @@ export const contactSchema = z.object({
   ({ birthdayDay, birthdayMonth, birthdayYear }) => {
     if (birthdayDay > 0 && birthdayMonth > -1 && birthdayYear > 0) {
       const birthday = new Date(birthdayYear, birthdayMonth, birthdayDay);
-      const dayMonthYearCheck = birthday.getFullYear() === birthdayYear &&
-        birthday.getMonth() === birthdayMonth &&
-        birthday.getDate() === birthdayDay;
+      const dayMonthYearCheck = (birthday.getFullYear() === birthdayYear) &&
+        (birthday.getMonth() === birthdayMonth) &&
+        (birthday.getDate() === birthdayDay);
       return (isValid(birthday) && dayMonthYearCheck);
     }
     return true;

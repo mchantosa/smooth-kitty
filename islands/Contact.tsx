@@ -1,5 +1,6 @@
 import type { Contact as IContact } from "@/shared/data/contact.ts";
 import axios from "npm:axios";
+import { getBirthdayContactDatePretty, convertDBDateToPretty } from "@/utils/dates.ts";
 
 interface ContactProps {
   contact: IContact;
@@ -36,14 +37,15 @@ export const Contact = (props: ContactProps) => {
     nextConnection,
     lastConnection,
     period,
+    birthdayDay,
+    birthdayMonth,
+    birthdayYear,
+    connectOnBirthday,
     phoneNumber,
     email,
     preferredMethod,
     preferredMethodHandle,
   } = contact;
-
-  // console.log("name", fullName);
-  // console.log("letterNav", letterNav);
 
   return (
     <tr
@@ -59,7 +61,7 @@ export const Contact = (props: ContactProps) => {
           <div class="avatar">
             <div class="mask mask-squircle w-12 h-12">
               <img
-                src={avatarUrl}
+                src={avatarUrl || '/images/avatar_icon_green.png'}
                 alt="Avatar Tailwind CSS Component"
               />
             </div>
@@ -80,13 +82,21 @@ export const Contact = (props: ContactProps) => {
         <div>
           <strong className="opacity-60">Next:</strong>
           <span className="pl-4 text-accent whitespace-nowrap">
-            {nextConnection}
+            {convertDBDateToPretty(nextConnection)}
           </span>
         </div>
+        {connectOnBirthday && !!birthdayDay && !!birthdayMonth && (
+          <div>
+            <strong className="opacity-60">Birthday:</strong>
+            <span className="pl-4 text-accent whitespace-nowrap">
+              {getBirthdayContactDatePretty(parseInt(birthdayDay), parseInt(birthdayMonth))}
+            </span>
+          </div>
+        )}
         <div>
           <strong className="opacity-60">Last:</strong>
           <span className="pl-4 text-accent whitespace-nowrap">
-            {lastConnection}
+            {convertDBDateToPretty(lastConnection)}
           </span>
         </div>
       </td>
