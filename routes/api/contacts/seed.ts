@@ -7,8 +7,8 @@ import { Status } from "std/http/http_status.ts";
 export const handler: Handlers<undefined, State> = {
   async GET(req, ctx) {
     const { login } = ctx.state.sessionUser!;
-    await resetDb();
-    await seedContacts(login, 10);
+    await resetDb(login);
+    await seedContacts(login, 25);
     return redirect("/contacts", Status.SeeOther);
   },
 };

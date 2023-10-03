@@ -187,10 +187,10 @@ export async function seedContacts(owner: string, count: number) {
   }
 }
 
-export async function resetDb() {
+export async function resetDb(login: string) {
   const mux = new MuxAsyncIterator<Deno.KvEntryMaybe<string>>();
-  mux.add(kv.list<string>({ prefix: [CONTACTS_KEY] }));
-  mux.add(kv.list<string>({ prefix: [CONTACTS_BY_FULL_NAME_KEY] }));
+  mux.add(kv.list<string>({ prefix: [CONTACTS_KEY, login] }));
+  mux.add(kv.list<string>({ prefix: [CONTACTS_BY_FULL_NAME_KEY, login] }));
   const promises = [];
   for await (const res of mux) {
     promises.push(kv.delete(res.key));
