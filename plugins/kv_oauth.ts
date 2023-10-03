@@ -25,11 +25,11 @@ import { isStripeEnabled, stripe } from "@/utils/stripe.ts";
 
 const githubOAuthClient = createGitHubOAuthConfig();
 const googleOAuthClient = createGoogleOAuthConfig({
-  redirectUri: "http://localhost:8000/google/callback",
+  redirectUri: `${Deno.env.get("DOMAIN")!}/google/callback`,
   scope: "openid email profile",
 });
 const facebookOAuthClient = createFacebookOAuthConfig({
-  redirectUri: "http://localhost:8000/facebook/callback",
+  redirectUri: `${Deno.env.get("DOMAIN"!)}/facebook/callback`,
   scope: "email",
 });
 
