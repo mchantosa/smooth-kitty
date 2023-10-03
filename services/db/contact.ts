@@ -8,14 +8,16 @@ import { faker } from "faker";
 import { kv } from "@/utils/db.ts";
 import { MuxAsyncIterator } from "https://deno.land/std@0.203.0/async/mod.ts";
 //import { add, format, nextSunday } from "date-fns";
-import { getNextSundayDateToPretty, 
-  getRandomSundayWithinAQuarterDBDate, 
-  getRandomDayWithinThePastMonthDBDate
+import {
+  getNextSundayDateToPretty,
+  getRandomDayWithinThePastMonthDBDate,
+  getRandomSundayWithinAQuarterDBDate,
 } from "@/utils/dates.ts";
 
 export const CONTACTS_KEY = "contacts";
 export const CONTACTS_BY_FULL_NAME_KEY = "contacts_by_full_name";
-export const DEFAULT_AVATAR_URL= "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Avatar_icon_green.svg/1200px-Avatar_icon_green.svg.png";
+export const DEFAULT_AVATAR_URL =
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Avatar_icon_green.svg/1200px-Avatar_icon_green.svg.png";
 
 export async function loadContact(login: string, id: string) {
   const contact = await kv.get([CONTACTS_KEY, login, id]);
@@ -49,8 +51,10 @@ export async function loadContactList(
 async function createContact(contactKey: string[], contact: Contact) {
   const [_contacts, owner, contactId] = contactKey;
   contact.fullName = `${contact.firstName} ${contact.lastName}`;
-  if(!contact.nextConnection) contact.nextConnection = getNextSundayDateToPretty();
-  
+  if (!contact.nextConnection) {
+    contact.nextConnection = getNextSundayDateToPretty();
+  }
+
   const contactsByFullNameKey = [
     CONTACTS_BY_FULL_NAME_KEY,
     owner,

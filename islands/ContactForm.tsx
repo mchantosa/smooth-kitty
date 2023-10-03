@@ -2,7 +2,7 @@ import { useEffect } from "preact/hooks";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "zod-resolver";
 import { contactSchema } from "@/shared/data/contact.ts";
-import axios from "axios";
+import axios from "axiod";
 import { nanoid } from "https://deno.land/x/nanoid@v3.0.0/mod.ts";
 import Divider from "@/components/Divider.tsx";
 
