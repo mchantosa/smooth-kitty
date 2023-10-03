@@ -1,6 +1,9 @@
 import type { Contact as IContact } from "@/shared/data/contact.ts";
-import axios from "axios";
-import { getBirthdayContactDatePretty, convertDBDateToPretty } from "@/utils/dates.ts";
+import axios from "axiod";
+import {
+  convertDBDateToPretty,
+  getBirthdayContactDatePretty,
+} from "@/utils/dates.ts";
 
 interface ContactProps {
   contact: IContact;
@@ -61,7 +64,7 @@ export const Contact = (props: ContactProps) => {
           <div class="avatar">
             <div class="mask mask-squircle w-12 h-12">
               <img
-                src={avatarUrl || '/images/avatar_icon_green.png'}
+                src={avatarUrl || "/images/avatar_icon_green.png"}
                 alt="Avatar Tailwind CSS Component"
               />
             </div>
@@ -89,7 +92,10 @@ export const Contact = (props: ContactProps) => {
           <div>
             <strong className="opacity-60">Birthday:</strong>
             <span className="pl-4 text-accent whitespace-nowrap">
-              {getBirthdayContactDatePretty(parseInt(birthdayDay), parseInt(birthdayMonth))}
+              {getBirthdayContactDatePretty(
+                parseInt(birthdayDay),
+                parseInt(birthdayMonth),
+              )}
             </span>
           </div>
         )}

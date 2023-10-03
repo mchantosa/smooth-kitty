@@ -1,23 +1,21 @@
 // Copyright 2023 the Deno authors. All rights reserved. MIT license.
 import { useSignal } from "@preact/signals";
-import { useEffect, useState } from "preact/hooks";
+import { useEffect } from "preact/hooks";
 import type { Contact } from "@/shared/data/contact.ts";
-import { LINK_STYLES } from "@/utils/constants.ts";
 import IconInfo from "tabler_icons_tsx/info-circle.tsx";
 import { fetchValues } from "@/utils/islands.ts";
 import { nanoid } from "https://deno.land/x/nanoid/mod.ts";
 import Divider from "@/components/Divider.tsx";
 import { effect } from "@preact/signals";
-import { add, compareAsc, format } from "date-fns";
+import { add, compareAsc } from "date-fns";
 import {
   convertDateToDB,
   convertDBDateToPretty,
-  getLastSundayOrTodayDate,
   getLastSundayOrTodayDateDB,
   getNextSaturdayOrTodayDate,
   getNextSundayDateDB,
 } from "@/utils/dates.ts";
-import axios from "axios";
+import axios from "axiod";
 import { generateContactForm } from "@/shared/data/contact.ts";
 
 function EmptyItemsList() {

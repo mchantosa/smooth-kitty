@@ -3,7 +3,10 @@ import type { RouteContext } from "$fresh/server.ts";
 import Head from "@/components/Head.tsx";
 import Divider from "@/components/Divider.tsx";
 import DashboardList from "@/islands/DashboardList.tsx";
-import {getLastSundayOrTodayDatePretty, getNextSaturdayOrTodayDatePretty} from "@/utils/dates.ts";
+import {
+  getLastSundayOrTodayDatePretty,
+  getNextSaturdayOrTodayDatePretty,
+} from "@/utils/dates.ts";
 
 export default async function DashbooardPage(_req: Request, ctx: RouteContext) {
   return (
@@ -13,7 +16,9 @@ export default async function DashbooardPage(_req: Request, ctx: RouteContext) {
         <div class="pl-4">
           <a href="/contacts/new" class="btn btn-primary">New contact</a>
         </div>
-        <Divider textInsert={`${getLastSundayOrTodayDatePretty()} - ${getNextSaturdayOrTodayDatePretty()}`} />
+        <Divider
+          textInsert={`${getLastSundayOrTodayDatePretty()} - ${getNextSaturdayOrTodayDatePretty()}`}
+        />
         <DashboardList endpoint="/api/contacts" />
       </main>
     </>
