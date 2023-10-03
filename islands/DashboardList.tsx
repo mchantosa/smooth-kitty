@@ -17,7 +17,7 @@ import {
   getNextSaturdayOrTodayDate,
   getNextSundayDateDB,
 } from "@/utils/dates.ts";
-import axios from "npm:axios";
+import axios from "axios";
 import { generateContactForm } from "@/shared/data/contact.ts";
 
 function EmptyItemsList() {

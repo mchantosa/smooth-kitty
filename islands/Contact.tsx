@@ -1,5 +1,5 @@
 import type { Contact as IContact } from "@/shared/data/contact.ts";
-import axios from "npm:axios";
+import axios from "axios";
 import { getBirthdayContactDatePretty, convertDBDateToPretty } from "@/utils/dates.ts";
 
 interface ContactProps {
