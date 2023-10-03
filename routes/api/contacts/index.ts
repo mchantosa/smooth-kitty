@@ -38,6 +38,10 @@ export const handler: Handlers<undefined, State> = {
     const birthdayMonth = form.get("birthdayMonth");
     const birthdayYear = form.get("birthdayYear");
     const connectOnBirthday = form.get("connectOnBirthday") === "true";
+    const lastConnection = form.get("lastConnection")
+      ? form.get("lastConnection")
+      : "";
+    const nextConnection = form.get("nextConnection");
 
     // TODO: Validate contact data
 
@@ -56,6 +60,8 @@ export const handler: Handlers<undefined, State> = {
       birthdayMonth,
       birthdayYear,
       connectOnBirthday,
+      lastConnection,
+      nextConnection,
     };
 
     await writeContact(login, contact);

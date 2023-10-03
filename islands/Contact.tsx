@@ -89,7 +89,7 @@ export const Contact = (props: ContactProps) => {
           <div>
             <strong className="opacity-60">Birthday:</strong>
             <span className="pl-4 text-accent whitespace-nowrap">
-              {getBirthdayContactDatePretty(birthdayDay, birthdayMonth)}
+              {getBirthdayContactDatePretty(parseInt(birthdayDay), parseInt(birthdayMonth))}
             </span>
           </div>
         )}

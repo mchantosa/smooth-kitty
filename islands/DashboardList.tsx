@@ -8,8 +8,17 @@ import { fetchValues } from "@/utils/islands.ts";
 import { nanoid } from "https://deno.land/x/nanoid/mod.ts";
 import Divider from "@/components/Divider.tsx";
 import { effect } from "@preact/signals";
-import { compareAsc, format, add} from 'date-fns';
-import {getLastSundayOrTodayDate, getNextSaturdayOrTodayDate} from "@/utils/dates.ts";
+import { add, compareAsc, format } from "date-fns";
+import {
+  convertDateToDB,
+  convertDBDateToPretty,
+  getLastSundayOrTodayDate,
+  getLastSundayOrTodayDateDB,
+  getNextSaturdayOrTodayDate,
+  getNextSundayDateDB,
+} from "@/utils/dates.ts";
+import axios from "npm:axios";
+import { generateContactForm } from "@/shared/data/contact.ts";
 
 function EmptyItemsList() {
   return (
@@ -29,17 +38,26 @@ function EmptyItemsList() {
 
 const SnoozeContactButton = (props: {
   contact: Contact;
+  refreshSignal: () => void;
 }) => {
-  const { contact} = props;
+  const { contact, refreshSignal } = props;
   return (
     <button
       className="btn btn-primary btn-xs m-1"
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
-        //contact.nextConnection = format(add(new Date(contact.nextConnection), {days: 7}),'yyyy/MM/dd')
 
-        console.log(`Snoozing: ${contactId}...`);
+        const tempContact = Object.assign({}, contact);
+        tempContact.nextConnection = getNextSundayDateDB();
+        const formData = generateContactForm(tempContact);
+
+        axios.post("/api/contacts", formData).then((res) => { //push to DB
+          if (res.status === 200) {
+            contact.nextConnection = getNextSundayDateDB(); //update the UI
+            refreshSignal(); //trigger component render
+          }
+        });
       }}
     >
       Snooze
@@ -49,8 +67,9 @@ const SnoozeContactButton = (props: {
 
 const UpdateConnectionButton = (props: {
   contact: Contact;
+  refreshSignal: () => void;
 }) => {
-  const { contact} = props;
+  const { contact, refreshSignal } = props;
   return (
     <button
       className="btn btn-primary btn-xs m-1"
@@ -58,7 +77,40 @@ const UpdateConnectionButton = (props: {
         e.preventDefault();
         e.stopPropagation();
 
-        console.log(`Updating connection for: ${contactId}...`);
+        const tempContact = Object.assign({}, contact);
+        let baseDate = new Date();
+        const period = contact.period;
+
+        if (period === "Weekly") {
+          tempContact.nextConnection = convertDateToDB(
+            add(baseDate, { weeks: 1 }),
+          );
+        } else if (period === "Biweekly") {
+          tempContact.nextConnection = convertDateToDB(
+            add(baseDate, { weeks: 2 }),
+          );
+        } else if (period === "Monthly") {
+          tempContact.nextConnection = convertDateToDB(
+            add(baseDate, { months: 1 }),
+          );
+        } else if (period === "Quarterly") {
+          tempContact.nextConnection = convertDateToDB(
+            add(baseDate, { months: 3 }),
+          );
+        }
+
+        const tempNextConnection = tempContact.nextConnection;
+        const tempLastConnection = convertDateToDB(new Date());
+        tempContact.lastConnection = tempLastConnection;
+        const formData = generateContactForm(tempContact);
+
+        axios.post("/api/contacts", formData).then((res) => { //push to DB
+          if (res.status === 200) {
+            contact.nextConnection = tempNextConnection; //update the UI
+            contact.lastConnection = tempLastConnection; //update the UI
+            refreshSignal(); //trigger component render
+          }
+        });
       }}
     >
       Connected
@@ -67,9 +119,10 @@ const UpdateConnectionButton = (props: {
 };
 
 const PullConnectionButton = (props: {
-  contact: Contact
+  contact: Contact;
+  refreshSignal: () => void;
 }) => {
-  const { contact} = props;
+  const { contact, refreshSignal } = props;
   return (
     <button
       className="btn btn-primary btn-xs m-1"
@@ -77,7 +130,16 @@ const PullConnectionButton = (props: {
         e.preventDefault();
         e.stopPropagation();
 
-        console.log(`Pulling connection for: ${contactId}...`);
+        const tempContact = Object.assign({}, contact);
+        tempContact.nextConnection = getLastSundayOrTodayDateDB();
+        const formData = generateContactForm(tempContact);
+
+        axios.post("/api/contacts", formData).then((res) => { //push to DB
+          if (res.status === 200) {
+            contact.nextConnection = getLastSundayOrTodayDateDB(); //update the UI
+            refreshSignal(); //trigger component render
+          }
+        });
       }}
     >
       Pull
@@ -86,10 +148,12 @@ const PullConnectionButton = (props: {
 };
 
 const DashboardComponent = (
-  { contact }: {
+  props: {
     contact: Contact;
+    refreshSignal: () => void;
   },
 ) => {
+  const { contact, refreshSignal } = props;
   const {
     id,
     avatarUrl,
@@ -102,7 +166,7 @@ const DashboardComponent = (
     <div className="card w-64 bg-default shadow-xl p-4 m-2">
       <figure>
         <img
-          src={avatarUrl || '/images/avatar_icon_green.png'}
+          src={avatarUrl || "/images/avatar_icon_green.png"}
           alt="avatar"
         />
       </figure>
@@ -111,25 +175,31 @@ const DashboardComponent = (
           {fullName}
         </h2>
         <div>
-          <strong className="opacity-60">Last Connection:</strong><br></br>
+          <strong className="opacity-60">Last Connection:</strong>
+          <br></br>
           <span className="pl-4 text-accent whitespace-nowrap">
-            {lastConnection}
+            {convertDBDateToPretty(lastConnection)}
           </span>
-          </div>
         </div>
-        <div className="flex justify-center">
-          <UpdateConnectionButton contactId={id} />
-          <SnoozeContactButton contactId={id} />
-        </div>
+      </div>
+      <div className="flex justify-center">
+        <UpdateConnectionButton
+          contact={contact}
+          refreshSignal={refreshSignal}
+        />
+        <SnoozeContactButton contact={contact} refreshSignal={refreshSignal} />
+      </div>
     </div>
   );
 };
 
 const DashboardUpcomingComponent = (
-  { contact }: {
+  props: {
     contact: Contact;
+    refreshSignal: () => void;
   },
 ) => {
+  const { contact, refreshSignal } = props;
   const {
     id,
     avatarUrl,
@@ -142,7 +212,7 @@ const DashboardUpcomingComponent = (
     <div className="card w-64 bg-default shadow-xl p-4 m-2">
       <figure>
         <img
-          src={avatarUrl || '/images/avatar_icon_green.png'}
+          src={avatarUrl || "/images/avatar_icon_green.png"}
           alt="avatar"
         />
       </figure>
@@ -151,36 +221,41 @@ const DashboardUpcomingComponent = (
           {fullName}
         </h2>
         <div>
-          <strong className="opacity-60">Next Connection:</strong><br></br>
+          <strong className="opacity-60">Next Connection:</strong>
+          <br></br>
           <span className="pl-4 text-accent whitespace-nowrap">
-            {nextConnection}
+            {convertDBDateToPretty(nextConnection)}
           </span>
-          </div>
         </div>
-        <div className="flex justify-center">
-          <PullConnectionButton contactId={id} />
-        </div>
+      </div>
+      <div className="flex justify-center">
+        <PullConnectionButton contact={contact} refreshSignal={refreshSignal} />
+      </div>
     </div>
   );
 };
-
 
 export default function DashboardList(props: {
   endpoint: string;
 }) {
   const allContactsSig = useSignal<Contact[]>([]);
-  const cursorSig = useSignal("");//just keeping for consistancey sake, not using as a signal
+  const cursorSig = useSignal(""); //just keeping for consistancey sake, not using as a signal
   const isLoadingSig = useSignal(false);
   const dashBoardContactsSig = useSignal<Contact[]>([]);
   const upcomingContactsSig = useSignal<Contact[]>([]);
-  
+
+  const refreshSignal = () => {
+    allContactsSig.value = [...allContactsSig.value];
+  };
+
   async function loadContacts() {
     try {
       const { values, cursor } = await fetchValues<Contact>(
-        props.endpoint, cursorSig.value,
+        props.endpoint,
+        cursorSig.value,
       );
       await new Promise((resolve) => setTimeout(resolve, 500));
-      allContactsSig.value = [...values]
+      allContactsSig.value = [...values];
     } catch (error) {
       console.error(error.message);
     } finally {
@@ -188,35 +263,31 @@ export default function DashboardList(props: {
     }
   }
 
-  effect(() => {//runs every time a signal changes
-    //const start = getLastSundayOrTodayDate();
+  effect(() => { //runs every time a signal changes
     const end = getNextSaturdayOrTodayDate();
-    
-    dashBoardContactsSig.value = allContactsSig.value.filter((contact) =>{
+
+    dashBoardContactsSig.value = allContactsSig.value.filter((contact) => {
       const nextConnection = new Date(contact.nextConnection);
-      // console.log('start: ',start)
-      // console.log('end: ',end)
-      // console.log('nextConnection: ',nextConnection)
-      // console.log('comparison: ',compareAsc(start, nextConnection))
       return (
         compareAsc(nextConnection, end) <= 0
-      )
-    }).sort((a,b) => {
-      if(!a.lastConnection) return -1;
-      if(!b.lastConnection) return 1;
-      return a.lastConnection.localeCompare(b.lastConnection)
+      );
+    }).sort((a, b) => {
+      if (!a.lastConnection) return -1;
+      if (!b.lastConnection) return 1;
+      return a.lastConnection.localeCompare(b.lastConnection);
     });
-    upcomingContactsSig.value = allContactsSig.value.filter((contact) =>{
+
+    upcomingContactsSig.value = allContactsSig.value.filter((contact) => {
       const nextConnection = new Date(contact.nextConnection);
       return (
         compareAsc(end, nextConnection) < 0
-      )
-    }).sort((a,b) => {
-      return a.nextConnection.localeCompare(b.nextConnection)
+      );
+    }).sort((a, b) => {
+      return a.nextConnection.localeCompare(b.nextConnection);
     });
-  })
+  });
 
-  useEffect(async () => {//runs every time a component renders
+  useEffect(async () => { //runs every time a component renders
     await loadContacts();
   }, []);
 
@@ -226,7 +297,13 @@ export default function DashboardList(props: {
         {allContactsSig.value
           ? (
             dashBoardContactsSig.value.map((item, id) => {
-              return <DashboardComponent key={nanoid()} contact={item} />;
+              return (
+                <DashboardComponent
+                  key={nanoid()}
+                  contact={item}
+                  refreshSignal={refreshSignal}
+                />
+              );
             })
           )
           : <EmptyItemsList />}
@@ -236,7 +313,13 @@ export default function DashboardList(props: {
         {upcomingContactsSig.value
           ? (
             upcomingContactsSig.value.map((item, id) => {
-              return <DashboardUpcomingComponent key={nanoid()} contact={item} />;
+              return (
+                <DashboardUpcomingComponent
+                  key={nanoid()}
+                  contact={item}
+                  refreshSignal={refreshSignal}
+                />
+              );
             })
           )
           : <EmptyItemsList />}
