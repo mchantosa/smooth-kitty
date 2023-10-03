@@ -28,7 +28,7 @@ const DeleteContactButton = (props: {
 };
 
 export const Contact = (props: ContactProps) => {
-  const {contact} = props;
+  const { contact } = props;
   const {
     id,
     avatarUrl,

@@ -24,7 +24,7 @@ export const GoogleProfile = (props: { sessionUser: User }) => {
   return (
     <>
       <img
-        src={sessionUser?.profilePictureUrl}
+        src={`${sessionUser?.profilePictureUrl}`.replace("s96-c", "s400-c")}
         width={240}
         class="m-auto rounded rounded-full"
       />
