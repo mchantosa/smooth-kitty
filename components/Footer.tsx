@@ -12,7 +12,7 @@ export default function Footer(props: { url: URL }) {
   return (
     <footer class={`${SITE_BAR_STYLES} flex-col md:flex-row mt-8`}>
       <p>
-        © {new Date().getFullYear()} {SITE_NAME}
+        © {new Date().getFullYear()} {SITE_NAME} by <a href="https://megan.chantosa.com">Megan Chantosa</a>
       </p>
       <nav class={NAV_STYLES}>
         {
