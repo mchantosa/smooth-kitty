@@ -14,7 +14,7 @@ const sections = [
   {
     title: "Non-calendered",
     content:
-      "What does your work-life balance calendar; look like? Meetings, dentist appointments, parent teacher conferences? Adding periodic communication fidelity to your work-life balance calendar risks making connecting with your nearest and dearest a stressful task whose alert will be swiped away and dismissed. This app provides you with a weekly objectives, and rolls uncompleted objectives into the following week.",
+      "What does your work-life balance calendar look like? Meetings, dentist appointments, parent teacher conferences? Adding periodic communication fidelity to your work-life balance calendar risks making connecting with your nearest and dearest a stressful task whose alert will be swiped away and dismissed. This app provides you with a weekly objectives, and rolls uncompleted objectives into the following week.",
   },
   {
     title: "Warm and user friendly",
