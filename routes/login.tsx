@@ -10,7 +10,7 @@ export const handler: Handlers = {
     // If user is already logged in, redirect to contacts page
     // To switch OAuth providers, the user must first log out
     if (ctx.state.sessionUser) {
-      return redirect("/contacts", Status.SeeOther);
+      return redirect("/dashboard", Status.SeeOther);
     }
     const resp = await ctx.render();
     return resp;
