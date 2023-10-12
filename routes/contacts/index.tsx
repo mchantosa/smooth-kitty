@@ -10,9 +10,16 @@ export default async function ContactsPage(_req: Request, ctx: RouteContext) {
       <main class="p-4 flex-1">
         <div class="pl-4">
           <a href="/contacts/new" class="btn btn-primary mx-2">New contact</a>
-          <a href="/api/contacts/seed" class="btn btn-primary mx-2">Seed</a>
         </div>
         <ContactsList endpoint="/api/contacts" />
+        <div class="flex flex-row-reverse pr-4 pt-4">
+          <div
+            class="tooltip tooltip-warning"
+            data-tip="This will seed 10 random contacts"
+          >
+            <a href="/api/contacts/seed" class="btn mx-2">Seed</a>
+          </div>
+        </div>
       </main>
     </>
   );
