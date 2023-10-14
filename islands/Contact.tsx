@@ -15,7 +15,7 @@ interface ContactProps {
 const DeleteContactButton = (props: {
   contactId?: string;
 }) => {
-  const { contactId} = props;
+  const { contactId } = props;
   return (
     <button
       className="badge bdg-btn-remove badge-neutral"
@@ -57,7 +57,7 @@ export const Contact = (props: ContactProps) => {
 
   useEffect(() => {
     checkedContactIds[id] = isChecked;
-    setLocalChecked(isChecked)
+    setLocalChecked(isChecked);
   }, [isChecked]);
 
   return (
@@ -70,14 +70,14 @@ export const Contact = (props: ContactProps) => {
       }}
     >
       <td>
-        <input 
+        <input
           type="checkbox"
           className="checkbox checkbox-neutral"
           checked={localChecked}
           onClick={(e) => {
             e.stopPropagation();
             checkedContactIds[id] = !localChecked;
-            setLocalChecked(!localChecked)
+            setLocalChecked(!localChecked);
           }}
         />
       </td>

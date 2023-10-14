@@ -52,13 +52,13 @@ export default function ContactsList(props: {
   const cursorSig = useSignal("");
   const isLoadingSig = useSignal(true);
   const searchTextSig = useSignal("");
-  const allContactsSig = useSignal([]);//all contacts unfiltered
+  const allContactsSig = useSignal([]); //all contacts unfiltered
   const filteredContactsSig = useSignal(allContactsSig.value);
   //debugger;
   const [checkedContactIds, setCheckedContactIds] = useState({});
   const [isChecked, setIsChecked] = useState(false);
 
-  function groupAndReturnFirstOccurrence(arr) {//orders contact arr by fist name
+  function groupAndReturnFirstOccurrence(arr) { //orders contact arr by fist name
     const grouped = {};
     const result = [];
 
@@ -72,7 +72,7 @@ export default function ContactsList(props: {
     return result;
   }
 
-  const NavBar = () => {//loads first letter of each contact to nav bar
+  const NavBar = () => { //loads first letter of each contact to nav bar
     return (
       <div className="flex-none">
         <ul className="menu menu-horizontal px-1">
@@ -146,13 +146,13 @@ export default function ContactsList(props: {
               console.log(`deleting ${contact.fullName}: `, contact.id);
               deleteIds.push(contact.id);
             }
-          })
-          axios.delete(`/api/contacts`, {deleteIds})
-          .then((res) => {
-            window.location.href = "/contacts";
-          }).catch((error) => {
-            console.error('Error making the DELETE request', error);
           });
+          axios.delete(`/api/contacts`, { deleteIds })
+            .then((res) => {
+              window.location.href = "/contacts";
+            }).catch((error) => {
+              console.error("Error making the DELETE request", error);
+            });
         }}
       >
         Remove
@@ -198,7 +198,7 @@ export default function ContactsList(props: {
                       class="tooltip tooltip-warning"
                       data-tip="Remove selected"
                     >
-                      <DeleteMultipleContactButton/>
+                      <DeleteMultipleContactButton />
                     </div>
                   </th>
                 </tr>
@@ -207,7 +207,11 @@ export default function ContactsList(props: {
                 {!filteredContactsSig.value.length && <NotFound />}
                 {Boolean(filteredContactsSig.value.length) &&
                   filteredContactsSig.value.map((contact) => (
-                    <Contact contact={contact} isChecked={isChecked} checkedContactIds={checkedContactIds}/>
+                    <Contact
+                      contact={contact}
+                      isChecked={isChecked}
+                      checkedContactIds={checkedContactIds}
+                    />
                   ))}
               </tbody>
             </table>
