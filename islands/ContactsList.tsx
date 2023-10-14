@@ -139,15 +139,20 @@ export default function ContactsList(props: {
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
-          console.log(checkedContactIds);
+          //console.log(checkedContactIds);
+          const deleteIds = [];
           filteredContactsSig.value.forEach((contact) => {
             if (checkedContactIds[contact.id]) {
               console.log(`deleting ${contact.fullName}: `, contact.id);
-              axios.delete(`/api/contacts/${contact.id}`).then((res) => {
-                window.location.href = "/contacts";
-              });
+              deleteIds.push(contact.id);
             }
           })
+          axios.delete(`/api/contacts`, {deleteIds})
+          .then((res) => {
+            window.location.href = "/contacts";
+          }).catch((error) => {
+            console.error('Error making the DELETE request', error);
+          });
         }}
       >
         Remove
