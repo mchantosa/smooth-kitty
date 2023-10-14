@@ -85,14 +85,15 @@ async function updateContact(
     `${contactRecord.value.firstName} ${contactRecord.value.lastName}`
       .toLocaleLowerCase();
   contact.fullName = `${contact.firstName} ${contact.lastName}`;
-  const contactsByFullNameKey = [
+
+  const contactsByFullNameKey = [ //update secondary index
     CONTACTS_BY_FULL_NAME_KEY,
     owner,
     currentFullName,
     contactId,
   ];
 
-  const op = kv.atomic();
+  const op = kv.atomic(); //atomic transaction starts
   op.check({ key: contactKey, versionstamp: contactRecord.versionstamp });
   op.set(contactKey, contact);
 
@@ -114,7 +115,9 @@ async function updateContact(
       versionstamp: contactByFullName.versionstamp,
     });
   }
-  op.set(contactsByFullNameKey, contact);
+  contact.lastConnection = contactRecord.value.lastConnection;
+  contact.nextConnection = contactRecord.value.nextConnection;
+  op.set(contactsByFullNameKey, contact); //atomic transaction ends
 
   const res = await op.commit();
 
