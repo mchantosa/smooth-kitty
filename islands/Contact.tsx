@@ -85,10 +85,14 @@ export const Contact = (props: ContactProps) => {
         <div class="flex items-center space-x-3">
           <div class="avatar">
             <div class="mask mask-squircle w-12 h-12">
-              <img
-                src={avatarUrl || "/images/avatar_icon_green.png"}
-                alt="Avatar Tailwind CSS Component"
-              />
+              <object 
+                data={avatarUrl}
+                className="w-full"
+              >
+               <img 
+                  src="/images/avatar_icon_green.png" 
+                  alt="Avatar Tailwind CSS Component"/>
+              </object>
             </div>
           </div>
           <div>
