@@ -200,6 +200,23 @@ const ContactForm = ({ endpoint, id }: ContactFormProps) => {
           {...register("avatarUrl")}
         >
         </input>
+        <div class="flex justify-center">
+          <div class="avatar pt-8">
+            <div class="mask mask-squircle w-36 h-36">
+              <object 
+                data={getValues('avatarUrl')}
+                className="w-full"
+              >
+                <img 
+                  src="/images/avatar_icon_green.png" 
+                  alt="Avatar Tailwind CSS Component"/>
+              </object>
+            </div>
+          </div>  
+        </div>
+        <p className={labelClassNames+' p-4 text-center'}>
+          Preview
+        </p>
       </div>
       <Divider textInsert="Contact Information" />
       <div class="mb-6">
