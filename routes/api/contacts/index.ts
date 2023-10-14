@@ -4,6 +4,7 @@ import { getCursor } from "@/utils/http.ts";
 import { loadContactList, writeContact } from "@/services/db/contact.ts";
 import { ulid } from "std/ulid/mod.ts";
 import type { InputSchema } from "@/shared/data/contact.ts";
+import { deleteContact, loadContact } from "@/services/db/contact.ts";
 
 export const handler: Handlers<undefined, State> = {
   async GET(req, ctx) {
@@ -65,6 +66,17 @@ export const handler: Handlers<undefined, State> = {
     };
 
     await writeContact(login, contact);
+
+    // TODO: Do server side redirect to /contacts
+    return new Response(null, { status: 200 });
+  },
+  async DELETE(req, ctx) {
+    assertSignedIn(ctx);
+    const { login } = ctx.state.sessionUser!;
+    const { deleteIds } = await req.json();
+    for (const id of deleteIds) {
+      await deleteContact(login, id);
+    }
 
     // TODO: Do server side redirect to /contacts
     return new Response(null, { status: 200 });
