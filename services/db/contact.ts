@@ -85,6 +85,8 @@ async function updateContact(
     `${contactRecord.value.firstName} ${contactRecord.value.lastName}`
       .toLocaleLowerCase();
   contact.fullName = `${contact.firstName} ${contact.lastName}`;
+  contact.nextConnection = contactRecord.value.nextConnection;
+  contact.lastConnection = contactRecord.value.lastConnection;
 
   const contactsByFullNameKey = [ //update secondary index
     CONTACTS_BY_FULL_NAME_KEY,
@@ -95,7 +97,7 @@ async function updateContact(
 
   const op = kv.atomic(); //atomic transaction starts
   op.check({ key: contactKey, versionstamp: contactRecord.versionstamp });
-  op.set(contactKey, contact);
+  op.set(contactKey, contact);  //set primary index
 
   if (currentFullName !== contact.fullName.toLowerCase()) {
     // Contact name changed, delete old index
@@ -115,9 +117,7 @@ async function updateContact(
       versionstamp: contactByFullName.versionstamp,
     });
   }
-  contact.lastConnection = contactRecord.value.lastConnection;
-  contact.nextConnection = contactRecord.value.nextConnection;
-  op.set(contactsByFullNameKey, contact); //atomic transaction ends
+  op.set(contactsByFullNameKey, contact); //atomic transaction ends, set secondary index
 
   const res = await op.commit();
 
