@@ -1,5 +1,6 @@
 import type { Contact as IContact } from "@/shared/data/contact.ts";
 import axios from "axiod";
+import { useEffect, useState } from "preact/hooks";
 import {
   convertDBDateToPretty,
   getBirthdayContactDatePretty,
@@ -7,12 +8,14 @@ import {
 
 interface ContactProps {
   contact: IContact;
+  isChecked?: boolean;
+  checkedContactIds?: {};
 }
 
 const DeleteContactButton = (props: {
   contactId?: string;
 }) => {
-  const { contactId } = props;
+  const { contactId} = props;
   return (
     <button
       className="badge bdg-btn-remove badge-neutral"
@@ -31,7 +34,7 @@ const DeleteContactButton = (props: {
 };
 
 export const Contact = (props: ContactProps) => {
-  const { contact } = props;
+  const { contact, isChecked, checkedContactIds } = props;
   const {
     id,
     avatarUrl,
@@ -50,6 +53,13 @@ export const Contact = (props: ContactProps) => {
     preferredMethodHandle,
   } = contact;
 
+  const [localChecked, setLocalChecked] = useState(false);
+
+  useEffect(() => {
+    checkedContactIds[id] = isChecked;
+    setLocalChecked(isChecked)
+  }, [isChecked]);
+
   return (
     <tr
       className="group cursor-pointer hover:backdrop-brightness-125 hover:shadow-lg"
@@ -59,6 +69,18 @@ export const Contact = (props: ContactProps) => {
         window.location.href = `/contacts/${id}/edit`;
       }}
     >
+      <td>
+        <input 
+          type="checkbox"
+          className="checkbox checkbox-neutral"
+          checked={localChecked}
+          onClick={(e) => {
+            e.stopPropagation();
+            checkedContactIds[id] = !localChecked;
+            setLocalChecked(!localChecked)
+          }}
+        />
+      </td>
       <td>
         <div class="flex items-center space-x-3">
           <div class="avatar">

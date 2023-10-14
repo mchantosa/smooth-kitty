@@ -1,3 +1,4 @@
+import axios from "axiod";
 import { effect, useSignal } from "@preact/signals";
 import { useEffect, useState } from "preact/hooks";
 import { nanoid } from "https://deno.land/x/nanoid@v3.0.0/mod.ts";
@@ -51,10 +52,13 @@ export default function ContactsList(props: {
   const cursorSig = useSignal("");
   const isLoadingSig = useSignal(true);
   const searchTextSig = useSignal("");
-  const allContactsSig = useSignal([]);
+  const allContactsSig = useSignal([]);//all contacts unfiltered
   const filteredContactsSig = useSignal(allContactsSig.value);
+  //debugger;
+  const [checkedContactIds, setCheckedContactIds] = useState({});
+  const [isChecked, setIsChecked] = useState(false);
 
-  function groupAndReturnFirstOccurrence(arr) {
+  function groupAndReturnFirstOccurrence(arr) {//orders contact arr by fist name
     const grouped = {};
     const result = [];
 
@@ -68,7 +72,7 @@ export default function ContactsList(props: {
     return result;
   }
 
-  const NavBar = () => {
+  const NavBar = () => {//loads first letter of each contact to nav bar
     return (
       <div className="flex-none">
         <ul className="menu menu-horizontal px-1">
@@ -125,6 +129,32 @@ export default function ContactsList(props: {
     }
   }
 
+  const DeleteMultipleContactButton = (props: {
+    contactId?: string;
+  }) => {
+    const { contactId } = props;
+    return (
+      <button
+        className="badge bdg-btn-remove badge-error"
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          console.log(checkedContactIds);
+          filteredContactsSig.value.forEach((contact) => {
+            if (checkedContactIds[contact.id]) {
+              console.log(`deleting ${contact.fullName}: `, contact.id);
+              axios.delete(`/api/contacts/${contact.id}`).then((res) => {
+                window.location.href = "/contacts";
+              });
+            }
+          })
+        }}
+      >
+        Remove
+      </button>
+    );
+  };
+
   return (
     <>
       <div>
@@ -139,18 +169,40 @@ export default function ContactsList(props: {
             <table class="table">
               <thead>
                 <tr>
+                  <th>
+                    <div
+                      class="tooltip tooltip-warning ml-4"
+                      data-tip="Select all"
+                    >
+                      <input
+                        type="checkbox"
+                        className="checkbox checkbox-error"
+                        checked={isChecked}
+                        onClick={() => {
+                          setIsChecked(!isChecked);
+                        }}
+                      />
+                    </div>
+                  </th>
                   <th>Name</th>
                   <th>Next Connection</th>
                   <th>Period</th>
                   <th>Contact Information</th>
-                  <th></th>
+                  <th>
+                    <div
+                      class="tooltip tooltip-warning"
+                      data-tip="Remove selected"
+                    >
+                      <DeleteMultipleContactButton/>
+                    </div>
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {!filteredContactsSig.value.length && <NotFound />}
                 {Boolean(filteredContactsSig.value.length) &&
                   filteredContactsSig.value.map((contact) => (
-                    <Contact contact={contact} />
+                    <Contact contact={contact} isChecked={isChecked} checkedContactIds={checkedContactIds}/>
                   ))}
               </tbody>
             </table>
