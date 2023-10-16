@@ -5,6 +5,7 @@ import {
   convertDBDateToPretty,
   getBirthdayContactDatePretty,
 } from "@/utils/dates.ts";
+import ImageWithFallback from "@/islands/ImageWithFallback.tsx";
 
 interface ContactProps {
   contact: IContact;
@@ -85,14 +86,12 @@ export const Contact = (props: ContactProps) => {
         <div class="flex items-center space-x-3">
           <div class="avatar">
             <div class="mask mask-squircle w-12 h-12">
-              <object 
-                data={avatarUrl}
+              <ImageWithFallback
+                src={avatarUrl}
+                defaultSrc="/images/avatar_icon_green.png"
+                alt="Contact avatar"
                 className="w-full"
-              >
-               <img 
-                  src="/images/avatar_icon_green.png" 
-                  alt="Avatar Tailwind CSS Component"/>
-              </object>
+              />
             </div>
           </div>
           <div>
