@@ -1,10 +1,11 @@
-import { useEffect } from "preact/hooks";
+import { useState, useEffect } from "preact/hooks";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "zod-resolver";
 import { contactSchema } from "@/shared/data/contact.ts";
 import axios from "axiod";
 import { nanoid } from "https://deno.land/x/nanoid@v3.0.0/mod.ts";
 import Divider from "@/components/Divider.tsx";
+import ImageWithFallback from "@/islands/ImageWithFallback.tsx";
 
 const get119YearsAgo = () => {
   const date = new Date();
@@ -31,6 +32,8 @@ const ContactForm = ({ endpoint, id }: ContactFormProps) => {
 
   const watchFirstName = watch("firstName", ""); // you can supply default value as second argument
   const watchLastName = watch("lastName", "");
+  const watchAvatarUrl = watch("avatarUrl", "");
+
   const MONTHS = [
     "January",
     "February",
@@ -200,6 +203,21 @@ const ContactForm = ({ endpoint, id }: ContactFormProps) => {
           {...register("avatarUrl")}
         >
         </input>
+        <div class="flex justify-center">
+          <div class="avatar pt-8">
+            <div class="mask mask-squircle w-36 h-36 mr-8">
+            <ImageWithFallback
+              src={watchAvatarUrl}
+              defaultSrc="/images/avatar_icon_green.png"
+              alt="Contact avatar"
+              className="w-full"
+            />
+            </div>  
+          </div>
+        </div>
+        <p className={labelClassNames+' p-4 text-center'}>
+          Preview
+        </p>
       </div>
       <Divider textInsert="Contact Information" />
       <div class="mb-6">

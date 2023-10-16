@@ -8,7 +8,7 @@ import {
   getNextSaturdayOrTodayDatePretty,
 } from "@/utils/dates.ts";
 
-export default async function DashbooardPage(_req: Request, ctx: RouteContext) {
+export default async function DashboardPage(_req: Request, ctx: RouteContext) {
   return (
     <>
       <Head title="Contacts" href={ctx.url.href} />
