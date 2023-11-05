@@ -4,7 +4,7 @@ import type { SignedInState } from "@/middleware/session.ts";
 import Head from "@/components/Head.tsx";
 
 // deno-lint-ignore require-await
-export default async function AccountPage(
+export default async function Welcome(
   _req: Request,
   ctx: RouteContext<undefined, SignedInState>,
 ) {

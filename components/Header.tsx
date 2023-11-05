@@ -70,11 +70,8 @@ export default function Header(props: {
           {sessionUser
             ? (
               <>
-                <a href="/news" class={cx(LINK_STYLES, NAV_ITEM)}>
-                  Coming Soon
-                </a>
-                <a href="/welcome" class={cx(LINK_STYLES, NAV_ITEM)}>
-                  Welcome
+                <a href="/how-to-use" class={cx(LINK_STYLES, NAV_ITEM)}>
+                  How to use
                 </a>
                 <a href="/dashboard" class={cx(LINK_STYLES, NAV_ITEM)}>
                   Dashboard
