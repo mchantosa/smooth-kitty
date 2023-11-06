@@ -7,7 +7,7 @@ import { Status } from "std/http/http_status.ts";
 
 export const handler: Handlers = {
   async GET(_req: Request, ctx: HandlerContext) {
-    // If user is already logged in, redirect to dashboard page
+    // If user is already logged in, redirect to contacts page
     // To switch OAuth providers, the user must first log out
     if (ctx.state.sessionUser) {
       return redirect("/dashboard", Status.SeeOther);

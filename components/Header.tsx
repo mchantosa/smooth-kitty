@@ -70,9 +70,6 @@ export default function Header(props: {
           {sessionUser
             ? (
               <>
-                <a href="/how-to-use" class={cx(LINK_STYLES, NAV_ITEM)}>
-                  How to use
-                </a>
                 <a href="/dashboard" class={cx(LINK_STYLES, NAV_ITEM)}>
                   Dashboard
                 </a>
