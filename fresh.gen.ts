@@ -26,13 +26,13 @@ import * as $20 from "./routes/api/users/[login]/items.ts";
 import * as $21 from "./routes/api/users/index.ts";
 import * as $22 from "./routes/blog/[slug].tsx";
 import * as $23 from "./routes/blog/index.tsx";
-import * as $24 from "./routes/coming-soon/index.tsx";
+import * as $24 from "./routes/coming-soon.tsx";
 import * as $25 from "./routes/contacts/[id]/edit.tsx";
 import * as $26 from "./routes/contacts/index.tsx";
 import * as $27 from "./routes/contacts/new.tsx";
 import * as $28 from "./routes/dashboard/index.tsx";
 import * as $29 from "./routes/feed.ts";
-import * as $30 from "./routes/how-to-use/index.tsx";
+import * as $30 from "./routes/how-to-use.tsx";
 import * as $31 from "./routes/index.tsx";
 import * as $32 from "./routes/items/[id].tsx";
 import * as $33 from "./routes/login.tsx";
@@ -40,9 +40,9 @@ import * as $34 from "./routes/news/index.tsx";
 import * as $35 from "./routes/notifications/[id].ts";
 import * as $36 from "./routes/notifications/index.tsx";
 import * as $37 from "./routes/pricing.tsx";
-import * as $38 from "./routes/privacy/index.tsx";
+import * as $38 from "./routes/privacy.tsx";
 import * as $39 from "./routes/submit.tsx";
-import * as $40 from "./routes/terms-and-conditions/index.tsx";
+import * as $40 from "./routes/terms-and-conditions.tsx";
 import * as $41 from "./routes/users/[login].tsx";
 import * as $$0 from "./islands/Chart.tsx";
 import * as $$1 from "./islands/CommentsList.tsx";
@@ -83,13 +83,13 @@ const manifest = {
     "./routes/api/users/index.ts": $21,
     "./routes/blog/[slug].tsx": $22,
     "./routes/blog/index.tsx": $23,
-    "./routes/coming-soon/index.tsx": $24,
+    "./routes/coming-soon.tsx": $24,
     "./routes/contacts/[id]/edit.tsx": $25,
     "./routes/contacts/index.tsx": $26,
     "./routes/contacts/new.tsx": $27,
     "./routes/dashboard/index.tsx": $28,
     "./routes/feed.ts": $29,
-    "./routes/how-to-use/index.tsx": $30,
+    "./routes/how-to-use.tsx": $30,
     "./routes/index.tsx": $31,
     "./routes/items/[id].tsx": $32,
     "./routes/login.tsx": $33,
@@ -97,9 +97,9 @@ const manifest = {
     "./routes/notifications/[id].ts": $35,
     "./routes/notifications/index.tsx": $36,
     "./routes/pricing.tsx": $37,
-    "./routes/privacy/index.tsx": $38,
+    "./routes/privacy.tsx": $38,
     "./routes/submit.tsx": $39,
-    "./routes/terms-and-conditions/index.tsx": $40,
+    "./routes/terms-and-conditions.tsx": $40,
     "./routes/users/[login].tsx": $41,
   },
   islands: {
