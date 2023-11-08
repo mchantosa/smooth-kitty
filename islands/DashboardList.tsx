@@ -58,8 +58,6 @@ const SnoozeContactButton = (props: {
         e.stopPropagation();
 
         const tempContact = Object.assign({}, contact);
-        // console.log(`snooze unedited next: ${tempContact.nextConnection}`);
-        // console.log(`snooze unedited last: ${tempContact.lastConnection}`);
         tempContact.nextConnection = getNextSundayDateDB();
         // console.log(`snooze edited next: ${tempContact.nextConnection}`);
         // console.log(`snooze edited last: ${tempContact.lastConnection}`);
