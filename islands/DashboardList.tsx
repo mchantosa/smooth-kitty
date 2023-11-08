@@ -144,7 +144,7 @@ const PullConnectionButton = (props: {
   const { contact, refreshSignal } = props;
   return (
     <button
-      className="btn btn-primary btn-xs  m-1"
+      className="btn btn-primary btn-xs m-1"
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
