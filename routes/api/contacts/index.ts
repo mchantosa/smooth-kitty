@@ -3,8 +3,7 @@ import { assertSignedIn, State } from "@/middleware/session.ts";
 import { getCursor } from "@/utils/http.ts";
 import { loadContactList, writeContact } from "@/services/db/contact.ts";
 import { ulid } from "std/ulid/mod.ts";
-import type { InputSchema } from "@/shared/data/contact.ts";
-import { deleteContact, loadContact } from "@/services/db/contact.ts";
+import { deleteContact } from "@/services/db/contact.ts";
 
 export const handler: Handlers<undefined, State> = {
   async GET(req, ctx) {

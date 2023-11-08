@@ -24,7 +24,6 @@ function EmptyItemsList() {
     <>
       <div class="flex flex-col justify-center items-center gap-2">
         <div class="flex flex-col items-center gap-2 py-16">
-          {/* <IconInfo class="w-10 h-10 text-gray-400 dark:text-gray-600" /> */}
           <h1 class="text-2xl text-sky-600 text-center font-medium pb-8">
             No items found
           </h1>
@@ -40,15 +39,6 @@ function EmptyItemsList() {
           >
             Add a contact
           </a>
-          {
-            /* <p class="text-center font-medium">
-            Create a{" "}
-            <span className="text-orange-500 dark:text-orange-300">
-              NEW CONTACT
-            </span>{"   "}
-            to get started
-          </p> */
-          }
         </div>
       </div>
     </>
@@ -68,7 +58,11 @@ const SnoozeContactButton = (props: {
         e.stopPropagation();
 
         const tempContact = Object.assign({}, contact);
+        // console.log(`snooze unedited next: ${tempContact.nextConnection}`);
+        // console.log(`snooze unedited last: ${tempContact.lastConnection}`);
         tempContact.nextConnection = getNextSundayDateDB();
+        // console.log(`snooze edited next: ${tempContact.nextConnection}`);
+        // console.log(`snooze edited last: ${tempContact.lastConnection}`);
         const formData = generateContactForm(tempContact);
 
         axios.post("/api/contacts", formData).then((res) => { //push to DB
@@ -150,7 +144,11 @@ const PullConnectionButton = (props: {
         e.stopPropagation();
 
         const tempContact = Object.assign({}, contact);
+        // console.log(`pull unedited next: ${tempContact.nextConnection}`);
+        // console.log(`pull unedited last: ${tempContact.lastConnection}`);
         tempContact.nextConnection = getLastSundayOrTodayDateDB();
+        // console.log(`pull edited next: ${tempContact.nextConnection}`);
+        // console.log(`pull edited last: ${tempContact.lastConnection}`);
         const formData = generateContactForm(tempContact);
 
         axios.post("/api/contacts", formData).then((res) => { //push to DB
@@ -179,6 +177,7 @@ const DashboardComponent = (
     fullName,
     nextConnection,
     lastConnection,
+    period,
   } = contact;
 
   return (
@@ -198,7 +197,21 @@ const DashboardComponent = (
         <div className="flex flex-col items-center">
           <strong className="opacity-60">Last Connection:</strong>
           <span className="text-accent whitespace-nowrap">
-            {convertDBDateToPretty(lastConnection)}
+            {lastConnection
+              ? convertDBDateToPretty(lastConnection)
+              : "No Record"}
+          </span>
+        </div>
+        <div className="flex flex-col items-center">
+          <strong className="opacity-60">Next Connection:</strong>
+          <span className="text-accent whitespace-nowrap">
+            {convertDBDateToPretty(nextConnection)}
+          </span>
+        </div>
+        <div className="flex flex-col items-center">
+          <strong className="opacity-60">Objective:</strong>
+          <span className="text-accent whitespace-nowrap">
+            {period}
           </span>
         </div>
       </div>
@@ -226,6 +239,7 @@ const DashboardUpcomingComponent = (
     fullName,
     nextConnection,
     lastConnection,
+    period,
   } = contact;
 
   return (
@@ -243,9 +257,23 @@ const DashboardUpcomingComponent = (
           {fullName}
         </h2>
         <div className="flex flex-col items-center">
+          <strong className="opacity-60">Last Connection:</strong>
+          <span className="text-accent whitespace-nowrap">
+            {lastConnection
+              ? convertDBDateToPretty(lastConnection)
+              : "No Record"}
+          </span>
+        </div>
+        <div className="flex flex-col items-center">
           <strong className="opacity-60">Next Connection:</strong>
           <span className="text-accent whitespace-nowrap">
             {convertDBDateToPretty(nextConnection)}
+          </span>
+        </div>
+        <div className="flex flex-col items-center">
+          <strong className="opacity-60">Objective:</strong>
+          <span className="text-accent whitespace-nowrap">
+            {period}
           </span>
         </div>
       </div>
