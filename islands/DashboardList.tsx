@@ -59,8 +59,6 @@ const SnoozeContactButton = (props: {
 
         const tempContact = Object.assign({}, contact);
         tempContact.nextConnection = getNextSundayDateDB();
-        // console.log(`snooze edited next: ${tempContact.nextConnection}`);
-        // console.log(`snooze edited last: ${tempContact.lastConnection}`);
         const formData = generateContactForm(tempContact);
 
         axios.post("/api/contacts", formData).then((res) => { //push to DB
