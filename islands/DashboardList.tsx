@@ -251,42 +251,49 @@ const DashboardUpcomingComponent = (
 
   return (
     <div className="card w-64 bg-default backdrop-brightness-125 hover:backdrop-brightness-150 shadow-xl p-4 m-2 flex items-center">
-      <div class="mask mask-squircle w-32 h-32 pb-4">
-        <ImageWithFallback
-          src={avatarUrl}
-          defaultSrc="/images/avatar_icon_green.png"
-          alt="Contact avatar"
-          className="w-full"
-        />
-      </div>
-      <div className="flex flex-col h-2/4 p-2 pb-4">
-        <h2 className="card-title opacity-60 pb-8 text-center pb-2">
-          {fullName}
-        </h2>
-        <div className="flex flex-col items-center">
-          <strong className="opacity-60">Last Connection:</strong>
-          <span className="text-accent whitespace-nowrap">
-            {lastConnection
-              ? convertDBDateToPretty(lastConnection)
-              : "No Record"}
-          </span>
+      <a href={`/contacts/${id}/edit`}>
+        <div class="mask mask-squircle w-32 h-32 pb-4">
+          <ImageWithFallback
+            src={avatarUrl}
+            defaultSrc="/images/avatar_icon_green.png"
+            alt="Contact avatar"
+            className="w-full"
+          />
         </div>
-        <div className="flex flex-col items-center">
-          <strong className="opacity-60">Next Connection:</strong>
-          <span className="text-accent whitespace-nowrap">
-            {convertDBDateToPretty(nextConnection)}
-          </span>
+        <div className="flex flex-col h-2/4 p-2 pb-4">
+          <h2 className="card-title opacity-60 pb-8 text-center pb-2">
+            {fullName}
+          </h2>
+          <div className="flex flex-col items-center">
+            <strong className="opacity-60">Next Connection:</strong>
+            <span className="text-accent whitespace-nowrap">
+              {lastConnection
+                ? convertDBDateToPretty(nextConnection)
+                : "No Record"}
+            </span>
+          </div>
+          <div className="flex flex-col items-center">
+            <strong className="opacity-60">Last Connection:</strong>
+            <span className="text-accent whitespace-nowrap">
+              {lastConnection
+                ? convertDBDateToPretty(lastConnection)
+                : "No Record"}
+            </span>
+          </div>
+          <div className="flex flex-col items-center">
+            <strong className="opacity-60">Objective:</strong>
+            <span className="text-accent whitespace-nowrap">
+              {period}
+            </span>
+          </div>
         </div>
-        <div className="flex flex-col items-center">
-          <strong className="opacity-60">Objective:</strong>
-          <span className="text-accent whitespace-nowrap">
-            {period}
-          </span>
+        <div className="flex justify-center pb-4">
+          <PullConnectionButton
+            contact={contact}
+            refreshSignal={refreshSignal}
+          />
         </div>
-      </div>
-      <div className="flex justify-center pb-4">
-        <PullConnectionButton contact={contact} refreshSignal={refreshSignal} />
-      </div>
+      </a>
     </div>
   );
 };
