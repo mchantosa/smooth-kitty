@@ -140,11 +140,8 @@ const PullConnectionButton = (props: {
         e.stopPropagation();
 
         const tempContact = Object.assign({}, contact);
-        // console.log(`pull unedited next: ${tempContact.nextConnection}`);
-        // console.log(`pull unedited last: ${tempContact.lastConnection}`);
         tempContact.nextConnection = getLastSundayOrTodayDateDB();
-        // console.log(`pull edited next: ${tempContact.nextConnection}`);
-        // console.log(`pull edited last: ${tempContact.lastConnection}`);
+
         const formData = generateContactForm(tempContact);
 
         axios.post("/api/contacts", formData).then((res) => { //push to DB
