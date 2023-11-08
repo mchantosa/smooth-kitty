@@ -17,5 +17,5 @@ jobs:
       - name: Deploy to Deno Deploy
         uses: denoland/deployctl@v1
         with:
-          project: smooth-kitty # the name of the project on Deno Deploy
+          project: innercircleprm.com # the name of the project on Deno Deploy
           entrypoint: main.ts # the entrypoint to deploy
