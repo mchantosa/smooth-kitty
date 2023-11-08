@@ -23,12 +23,32 @@ function EmptyItemsList() {
   return (
     <>
       <div class="flex flex-col justify-center items-center gap-2">
-        <div class="flex flex-col items-center gap-2 pt-16">
-          <IconInfo class="w-10 h-10 text-gray-400 dark:text-gray-600" />
-          <p class="text-center font-medium">No items found</p>
+        <div class="flex flex-col items-center gap-2 py-16">
+          {/* <IconInfo class="w-10 h-10 text-gray-400 dark:text-gray-600" /> */}
+          <h1 class="text-2xl text-sky-600 text-center font-medium pb-8">
+            No items found
+          </h1>
           <p class="text-center font-medium">
-            Pull items from 'Coming Up' to fill your board
+            <span className="text-orange-500 dark:text-orange-300">PULL</span>
+            {" "}
+            contacts from Coming Up to populate your board
           </p>
+          <p>or</p>
+          <a
+            href="/contacts/new"
+            class="inline-flex items-center justify-center gap-2 rounded-md px-3 py-2 text-orange-500 dark:text-orange-300 hover:underline"
+          >
+            Add a contact
+          </a>
+          {
+            /* <p class="text-center font-medium">
+            Create a{" "}
+            <span className="text-orange-500 dark:text-orange-300">
+              NEW CONTACT
+            </span>{"   "}
+            to get started
+          </p> */
+          }
         </div>
       </div>
     </>
@@ -209,7 +229,7 @@ const DashboardUpcomingComponent = (
   } = contact;
 
   return (
-    <div className="card w-64 bg-default shadow-xl p-4 m-2 flex items-center">
+    <div className="card w-64 bg-default backdrop-brightness-125 hover:backdrop-brightness-150 shadow-xl p-4 m-2 flex items-center">
       <div class="mask mask-squircle w-32 h-32 pb-4">
         <ImageWithFallback
           src={avatarUrl}
@@ -295,7 +315,7 @@ export default function DashboardList(props: {
   return (
     <div>
       <div class="flex flex-wrap justify-center">
-        {allContactsSig.value
+        {dashBoardContactsSig.value && dashBoardContactsSig.value.length > 0
           ? (
             dashBoardContactsSig.value.map((item, id) => {
               return (

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "zod-resolver";
 import { contactSchema } from "@/shared/data/contact.ts";
@@ -206,16 +206,16 @@ const ContactForm = ({ endpoint, id }: ContactFormProps) => {
         <div class="flex justify-center">
           <div class="avatar pt-8">
             <div class="mask mask-squircle w-36 h-36 mr-8">
-            <ImageWithFallback
-              src={watchAvatarUrl}
-              defaultSrc="/images/avatar_icon_green.png"
-              alt="Contact avatar"
-              className="w-full"
-            />
-            </div>  
+              <ImageWithFallback
+                src={watchAvatarUrl}
+                defaultSrc="/images/avatar_icon_green.png"
+                alt="Contact avatar"
+                className="w-full"
+              />
+            </div>
           </div>
         </div>
-        <p className={labelClassNames+' p-4 text-center'}>
+        <p className={labelClassNames + " p-4 text-center"}>
           Preview
         </p>
       </div>

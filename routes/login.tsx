@@ -4,13 +4,21 @@ import type { State } from "@/middleware/session.ts";
 import Head from "@/components/Head.tsx";
 import { redirect } from "@/utils/http.ts";
 import { Status } from "std/http/http_status.ts";
+import { hasContacts } from "@/services/db/contact.ts";
 
 export const handler: Handlers = {
   async GET(_req: Request, ctx: HandlerContext) {
     // If user is already logged in, redirect to dashboard page
     // To switch OAuth providers, the user must first log out
+
     if (ctx.state.sessionUser) {
-      return redirect("/dashboard", Status.SeeOther);
+      const { login } = ctx.state.sessionUser;
+      // If user has contacts, redirect to dashboard
+      if (await hasContacts(login)) {
+        return redirect("/dashboard", Status.SeeOther);
+      } else { // If user has no contacts, redirect to how-to-use
+        return redirect("/how-to-use", Status.SeeOther);
+      }
     }
     const resp = await ctx.render();
     return resp;

@@ -25,6 +25,16 @@ export async function loadContact(login: string, id: string) {
   return contact;
 }
 
+export async function hasContacts(
+  login: string,
+  options?: Deno.KvListOptions,
+): Promise<boolean> {
+  const queryOptions = options || {};
+  queryOptions.limit = 1;
+  const contactList = await loadContactList(login, queryOptions);
+  return contactList.contacts.length > 0;
+}
+
 export async function loadContactList(
   login: string,
   options?: Deno.KvListOptions,
@@ -97,7 +107,7 @@ async function updateContact(
 
   const op = kv.atomic(); //atomic transaction starts
   op.check({ key: contactKey, versionstamp: contactRecord.versionstamp });
-  op.set(contactKey, contact);  //set primary index
+  op.set(contactKey, contact); //set primary index
 
   if (currentFullName !== contact.fullName.toLowerCase()) {
     // Contact name changed, delete old index
@@ -133,6 +143,7 @@ export async function writeContact(owner: string, contact: Contact) {
   const contactRecord = await kv.get<Contact>(contactKey);
 
   if (!contactRecord.value) {
+    console.log("Creating contact", contactKey);
     await createContact(contactKey, contact);
   } else {
     await updateContact(contactRecord, contact);
