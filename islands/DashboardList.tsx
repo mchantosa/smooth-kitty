@@ -184,7 +184,7 @@ const DashboardComponent = (
         />
       </div>
       <div className="flex flex-col h-2/4 p-2 pb-4">
-        <h2 className="card-title opacity-60 text-center pb-2">
+        <h2 className="card-title opacity-60 pb-8 text-center pb-2">
           {fullName}
         </h2>
         <div className="flex flex-col items-center">
@@ -198,7 +198,9 @@ const DashboardComponent = (
         <div className="flex flex-col items-center">
           <strong className="opacity-60">Next Connection:</strong>
           <span className="text-accent whitespace-nowrap">
-            {convertDBDateToPretty(nextConnection)}
+            {lastConnection
+              ? convertDBDateToPretty(nextConnection)
+              : "No Record"}
           </span>
         </div>
         <div className="flex flex-col items-center">
@@ -207,28 +209,17 @@ const DashboardComponent = (
             {period}
           </span>
         </div>
-        <div className="flex flex-col h-2/4 p-2 pb-4">
-          <h2 className="card-title opacity-60 text-center pb-2">
-            {fullName}
-          </h2>
-          <div className="flex flex-col items-center">
-            <strong className="opacity-60">Last Connection:</strong>
-            <span className="text-accent whitespace-nowrap">
-              {convertDBDateToPretty(lastConnection)}
-            </span>
-          </div>
-        </div>
-        <div className="flex justify-center pb-4">
-          <UpdateConnectionButton
-            contact={contact}
-            refreshSignal={refreshSignal}
-          />
-          <SnoozeContactButton
-            contact={contact}
-            refreshSignal={refreshSignal}
-          />
-        </div>
-      </a>
+      </div>
+      <div className="flex justify-center pb-4">
+        <UpdateConnectionButton
+          contact={contact}
+          refreshSignal={refreshSignal}
+        />
+        <SnoozeContactButton
+          contact={contact}
+          refreshSignal={refreshSignal}
+        />
+      </div>
     </div>
   );
 };
@@ -251,7 +242,7 @@ const DashboardUpcomingComponent = (
 
   return (
     <div className="card w-64 bg-default backdrop-brightness-125 hover:backdrop-brightness-150 shadow-xl p-4 m-2 flex items-center">
-      <div class="mask mask-squircle w-32 h-32 pb-4">
+      <div className="mask mask-squircle w-32 h-32 pb-4">
         <ImageWithFallback
           src={avatarUrl}
           defaultSrc="/images/avatar_icon_green.png"
