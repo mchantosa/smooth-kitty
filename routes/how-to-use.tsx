@@ -48,7 +48,9 @@ export default async function Welcome(
               {/* <!-- Complete Step --> */}
               <a href="#" class="group relative flex items-start">
                 <span class="flex h-9 items-center">
-                  <span class={stepStyles.completedStep}>1</span>
+                  <span class={stepStyles.completedStep}>
+                    <strong>1</strong>
+                  </span>
                 </span>
                 <span class="ml-4 flex min-w-0 flex-col">
                   <span class={stepStyles.headActive}>Create account</span>
@@ -60,7 +62,9 @@ export default async function Welcome(
               </div>
               <a href="#" class="group relative flex items-start">
                 <span class="flex h-9 items-center">
-                  <span class={stepStyles.completedStep}>2</span>
+                  <span class={stepStyles.completedStep}>
+                    <strong>2</strong>
+                  </span>
                 </span>
                 <span class="ml-4 flex min-w-0 flex-col">
                   <span class={stepStyles.headActive}>Create Contacts</span>
@@ -107,7 +111,9 @@ export default async function Welcome(
               </div>
               <a href="#" class="group relative flex items-start">
                 <span class="flex h-9 items-center">
-                  <span class={stepStyles.completedStep}>3</span>
+                  <span class={stepStyles.completedStep}>
+                    <strong>3</strong>
+                  </span>
                 </span>
                 <span class="ml-4 flex min-w-0 flex-col">
                   <span class={stepStyles.headActive}>Populate Dashboard</span>
@@ -154,7 +160,9 @@ export default async function Welcome(
               <a href="#" class="group relative flex items-start">
                 <span class="flex h-9 items-center" aria-hidden="true">
                   <span class="flex h-9 items-center">
-                    <span class={stepStyles.completedStep}>4</span>
+                    <span class={stepStyles.completedStep}>
+                      <strong>4</strong>
+                    </span>
                   </span>
                 </span>
                 <span class="ml-4 flex min-w-0 flex-col">

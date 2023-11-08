@@ -95,8 +95,6 @@ async function updateContact(
     `${contactRecord.value.firstName} ${contactRecord.value.lastName}`
       .toLocaleLowerCase();
   contact.fullName = `${contact.firstName} ${contact.lastName}`;
-  contact.nextConnection = contactRecord.value.nextConnection;
-  contact.lastConnection = contactRecord.value.lastConnection;
 
   const contactsByFullNameKey = [ //update secondary index
     CONTACTS_BY_FULL_NAME_KEY,

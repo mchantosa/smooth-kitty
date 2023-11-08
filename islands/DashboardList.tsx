@@ -24,7 +24,6 @@ function EmptyItemsList() {
     <>
       <div class="flex flex-col justify-center items-center gap-2">
         <div class="flex flex-col items-center gap-2 py-16">
-          {/* <IconInfo class="w-10 h-10 text-gray-400 dark:text-gray-600" /> */}
           <h1 class="text-2xl text-sky-600 text-center font-medium pb-8">
             No items found
           </h1>
@@ -40,15 +39,6 @@ function EmptyItemsList() {
           >
             Add a contact
           </a>
-          {
-            /* <p class="text-center font-medium">
-            Create a{" "}
-            <span className="text-orange-500 dark:text-orange-300">
-              NEW CONTACT
-            </span>{"   "}
-            to get started
-          </p> */
-          }
         </div>
       </div>
     </>
@@ -151,6 +141,7 @@ const PullConnectionButton = (props: {
 
         const tempContact = Object.assign({}, contact);
         tempContact.nextConnection = getLastSundayOrTodayDateDB();
+
         const formData = generateContactForm(tempContact);
 
         axios.post("/api/contacts", formData).then((res) => { //push to DB
@@ -179,18 +170,42 @@ const DashboardComponent = (
     fullName,
     nextConnection,
     lastConnection,
+    period,
   } = contact;
 
   return (
     <div className="card w-64 bg-default shadow-xl p-4 m-2 flex items-center">
-      <a href={`/contacts/${id}/edit`}>
-        <div class="mask mask-squircle w-32 h-32 pb-4">
-          <ImageWithFallback
-            src={avatarUrl}
-            defaultSrc="/images/avatar_icon_green.png"
-            alt="Contact avatar"
-            className="w-full"
-          />
+      <div class="mask mask-squircle w-32 h-32 pb-4">
+        <ImageWithFallback
+          src={avatarUrl}
+          defaultSrc="/images/avatar_icon_green.png"
+          alt="Contact avatar"
+          className="w-full"
+        />
+      </div>
+      <div className="flex flex-col h-2/4 p-2 pb-4">
+        <h2 className="card-title opacity-60 text-center pb-2">
+          {fullName}
+        </h2>
+        <div className="flex flex-col items-center">
+          <strong className="opacity-60">Last Connection:</strong>
+          <span className="text-accent whitespace-nowrap">
+            {lastConnection
+              ? convertDBDateToPretty(lastConnection)
+              : "No Record"}
+          </span>
+        </div>
+        <div className="flex flex-col items-center">
+          <strong className="opacity-60">Next Connection:</strong>
+          <span className="text-accent whitespace-nowrap">
+            {convertDBDateToPretty(nextConnection)}
+          </span>
+        </div>
+        <div className="flex flex-col items-center">
+          <strong className="opacity-60">Objective:</strong>
+          <span className="text-accent whitespace-nowrap">
+            {period}
+          </span>
         </div>
         <div className="flex flex-col h-2/4 p-2 pb-4">
           <h2 className="card-title opacity-60 text-center pb-2">
@@ -231,37 +246,47 @@ const DashboardUpcomingComponent = (
     fullName,
     nextConnection,
     lastConnection,
+    period,
   } = contact;
 
   return (
     <div className="card w-64 bg-default backdrop-brightness-125 hover:backdrop-brightness-150 shadow-xl p-4 m-2 flex items-center">
-      <a href={`/contacts/${id}/edit`}>
-        <div class="mask mask-squircle w-32 h-32 pb-4">
-          <ImageWithFallback
-            src={avatarUrl}
-            defaultSrc="/images/avatar_icon_green.png"
-            alt="Contact avatar"
-            className="w-full"
-          />
+      <div class="mask mask-squircle w-32 h-32 pb-4">
+        <ImageWithFallback
+          src={avatarUrl}
+          defaultSrc="/images/avatar_icon_green.png"
+          alt="Contact avatar"
+          className="w-full"
+        />
+      </div>
+      <div className="flex flex-col h-2/4 p-2 pb-4">
+        <h2 className="card-title opacity-60 pb-8 text-center pb-2">
+          {fullName}
+        </h2>
+        <div className="flex flex-col items-center">
+          <strong className="opacity-60">Last Connection:</strong>
+          <span className="text-accent whitespace-nowrap">
+            {lastConnection
+              ? convertDBDateToPretty(lastConnection)
+              : "No Record"}
+          </span>
         </div>
-        <div className="flex flex-col h-2/4 p-2 pb-4">
-          <h2 className="card-title opacity-60 pb-8 text-center pb-2">
-            {fullName}
-          </h2>
-          <div className="flex flex-col items-center">
-            <strong className="opacity-60">Next Connection:</strong>
-            <span className="text-accent whitespace-nowrap">
-              {convertDBDateToPretty(nextConnection)}
-            </span>
-          </div>
+        <div className="flex flex-col items-center">
+          <strong className="opacity-60">Next Connection:</strong>
+          <span className="text-accent whitespace-nowrap">
+            {convertDBDateToPretty(nextConnection)}
+          </span>
         </div>
-        <div className="flex justify-center pb-4">
-          <PullConnectionButton
-            contact={contact}
-            refreshSignal={refreshSignal}
-          />
+        <div className="flex flex-col items-center">
+          <strong className="opacity-60">Objective:</strong>
+          <span className="text-accent whitespace-nowrap">
+            {period}
+          </span>
         </div>
-      </a>
+      </div>
+      <div className="flex justify-center pb-4">
+        <PullConnectionButton contact={contact} refreshSignal={refreshSignal} />
+      </div>
     </div>
   );
 };
