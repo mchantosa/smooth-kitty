@@ -15,10 +15,8 @@ export const handler: Handlers = {
       const { login } = ctx.state.sessionUser;
       // If user has contacts, redirect to dashboard
       if (await hasContacts(login)) {
-        console.log("has contacts");
         return redirect("/dashboard", Status.SeeOther);
       } else { // If user has no contacts, redirect to how-to-use
-        console.log("no contacts");
         return redirect("/how-to-use", Status.SeeOther);
       }
     }

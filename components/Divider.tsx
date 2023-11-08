@@ -7,7 +7,7 @@ export default function Divider(props: { textInsert?: string }) {
         <div class="border-t opacity-60 py-2"></div>
       </div>
       <div>
-        <span class="px-4 opacity-60 whitespace-nowrap">
+        <span class="text-lg text-sky-600 px-4 opacity-60 whitespace-nowrap">
           {textInsert}
         </span>
       </div>

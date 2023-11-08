@@ -17,7 +17,7 @@ export default async function DashboardPage(_req: Request, ctx: RouteContext) {
           <a href="/contacts/new" class="btn btn-primary">New contact</a>
         </div>
         <Divider
-          textInsert={`${getLastSundayOrTodayDatePretty()} - ${getNextSaturdayOrTodayDatePretty()}`}
+          textInsert={`Board  (${getLastSundayOrTodayDatePretty()} - ${getNextSaturdayOrTodayDatePretty()})`}
         />
         <DashboardList endpoint="/api/contacts" />
       </main>
