@@ -66,7 +66,9 @@ const SnoozeContactButton = (props: {
             contact.nextConnection = getNextSundayDateDB(); //update the UI
             refreshSignal(); //trigger component render
           }
-        });
+        }).catch((err) => {
+          console.log('Unable to snooze contact at this time');
+        })
       }}
     >
       Snooze
@@ -119,6 +121,8 @@ const UpdateConnectionButton = (props: {
             contact.lastConnection = tempLastConnection; //update the UI
             refreshSignal(); //trigger component render
           }
+        }).catch((err) => {
+          console.log('Unable to update contact at this time');
         });
       }}
     >
@@ -149,6 +153,8 @@ const PullConnectionButton = (props: {
             contact.nextConnection = getLastSundayOrTodayDateDB(); //update the UI
             refreshSignal(); //trigger component render
           }
+        }).catch((err) => {
+          console.log('Unable to pull contact at this time');
         });
       }}
     >
@@ -158,7 +164,9 @@ const PullConnectionButton = (props: {
 };
 
 const cardStyle = {};
-cardStyle.card = "card w-64 bg-default backdrop-brightness-125 dark:hover:backdrop-brightness-150 shadow-lg hover:shadow-orange-400 shadow-orange-300 p-4 m-4 flex items-center"
+cardStyle.card = "card w-64 bg-default p-4 m-4 flex items-center"
+  + " " + "shadow-lg shadow-sky-600 hover:shadow-sky-900"
+  + " " + "dark:backdrop-brightness-125 dark:hover:backdrop-brightness-150 dark:hover:shadow-orange-400 dark:shadow-orange-300"
 cardStyle.avatar = "mask mask-squircle w-32 h-32 pb-4";
 cardStyle.primaryColor = "text-sky-600 dark:text-sky-400";
 cardStyle.neutralColor = "text-gray-600 dark:text-gray-400";
@@ -174,8 +182,8 @@ function limitText(text, maxLength) {
   if (text.length <= maxLength) {
     return text; 
   } else {
-    const truncatedText = text.substring(0, maxLength - 1); // Keep space for epsilon symbol
-    const epsilon = '...'; // You can use any symbol you prefer, like 'ε'
+    const truncatedText = text.substring(0, maxLength - 1); 
+    const epsilon = '...'; 
     return truncatedText + epsilon;
   }
 }
