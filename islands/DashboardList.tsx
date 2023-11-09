@@ -157,6 +157,29 @@ const PullConnectionButton = (props: {
   );
 };
 
+const cardStyle = {};
+cardStyle.card = "card w-64 bg-default backdrop-brightness-125 dark:hover:backdrop-brightness-150 shadow-lg hover:shadow-orange-400 shadow-orange-300 p-4 m-4 flex items-center"
+cardStyle.avatar = "mask mask-squircle w-32 h-32 pb-4";
+cardStyle.primaryColor = "text-sky-600 dark:text-sky-400";
+cardStyle.neutralColor = "text-gray-600 dark:text-gray-400";
+cardStyle.highNeutralColor = "text-gray-700 dark:text-gray-300";
+cardStyle.secondaryColor = "text-orange-400 dark:text-orange-300";
+cardStyle.fullName = "text-xl py-4 text-center font-medium whitespace-nowrap" + " " + cardStyle.highNeutralColor;
+cardStyle.fullNameMaxLength = 18;
+cardStyle.data = "text-lg text-center"+ " " + cardStyle.neutralColor;
+cardStyle.dataSub = "text-md text-center" + " " + cardStyle.primaryColor;
+cardStyle.dataDiv = "flex flex-col pb-2";//items-center
+
+function limitText(text, maxLength) {
+  if (text.length <= maxLength) {
+    return text; 
+  } else {
+    const truncatedText = text.substring(0, maxLength - 1); // Keep space for epsilon symbol
+    const epsilon = '...'; // You can use any symbol you prefer, like 'ε'
+    return truncatedText + epsilon;
+  }
+}
+
 const DashboardComponent = (
   props: {
     contact: Contact;
@@ -174,8 +197,8 @@ const DashboardComponent = (
   } = contact;
 
   return (
-    <div className="card w-64 bg-default shadow-xl p-4 m-2 flex items-center">
-      <div class="mask mask-squircle w-32 h-32 pb-4">
+    <div className={cardStyle.card}>
+      <div class={cardStyle.avatar}>
         <ImageWithFallback
           src={avatarUrl}
           defaultSrc="/images/avatar_icon_green.png"
@@ -183,29 +206,29 @@ const DashboardComponent = (
           className="w-full"
         />
       </div>
-      <div className="flex flex-col h-2/4 p-2 pb-4">
-        <h2 className="card-title opacity-60 pb-8 text-center pb-2">
-          {fullName}
-        </h2>
-        <div className="flex flex-col items-center">
-          <strong className="opacity-60">Last Connection:</strong>
-          <span className="text-accent whitespace-nowrap">
+      <div className={cardStyle.dataDiv}>
+        <h1 className={cardStyle.fullName}>
+          {limitText(fullName, cardStyle.fullNameMaxLength)}
+        </h1>
+        <div className={cardStyle.dataDiv}>
+          <span className={cardStyle.data}>Last Connection</span>
+          <span className={cardStyle.dataSub}>
             {lastConnection
               ? convertDBDateToPretty(lastConnection)
               : "No Record"}
           </span>
         </div>
-        <div className="flex flex-col items-center">
-          <strong className="opacity-60">Next Connection:</strong>
-          <span className="text-accent whitespace-nowrap">
+        <div className={cardStyle.dataDiv}>
+          <span className={cardStyle.data}>Next Connection</span>
+          <span className={cardStyle.dataSub}>
             {lastConnection
               ? convertDBDateToPretty(nextConnection)
               : "No Record"}
           </span>
         </div>
-        <div className="flex flex-col items-center">
-          <strong className="opacity-60">Objective:</strong>
-          <span className="text-accent whitespace-nowrap">
+        <div className={cardStyle.dataDiv}>
+          <span className={cardStyle.data}>Objective</span>
+          <span className={cardStyle.dataSub}>
             {period}
           </span>
         </div>
@@ -241,8 +264,8 @@ const DashboardUpcomingComponent = (
   } = contact;
 
   return (
-    <div className="card w-64 bg-default backdrop-brightness-125 hover:backdrop-brightness-150 shadow-xl p-4 m-2 flex items-center">
-      <div className="mask mask-squircle w-32 h-32 pb-4">
+    <div className={cardStyle.card}>
+      <div className={cardStyle.avatar}>
         <ImageWithFallback
           src={avatarUrl}
           defaultSrc="/images/avatar_icon_green.png"
@@ -250,29 +273,29 @@ const DashboardUpcomingComponent = (
           className="w-full"
         />
       </div>
-      <div className="flex flex-col h-2/4 p-2 pb-4">
-        <h2 className="card-title opacity-60 pb-8 text-center pb-2">
+      <div className={cardStyle.dataDiv}>
+        <h2 className={cardStyle.fullName}>
           {fullName}
         </h2>
-        <div className="flex flex-col items-center">
-          <strong className="opacity-60">Last Connection:</strong>
-          <span className="text-accent whitespace-nowrap">
+        <div className={cardStyle.dataDiv}>
+          <span className={cardStyle.data}>Last Connection:</span>
+          <span className={cardStyle.dataSub}>
             {lastConnection
               ? convertDBDateToPretty(lastConnection)
               : "No Record"}
           </span>
         </div>
-        <div className="flex flex-col items-center">
-          <strong className="opacity-60">Next Connection:</strong>
-          <span className="text-accent whitespace-nowrap">
+        <div className={cardStyle.dataDiv}>
+          <span className={cardStyle.data}>Next Connection:</span>
+          <span className={cardStyle.dataSub}>
             {lastConnection
               ? convertDBDateToPretty(nextConnection)
               : "No Record"}
           </span>
         </div>
-        <div className="flex flex-col items-center">
-          <strong className="opacity-60">Objective:</strong>
-          <span className="text-accent whitespace-nowrap">
+        <div className={cardStyle.dataDiv}>
+          <span className={cardStyle.data}>Objective:</span>
+          <span className={cardStyle.dataSub}>
             {period}
           </span>
         </div>
