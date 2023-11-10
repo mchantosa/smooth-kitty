@@ -64,7 +64,6 @@ const SnoozeContactButton = (props: {
         axios.post("/api/contacts", formData).then((res) => { //push to DB
           if (res.status === 200) {
             contact.nextConnection = getNextSundayDateDB(); //update the UI
-            console.log(contact.fullName, "nextConnection: ",contact.nextConnection)
             refreshSignal(); //trigger component render
           }
         }).catch((err) => {
@@ -120,8 +119,6 @@ const UpdateConnectionButton = (props: {
           if (res.status === 200) {
             contact.nextConnection = tempNextConnection; //update the UI
             contact.lastConnection = tempLastConnection; //update the UI
-            // console.log(contact.fullName, "nextConnection:" ,contact.nextConnection)
-            // console.log(contact.fullName, "lastConnection:" ,contact.lastConnection)
             refreshSignal(); //trigger component render
           }
         }).catch((err) => {
@@ -154,7 +151,6 @@ const PullConnectionButton = (props: {
         axios.post("/api/contacts", formData).then((res) => { //push to DB
           if (res.status === 200) {
             contact.nextConnection = getLastSundayOrTodayDateDB(); //update the UI
-            console.log(contact.fullName, "nextConnection:" ,contact.nextConnection)
             refreshSignal(); //trigger component render
           }
         }).catch((err) => {
