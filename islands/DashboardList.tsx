@@ -311,6 +311,12 @@ const DashboardUpcomingComponent = (
             {period}
           </span>
         </div>
+        <div className="flex flex-col items-center">
+          <strong className="opacity-60">Objective:</strong>
+          <span className="text-accent whitespace-nowrap">
+            {period}
+          </span>
+        </div>
       </div>
       <div className="flex justify-center pb-4">
         <PullConnectionButton
