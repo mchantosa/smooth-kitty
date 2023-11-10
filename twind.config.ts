@@ -22,8 +22,8 @@ export default {
           // This line is required. Otherwise, if removed, the values of other colors with be removed.
           ...colors,
           // Modify primary and secondary colors according to your color-scheme
-          primary: "#be185d",
-          secondary: "#4338ca",
+          primary: "#be185d", //#0284c7
+          secondary: "#4338ca", //#fb923c
         },
         // deno-lint-ignore no-explicit-any
       }) as Preset<any>,

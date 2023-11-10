@@ -15,10 +15,11 @@ const get119YearsAgo = () => {
 
 interface ContactFormProps {
   endpoint?: string;
+  redirect?: string;
   id?: string;
 }
 
-const ContactForm = ({ endpoint, id }: ContactFormProps) => {
+const ContactForm = ({ endpoint, redirect, id }: ContactFormProps) => {
   const {
     register,
     handleSubmit,
@@ -63,6 +64,8 @@ const ContactForm = ({ endpoint, id }: ContactFormProps) => {
       const resp = await fetch(endpoint);
       const data = await resp.json();
       const { value: contact } = data;
+      if(contact.lastConnection) setValue("lastConnection", contact.lastConnection);
+      if(contact.nextConnection)setValue("nextConnection", contact.nextConnection);
       setValue("firstName", contact.firstName);
       setValue("lastName", contact.lastName);
       setValue("pronouns", contact.pronouns);
@@ -88,8 +91,15 @@ const ContactForm = ({ endpoint, id }: ContactFormProps) => {
       class="max-w-md mx-auto p-8 bg-default rounded shadow-lg"
       // @ts-ignore TODO: fix react-hook-form types
       onSubmit={handleSubmit((d) => {
+        console.log("I am in the submit function")
+        const contact = getValues();
+        // const contact = getValues();
+        console.log("contact",contact);
+        // console.log("d",d);
         const formData = new FormData();
         if (id) formData.append("id", id);
+        if(contact.lastConnection) formData.append("lastConnection", contact.lastConnection);
+        if(contact.nextConnection) formData.append("nextConnection", contact.nextConnection);
         formData.append("firstName", d.firstName);
         formData.append("lastName", d.lastName);
         formData.append("pronouns", d.pronouns);
@@ -104,7 +114,7 @@ const ContactForm = ({ endpoint, id }: ContactFormProps) => {
         formData.append("birthdayYear", d.birthdayYear);
         formData.append("connectOnBirthday", d.connectOnBirthday);
         axios.post("/api/contacts", formData).then((res) => {
-          window.location.href = "/contacts";
+          window.location.href = redirect || "/contacts";
         });
       })}
     >

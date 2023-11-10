@@ -21,6 +21,7 @@ export const handler: Handlers<undefined, State> = {
     });
   },
   async POST(req, ctx) {
+    // console.log("I'm in: POST /api/contacts")
     assertSignedIn(ctx);
     const { login } = ctx.state.sessionUser!;
     const form = await req.formData();
@@ -41,7 +42,9 @@ export const handler: Handlers<undefined, State> = {
     const lastConnection = form.get("lastConnection")
       ? form.get("lastConnection")
       : "";
-    const nextConnection = form.get("nextConnection");
+    const nextConnection = form.get("nextConnection")
+      ? form.get("nextConnection")
+      : "";
 
     // TODO: Validate contact data
 
@@ -64,10 +67,24 @@ export const handler: Handlers<undefined, State> = {
       nextConnection,
     };
 
-    await writeContact(login, contact);
+    // console.log("about to write contact: ", contact)
 
-    // TODO: Do server side redirect to /contacts
-    return new Response(null, { status: 200 });
+    try {
+      await writeContact(login, contact);
+      // TODO: Do server-side redirect to /contacts
+      return new Response(null, { status: 200 });
+    } catch (err) {
+      // Error handling for failed write
+      console.error("Error writing contact: ", err);
+    
+      const errorMessage = "An error occurred while writing the contact.";
+      return new Response(JSON.stringify({ error: errorMessage }), {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    }
   },
   async DELETE(req, ctx) {
     assertSignedIn(ctx);

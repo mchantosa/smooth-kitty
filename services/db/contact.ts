@@ -89,6 +89,10 @@ async function updateContact(
   contactRecord: Deno.KvEntry<Contact>,
   contact: Contact,
 ) {
+  
+  // console.log("existing contact: ", contactRecord.value)
+  // console.log("incoming contact: ", contact)
+
   const contactKey = contactRecord.key;
   const [_contacts, owner, contactId] = contactKey;
   const currentFullName =
@@ -144,6 +148,7 @@ export async function writeContact(owner: string, contact: Contact) {
     console.log("Creating contact", contactKey);
     await createContact(contactKey, contact);
   } else {
+    console.log("Updating contact", contactKey);
     await updateContact(contactRecord, contact);
   }
 }

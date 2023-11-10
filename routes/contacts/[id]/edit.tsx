@@ -9,6 +9,10 @@ export default async function ContactDetailsPage(
   ctx: RouteContext<undefined, State>,
 ) {
   const contactId = ctx.params.id;
+  const parsedUrl = new URL(_req.url);
+  const redirectParam = parsedUrl.searchParams.get("redirect");
+  const redirect = redirectParam ? `/${redirectParam}` : "/contacts";
+
   const endpoint = `/api/contacts/${contactId}`;
   return (
     <>
@@ -21,7 +25,7 @@ export default async function ContactDetailsPage(
         />
       </Head>
       <main class="flex-1 p-4 space-y-8">
-        <ContactForm endpoint={endpoint} id={contactId}></ContactForm>
+        <ContactForm endpoint={endpoint} redirect={redirect} id={contactId}></ContactForm>
       </main>
     </>
   );

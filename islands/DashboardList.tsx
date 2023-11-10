@@ -64,9 +64,12 @@ const SnoozeContactButton = (props: {
         axios.post("/api/contacts", formData).then((res) => { //push to DB
           if (res.status === 200) {
             contact.nextConnection = getNextSundayDateDB(); //update the UI
+            console.log(contact.fullName, "nextConnection: ",contact.nextConnection)
             refreshSignal(); //trigger component render
           }
-        });
+        }).catch((err) => {
+          console.log('Unable to snooze contact at this time');
+        })
       }}
     >
       Snooze
@@ -117,8 +120,12 @@ const UpdateConnectionButton = (props: {
           if (res.status === 200) {
             contact.nextConnection = tempNextConnection; //update the UI
             contact.lastConnection = tempLastConnection; //update the UI
+            // console.log(contact.fullName, "nextConnection:" ,contact.nextConnection)
+            // console.log(contact.fullName, "lastConnection:" ,contact.lastConnection)
             refreshSignal(); //trigger component render
           }
+        }).catch((err) => {
+          console.log('Unable to update contact at this time');
         });
       }}
     >
@@ -147,8 +154,11 @@ const PullConnectionButton = (props: {
         axios.post("/api/contacts", formData).then((res) => { //push to DB
           if (res.status === 200) {
             contact.nextConnection = getLastSundayOrTodayDateDB(); //update the UI
+            console.log(contact.fullName, "nextConnection:" ,contact.nextConnection)
             refreshSignal(); //trigger component render
           }
+        }).catch((err) => {
+          console.log('Unable to pull contact at this time');
         });
       }}
     >
@@ -156,6 +166,31 @@ const PullConnectionButton = (props: {
     </button>
   );
 };
+
+const cardStyle = {};
+cardStyle.card = "card w-64 bg-default p-4 m-4 flex items-center"
+  + " " + "shadow-lg shadow-sky-600 hover:shadow-sky-900"
+  + " " + "dark:backdrop-brightness-125 dark:hover:backdrop-brightness-150 dark:hover:shadow-orange-400 dark:shadow-orange-300"
+cardStyle.avatar = "mask mask-squircle w-32 h-32 pb-4";
+cardStyle.primaryColor = "text-sky-600 dark:text-sky-400";
+cardStyle.neutralColor = "text-gray-600 dark:text-gray-400";
+cardStyle.highNeutralColor = "text-gray-700 dark:text-gray-300";
+cardStyle.secondaryColor = "text-orange-400 dark:text-orange-300";
+cardStyle.fullName = "text-xl py-4 text-center font-medium whitespace-nowrap" + " " + cardStyle.highNeutralColor;
+cardStyle.fullNameMaxLength = 18;
+cardStyle.data = "text-lg text-center"+ " " + cardStyle.neutralColor;
+cardStyle.dataSub = "text-md text-center" + " " + cardStyle.primaryColor;
+cardStyle.dataDiv = "flex flex-col pb-2";//items-center
+
+function limitText(text, maxLength) {
+  if (text.length <= maxLength) {
+    return text; 
+  } else {
+    const truncatedText = text.substring(0, maxLength - 1); 
+    const epsilon = '...'; 
+    return truncatedText + epsilon;
+  }
+}
 
 const DashboardComponent = (
   props: {
@@ -174,8 +209,8 @@ const DashboardComponent = (
   } = contact;
 
   return (
-    <div className="card w-64 bg-default shadow-xl p-4 m-2 flex items-center">
-      <div class="mask mask-squircle w-32 h-32 pb-4">
+    <div className={cardStyle.card}>
+      <div class={cardStyle.avatar}>
         <ImageWithFallback
           src={avatarUrl}
           defaultSrc="/images/avatar_icon_green.png"
@@ -183,27 +218,29 @@ const DashboardComponent = (
           className="w-full"
         />
       </div>
-      <div className="flex flex-col h-2/4 p-2 pb-4">
-        <h2 className="card-title opacity-60 text-center pb-2">
-          {fullName}
-        </h2>
-        <div className="flex flex-col items-center">
-          <strong className="opacity-60">Last Connection:</strong>
-          <span className="text-accent whitespace-nowrap">
-            {lastConnection
+      <div className={cardStyle.dataDiv}>
+        <h1 className={cardStyle.fullName}>
+          {limitText(fullName, cardStyle.fullNameMaxLength)}
+        </h1>
+        <div className={cardStyle.dataDiv}>
+          <span className={cardStyle.data}>Last Connection</span>
+          <span className={cardStyle.dataSub}>
+            { lastConnection
               ? convertDBDateToPretty(lastConnection)
               : "No Record"}
           </span>
         </div>
-        <div className="flex flex-col items-center">
-          <strong className="opacity-60">Next Connection:</strong>
-          <span className="text-accent whitespace-nowrap">
-            {convertDBDateToPretty(nextConnection)}
+        <div className={cardStyle.dataDiv}>
+          <span className={cardStyle.data}>Next Connection</span>
+          <span className={cardStyle.dataSub}>
+            {nextConnection
+              ? convertDBDateToPretty(nextConnection)
+              : "No Record"}
           </span>
         </div>
-        <div className="flex flex-col items-center">
-          <strong className="opacity-60">Objective:</strong>
-          <span className="text-accent whitespace-nowrap">
+        <div className={cardStyle.dataDiv}>
+          <span className={cardStyle.data}>Objective</span>
+          <span className={cardStyle.dataSub}>
             {period}
           </span>
         </div>
@@ -213,7 +250,10 @@ const DashboardComponent = (
           contact={contact}
           refreshSignal={refreshSignal}
         />
-        <SnoozeContactButton contact={contact} refreshSignal={refreshSignal} />
+        <SnoozeContactButton
+          contact={contact}
+          refreshSignal={refreshSignal}
+        />
       </div>
     </div>
   );
@@ -236,8 +276,8 @@ const DashboardUpcomingComponent = (
   } = contact;
 
   return (
-    <div className="card w-64 bg-default backdrop-brightness-125 hover:backdrop-brightness-150 shadow-xl p-4 m-2 flex items-center">
-      <div class="mask mask-squircle w-32 h-32 pb-4">
+    <div className={cardStyle.card}>
+      <div className={cardStyle.avatar}>
         <ImageWithFallback
           src={avatarUrl}
           defaultSrc="/images/avatar_icon_green.png"
@@ -245,22 +285,30 @@ const DashboardUpcomingComponent = (
           className="w-full"
         />
       </div>
-      <div className="flex flex-col h-2/4 p-2 pb-4">
-        <h2 className="card-title opacity-60 pb-8 text-center pb-2">
-          {fullName}
+      <div className={cardStyle.dataDiv}>
+        <h2 className={cardStyle.fullName}>
+        {limitText(fullName, cardStyle.fullNameMaxLength)}
         </h2>
-        <div className="flex flex-col items-center">
-          <strong className="opacity-60">Last Connection:</strong>
-          <span className="text-accent whitespace-nowrap">
+        <div className={cardStyle.dataDiv}>
+          <span className={cardStyle.data}>Last Connection:</span>
+          <span className={cardStyle.dataSub}>
             {lastConnection
               ? convertDBDateToPretty(lastConnection)
               : "No Record"}
           </span>
         </div>
-        <div className="flex flex-col items-center">
-          <strong className="opacity-60">Next Connection:</strong>
-          <span className="text-accent whitespace-nowrap">
-            {convertDBDateToPretty(nextConnection)}
+        <div className={cardStyle.dataDiv}>
+          <span className={cardStyle.data}>Next Connection:</span>
+          <span className={cardStyle.dataSub}>
+            {nextConnection
+              ? convertDBDateToPretty(nextConnection)
+              : "No Record"}
+          </span>
+        </div>
+        <div className={cardStyle.dataDiv}>
+          <span className={cardStyle.data}>Objective:</span>
+          <span className={cardStyle.dataSub}>
+            {period}
           </span>
         </div>
         <div className="flex flex-col items-center">
@@ -271,7 +319,10 @@ const DashboardUpcomingComponent = (
         </div>
       </div>
       <div className="flex justify-center pb-4">
-        <PullConnectionButton contact={contact} refreshSignal={refreshSignal} />
+        <PullConnectionButton
+          contact={contact}
+          refreshSignal={refreshSignal}
+        />
       </div>
     </div>
   );
@@ -340,11 +391,13 @@ export default function DashboardList(props: {
           ? (
             dashBoardContactsSig.value.map((item, id) => {
               return (
-                <DashboardComponent
-                  key={nanoid()}
-                  contact={item}
-                  refreshSignal={refreshSignal}
-                />
+                <a href={`\\contacts\\${item.id}\\edit\\?redirect=dashboard`}>
+                  <DashboardComponent
+                    key={nanoid()}
+                    contact={item}
+                    refreshSignal={refreshSignal}
+                  />
+                </a>
               );
             })
           )
@@ -356,11 +409,13 @@ export default function DashboardList(props: {
           ? (
             upcomingContactsSig.value.map((item, id) => {
               return (
-                <DashboardUpcomingComponent
-                  key={nanoid()}
-                  contact={item}
-                  refreshSignal={refreshSignal}
-                />
+                <a href={`\\contacts\\${item.id}\\edit\\?redirect=dashboard`}>
+                  <DashboardUpcomingComponent
+                    key={nanoid()}
+                    contact={item}
+                    refreshSignal={refreshSignal}
+                  />
+                </a>
               );
             })
           )
