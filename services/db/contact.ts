@@ -90,8 +90,8 @@ async function updateContact(
   contact: Contact,
 ) {
   
-  console.log("existing contact: ", contactRecord.value)
-  console.log("incoming contact: ", contact)
+  // console.log("existing contact: ", contactRecord.value)
+  // console.log("incoming contact: ", contact)
 
   const contactKey = contactRecord.key;
   const [_contacts, owner, contactId] = contactKey;

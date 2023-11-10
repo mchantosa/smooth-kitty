@@ -21,7 +21,7 @@ export const handler: Handlers<undefined, State> = {
     });
   },
   async POST(req, ctx) {
-    console.log("I'm in: POST /api/contacts")
+    // console.log("I'm in: POST /api/contacts")
     assertSignedIn(ctx);
     const { login } = ctx.state.sessionUser!;
     const form = await req.formData();
@@ -42,7 +42,9 @@ export const handler: Handlers<undefined, State> = {
     const lastConnection = form.get("lastConnection")
       ? form.get("lastConnection")
       : "";
-    const nextConnection = form.get("nextConnection");
+    const nextConnection = form.get("nextConnection")
+      ? form.get("nextConnection")
+      : "";
 
     // TODO: Validate contact data
 
@@ -65,7 +67,7 @@ export const handler: Handlers<undefined, State> = {
       nextConnection,
     };
 
-    console.log("about to write contact: ", contact)
+    // console.log("about to write contact: ", contact)
 
     try {
       await writeContact(login, contact);

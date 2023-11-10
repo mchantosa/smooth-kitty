@@ -64,6 +64,7 @@ const SnoozeContactButton = (props: {
         axios.post("/api/contacts", formData).then((res) => { //push to DB
           if (res.status === 200) {
             contact.nextConnection = getNextSundayDateDB(); //update the UI
+            console.log(contact.fullName, "nextConnection: ",contact.nextConnection)
             refreshSignal(); //trigger component render
           }
         }).catch((err) => {
@@ -119,6 +120,8 @@ const UpdateConnectionButton = (props: {
           if (res.status === 200) {
             contact.nextConnection = tempNextConnection; //update the UI
             contact.lastConnection = tempLastConnection; //update the UI
+            // console.log(contact.fullName, "nextConnection:" ,contact.nextConnection)
+            // console.log(contact.fullName, "lastConnection:" ,contact.lastConnection)
             refreshSignal(); //trigger component render
           }
         }).catch((err) => {
@@ -151,6 +154,7 @@ const PullConnectionButton = (props: {
         axios.post("/api/contacts", formData).then((res) => { //push to DB
           if (res.status === 200) {
             contact.nextConnection = getLastSundayOrTodayDateDB(); //update the UI
+            console.log(contact.fullName, "nextConnection:" ,contact.nextConnection)
             refreshSignal(); //trigger component render
           }
         }).catch((err) => {
@@ -221,7 +225,7 @@ const DashboardComponent = (
         <div className={cardStyle.dataDiv}>
           <span className={cardStyle.data}>Last Connection</span>
           <span className={cardStyle.dataSub}>
-            {lastConnection
+            { lastConnection
               ? convertDBDateToPretty(lastConnection)
               : "No Record"}
           </span>
@@ -229,7 +233,7 @@ const DashboardComponent = (
         <div className={cardStyle.dataDiv}>
           <span className={cardStyle.data}>Next Connection</span>
           <span className={cardStyle.dataSub}>
-            {lastConnection
+            {nextConnection
               ? convertDBDateToPretty(nextConnection)
               : "No Record"}
           </span>
@@ -283,7 +287,7 @@ const DashboardUpcomingComponent = (
       </div>
       <div className={cardStyle.dataDiv}>
         <h2 className={cardStyle.fullName}>
-          {fullName}
+        {limitText(fullName, cardStyle.fullNameMaxLength)}
         </h2>
         <div className={cardStyle.dataDiv}>
           <span className={cardStyle.data}>Last Connection:</span>
@@ -296,7 +300,7 @@ const DashboardUpcomingComponent = (
         <div className={cardStyle.dataDiv}>
           <span className={cardStyle.data}>Next Connection:</span>
           <span className={cardStyle.dataSub}>
-            {lastConnection
+            {nextConnection
               ? convertDBDateToPretty(nextConnection)
               : "No Record"}
           </span>
@@ -381,7 +385,7 @@ export default function DashboardList(props: {
           ? (
             dashBoardContactsSig.value.map((item, id) => {
               return (
-                <a href={`\\contacts\\${item.id}\\edit`}>
+                <a href={`\\contacts\\${item.id}\\edit\\?redirect=dashboard`}>
                   <DashboardComponent
                     key={nanoid()}
                     contact={item}
@@ -399,7 +403,7 @@ export default function DashboardList(props: {
           ? (
             upcomingContactsSig.value.map((item, id) => {
               return (
-                <a href={`\\contacts\\${item.id}\\edit`}>
+                <a href={`\\contacts\\${item.id}\\edit\\?redirect=dashboard`}>
                   <DashboardUpcomingComponent
                     key={nanoid()}
                     contact={item}

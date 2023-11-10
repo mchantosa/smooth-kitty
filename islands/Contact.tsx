@@ -54,6 +54,8 @@ export const Contact = (props: ContactProps) => {
     preferredMethodHandle,
   } = contact;
 
+  console.log("contact page, contact: ", contact);
+
   const [localChecked, setLocalChecked] = useState(false);
 
   useEffect(() => {
@@ -110,7 +112,9 @@ export const Contact = (props: ContactProps) => {
         <div>
           <strong className="opacity-60">Next:</strong>
           <span className="pl-4 text-accent whitespace-nowrap">
-            {convertDBDateToPretty(nextConnection)}
+            { nextConnection
+              ? convertDBDateToPretty(nextConnection)
+              : "No Record"}
           </span>
         </div>
         {connectOnBirthday && !!birthdayDay && !!birthdayMonth && (
@@ -127,7 +131,9 @@ export const Contact = (props: ContactProps) => {
         <div>
           <strong className="opacity-60">Last:</strong>
           <span className="pl-4 text-accent whitespace-nowrap">
-            {convertDBDateToPretty(lastConnection)}
+            { lastConnection
+              ? convertDBDateToPretty(lastConnection)
+              : "No Record"}
           </span>
         </div>
       </td>
