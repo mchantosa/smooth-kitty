@@ -24,8 +24,22 @@ This project is running the Fresh Framework (TypeScript + Preact) on Deno, uses 
    This is Shiva, she is my forever cat
 
    ![Alt text](/static/images/myCat.jpg)
-1. Set up Database
-   1. Create database
-   1. Configure database
-   1. Run database
+1. Set up environmental variables
+   I created this application to track user sessions with Oauth. That makes this part complicated. Currently it is configured to support github, Google, and Facebook Oauth. For this repository to run, you must have Oauth developer credentials. 
+   
+   Create a .env file in smooth-kitty and add this code. This will enable you to "start" the application, but it will crash as soon as you attempt to log in. 
+   
+   ```bash
+      GITHUB_CLIENT_ID=myverylonggithubclientid
+      GITHUB_CLIENT_SECRET=myexcitinggithubsecret
+
+      GOOGLE_CLIENT_ID=myverylonggoogleclientid
+      GOOGLE_CLIENT_SECRET=myexcitinggooglesecret
+
+      FACEBOOK_CLIENT_ID=myverylongfacebookclientid
+      FACEBOOK_CLIENT_SECRET=myexcitingfacebooksecret
+
+      #This needs to be the development domain name for the app as registered with the Oauth provider
+      DOMAIN=http://localhost:8000
+   ```
 1. In smooth-kitty directory run `deno task start`
