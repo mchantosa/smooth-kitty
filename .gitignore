@@ -5,5 +5,7 @@ cov.lcov
 .idea
 _fresh/
 backup.json
+node_modules/
+npm-debug.log*
 
 .vscode/launch.json
