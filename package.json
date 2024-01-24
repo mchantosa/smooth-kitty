@@ -1,0 +1,19 @@
+{
+  "name": "smooth-kitty",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.ts",
+  "scripts": {
+    "start": "deno task start",
+    "cy:run": "cypress run",
+    "test": "start-server-and-test start http://localhost:8000 cy:run"
+  },
+  "author": "Megan Chantosa",
+  "license": "ISC",
+  "dependencies": {
+    "cypress": "^13.6.3"
+  },
+  "devDependencies": {
+    "start-server-and-test": "^2.0.3"
+  }
+}
