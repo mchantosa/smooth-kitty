@@ -13,11 +13,10 @@ jobs:
         uses: actions/checkout@v4
 
       # Install NPM dependencies, cache them correctly
-
-      # Add a step to set up the secret
-      - name: Set up secrets
-        # run: echo "GITHUB_CLIENT_ID=$GH_CLIENT_ID" >> $PREVIEW
-        # run: echo "GITHUB_CLIENT_SECRET=$GH_CLIENT_SECRET" >> $PREVIEW
+      
+      # and run all Cypress tests
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
         env:
           GITHUB_CLIENT_ID: ${{ secrets.GH_CLIENT_ID }}
           GITHUB_CLIENT_SECRET: ${{ secrets.GH_CLIENT_SECRET }}
@@ -25,10 +24,6 @@ jobs:
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           FACEBOOK_CLIENT_ID: ${{ secrets.FACEBOOK_CLIENT_ID }}
           FACEBOOK_CLIENT_SECRET: ${{ secrets.FACEBOOK_CLIENT_SECRET }}
-      
-      # and run all Cypress tests
-      - name: Cypress run
-        uses: cypress-io/github-action@v6
         with:
           # build: npm run build
           start: npm test
