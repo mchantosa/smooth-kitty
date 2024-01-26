@@ -62,7 +62,7 @@ export async function handleNotSignedInWebpage(
   try {
     return await ctx.next();
   } catch (error) {
-    if (error instanceof errors.Unauthorized) return redirect("/signin");
+    if (error instanceof errors.Unauthorized) return redirect("/login");
     throw error;
   }
 }

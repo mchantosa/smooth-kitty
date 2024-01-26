@@ -46,7 +46,7 @@ export default async function LoginPage(
 ) {
   return (
     <>
-      <Head href={ctx.url.href}>
+      <Head title="Login" href={ctx.url.href}>
       </Head>
       <main class="flex flex-col flex-1 p-4 items-center justify-center">
         <LoginButton

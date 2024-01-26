@@ -7,5 +7,6 @@ _fresh/
 backup.json
 node_modules/
 npm-debug.log*
+cypressKSDemo/
 
 .vscode/launch.json
