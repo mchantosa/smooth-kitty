@@ -26,10 +26,10 @@ export const handler: Handlers = {
 };
 
 const LoginButton = (
-  { href, logo, provider }: { href: string; logo: string; provider: string },
+  { id, href, logo, provider }: { id: string; href: string; logo: string; provider: string },
 ) => (
   <>
-    <a href={href} class="btn btn-wide my-1">
+    <a id={id} href={href} class="btn btn-wide my-1">
       <img
         class="inline w-5 h-5 mr-2"
         src={logo}
@@ -50,18 +50,18 @@ export default async function LoginPage(
       </Head>
       <main class="flex flex-col flex-1 p-4 items-center justify-center">
         <LoginButton
+          id="google-login"
           href="/google/signin"
           logo="/images/google-logo.png"
           provider="Google"
         />
-        {
-          /* <LoginButton
+        {/* <LoginButton
           href="/facebook/signin"
           logo="/images/meta.png"
           provider="Facebook"
-        /> */
-        }
+        />  */}
         <LoginButton
+          id="github-login"
           href="/github/signin"
           logo="/images/github-mark/github-mark.png"
           provider="Github"
